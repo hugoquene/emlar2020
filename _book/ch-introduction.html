@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Introduction | Statistics with R</title>
+  <meta name="description" content="This is a handout of the online tutorial on Statistics with R, to be held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Introduction | Statistics with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a handout of the online tutorial on Statistics with R, to be held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-emlar2020" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Introduction | Statistics with R" />
+  
+  <meta name="twitter:description" content="This is a handout of the online tutorial on Statistics with R, to be held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook." />
+  
+
+<meta name="author" content="Hugo Quené" />
+
+
+<meta name="date" content="2020-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="ch-objects.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Statistics with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="ch-introduction.html"><a href="ch-introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisR"><i class="fa fa-check"></i><b>1.1</b> What is R ?</a></li>
+<li class="chapter" data-level="1.2" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:objectorientedphilosophy"><i class="fa fa-check"></i><b>1.2</b> Object-oriented philosophy</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="ch-objects.html"><a href="ch-objects.html"><i class="fa fa-check"></i><b>2</b> Objects</a><ul>
+<li class="chapter" data-level="2.1" data-path="ch-objects.html"><a href="ch-objects.html#sec:vectors"><i class="fa fa-check"></i><b>2.1</b> Vectors</a></li>
+<li class="chapter" data-level="2.2" data-path="ch-objects.html"><a href="ch-objects.html#sec:factors"><i class="fa fa-check"></i><b>2.2</b> Factors</a></li>
+<li class="chapter" data-level="2.3" data-path="ch-objects.html"><a href="ch-objects.html#sec:complex.objects"><i class="fa fa-check"></i><b>2.3</b> Complex objects</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html"><i class="fa fa-check"></i><b>3</b> Basic operations</a><ul>
+<li class="chapter" data-level="3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sub:basics"><i class="fa fa-check"></i><b>3.1</b> Basics</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section"><i class="fa fa-check"></i><b>3.1.1</b> <code>&lt;-</code></a></li>
+<li class="chapter" data-level="3.1.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section-1"><i class="fa fa-check"></i><b>3.1.2</b> <code>#</code></a></li>
+<li class="chapter" data-level="3.1.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#scan"><i class="fa fa-check"></i><b>3.1.3</b> <code>scan</code></a></li>
+<li class="chapter" data-level="3.1.4" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#objects"><i class="fa fa-check"></i><b>3.1.4</b> <code>objects</code></a></li>
+<li class="chapter" data-level="3.1.5" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#rm"><i class="fa fa-check"></i><b>3.1.5</b> <code>rm</code></a></li>
+<li class="chapter" data-level="3.1.6" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#print"><i class="fa fa-check"></i><b>3.1.6</b> <code>print</code></a></li>
+<li class="chapter" data-level="3.1.7" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#summary"><i class="fa fa-check"></i><b>3.1.7</b> <code>summary</code></a></li>
+<li class="chapter" data-level="3.1.8" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#workspace"><i class="fa fa-check"></i><b>3.1.8</b> Workspace:</a></li>
+<li class="chapter" data-level="3.1.9" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#save"><i class="fa fa-check"></i><b>3.1.9</b> <code>save</code></a></li>
+<li class="chapter" data-level="3.1.10" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#read"><i class="fa fa-check"></i><b>3.1.10</b> <code>read</code></a></li>
+<li class="chapter" data-level="3.1.11" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#no-undo"><i class="fa fa-check"></i><b>3.1.11</b> No <code>undo</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:subselection"><i class="fa fa-check"></i><b>3.2</b> Subselection</a></li>
+<li class="chapter" data-level="3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:split.merge.reshape"><i class="fa fa-check"></i><b>3.3</b> Split, merge, reshape</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#split"><i class="fa fa-check"></i><b>3.3.1</b> <code>split</code></a></li>
+<li class="chapter" data-level="3.3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#merge"><i class="fa fa-check"></i><b>3.3.2</b> <code>merge</code></a></li>
+<li class="chapter" data-level="3.3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#reshape"><i class="fa fa-check"></i><b>3.3.3</b> <code>reshape</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ch-EDA.html"><a href="ch-EDA.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analyses</a><ul>
+<li class="chapter" data-level="4.1" data-path="ch-EDA.html"><a href="ch-EDA.html#hist"><i class="fa fa-check"></i><b>4.1</b> <code>hist</code></a></li>
+<li class="chapter" data-level="4.2" data-path="ch-EDA.html"><a href="ch-EDA.html#plot"><i class="fa fa-check"></i><b>4.2</b> <code>plot</code></a></li>
+<li class="chapter" data-level="4.3" data-path="ch-EDA.html"><a href="ch-EDA.html#rug"><i class="fa fa-check"></i><b>4.3</b> <code>rug</code></a></li>
+<li class="chapter" data-level="4.4" data-path="ch-EDA.html"><a href="ch-EDA.html#boxplot"><i class="fa fa-check"></i><b>4.4</b> <code>boxplot</code></a></li>
+<li class="chapter" data-level="4.5" data-path="ch-EDA.html"><a href="ch-EDA.html#qqnorm"><i class="fa fa-check"></i><b>4.5</b> <code>qqnorm</code></a></li>
+<li class="chapter" data-level="4.6" data-path="ch-EDA.html"><a href="ch-EDA.html#summary-1"><i class="fa fa-check"></i><b>4.6</b> <code>summary</code></a></li>
+<li class="chapter" data-level="4.7" data-path="ch-EDA.html"><a href="ch-EDA.html#var"><i class="fa fa-check"></i><b>4.7</b> <code>var</code></a></li>
+<li class="chapter" data-level="4.8" data-path="ch-EDA.html"><a href="ch-EDA.html#length"><i class="fa fa-check"></i><b>4.8</b> <code>length</code></a></li>
+<li class="chapter" data-level="4.9" data-path="ch-EDA.html"><a href="ch-EDA.html#unique"><i class="fa fa-check"></i><b>4.9</b> <code>unique</code></a></li>
+<li class="chapter" data-level="4.10" data-path="ch-EDA.html"><a href="ch-EDA.html#table"><i class="fa fa-check"></i><b>4.10</b> <code>table</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html"><i class="fa fa-check"></i><b>5</b> Testing hypotheses</a><ul>
+<li class="chapter" data-level="5.1" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#formula"><i class="fa fa-check"></i><b>5.1</b> formula</a></li>
+<li class="chapter" data-level="5.2" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#t-test"><i class="fa fa-check"></i><b>5.2</b> <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="5.3" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#chisq.test"><i class="fa fa-check"></i><b>5.3</b> <code>chisq.test</code></a></li>
+<li class="chapter" data-level="5.4" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#aov"><i class="fa fa-check"></i><b>5.4</b> <code>aov</code></a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ch-regression.html"><a href="ch-regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a><ul>
+<li class="chapter" data-level="6.1" data-path="ch-regression.html"><a href="ch-regression.html#lm"><i class="fa fa-check"></i><b>6.1</b> <code>lm</code></a></li>
+<li class="chapter" data-level="6.2" data-path="ch-regression.html"><a href="ch-regression.html#glm"><i class="fa fa-check"></i><b>6.2</b> <code>glm</code></a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ch-mixedeffects.html"><a href="ch-mixedeffects.html"><i class="fa fa-check"></i><b>7</b> Mixed-effects modeling</a></li>
+<li class="chapter" data-level="8" data-path="ch-packages.html"><a href="ch-packages.html"><i class="fa fa-check"></i><b>8</b> Packages</a></li>
+<li class="chapter" data-level="9" data-path="sec-furtherreading.html"><a href="sec-furtherreading.html"><i class="fa fa-check"></i><b>9</b> Further reading</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistics with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch:introduction" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
+<p>This tutorial offers a first introduction into R.
+R is available as freeware from
+<a href="http://www.r-project.org" class="uri">http://www.r-project.org</a>, where one can also find a wealth of
+information and documentation.</p>
+<p>This tutorial assumes that R is already properly
+installed on your computer. It is further assumed that the reader has
+some basic knowledge about statistics, equivalent to an introductory
+course in statistics. This tutorial introduces the R
+software for statistical analyses, and not the statistical analyses
+themselves. This tutorial occasionally mentions differences with SPSS,
+but the tutorial is also intended for novice users of statistical
+software.</p>
+<div id="sec:whatisR" class="section level2">
+<h2><span class="header-section-number">1.1</span> What is R ?</h2>
+<p>Perhaps surprisingly, R is several things at once:</p>
+<ul>
+<li>a program for statistical analyses</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">firstmodel.lm &lt;-<span class="st"> </span><span class="kw">lm</span>( syldur<span class="op">~</span>age, <span class="dt">data=</span>talkers ) <span class="co"># linear-model regression</span></a></code></pre></div>
+<ul>
+<li>a calculator</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># 440 Hz is `how many` semitones above 110 Hz?</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">(<span class="kw">log</span>(<span class="dv">440</span>)<span class="op">-</span><span class="kw">log</span>(<span class="dv">110</span>)) <span class="op">/</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">2</span><span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">12</span>)) </a></code></pre></div>
+<pre><code>## [1] 24</code></pre>
+<ul>
+<li>a programming language</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># function to convert hertz to semitones, relative to `base`, by Mark Liberman</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">h2st &lt;-<span class="st"> </span><span class="cf">function</span>( h, <span class="dt">base=</span><span class="dv">50</span> ) { </a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  semi1&lt;-<span class="kw">log</span>(<span class="dv">2</span><span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">12</span>)); <span class="co"># log of frequency ratio of 1 semitone</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="kw">return</span>( (<span class="kw">log</span>(h)<span class="op">-</span><span class="kw">log</span>(base)) <span class="op">/</span><span class="st"> </span>semi1 ) }</a></code></pre></div>
+<p>The assignment operator <code>&lt;-</code>
+is further explained in section <a href="ch-basicoperations.html#sub:basics">3.1</a> below.</p>
+<p>The hash <code>#</code> indicates comment, which is not processed.</p>
+</div>
+<div id="sec:objectorientedphilosophy" class="section level2">
+<h2><span class="header-section-number">1.2</span> Object-oriented philosophy</h2>
+<p>R works in an object-oriented way. This means that
+<em>objects</em> are the most important things in R , and <em>not</em>
+the actions we perform with these objects. Let’s use a culinary example
+to illustrate this. In order to obtain pancakes, a cook needs flour,
+milk, eggs, some mixing utensils, a pan, oil, and a fire. An
+object-oriented approach places primary focus on these six objects. If
+the relations between these are properly specified, then a good pancake
+will result. Provided that the necessary objects (ingredients) are
+available, the R syntax could be as follows:</p>
+<pre class="text"><code># batter &lt;- mixed( flour,  milk/2 ) # mix flour and half of milk
+# batter &lt;- mixed( batter, egg*2 ) # add 2 eggs
+# batter &lt;- mixed( batter, milk/2, use=whisk) # add other half of milk
+# while (enough(batter)) # FALSE if insufficient for next
+#  pancake &lt;- baked( batter, in=oil, with=pan, temp=max(fire) )</code></pre>
+<p>This example illustrates that R is indeed a full
+programming language (but see footnote<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>).
+In fact, there is no recipe, in the
+traditional sense. This “pancake” script merely specifies the relations
+between the ingredients and the result. Note that some relations are
+recursive: batter can be both input and output of the mixing operation.
+Also note that the <code>mixed</code> relation takes an
+optional argument <code>use=whisk</code>, which will produce
+a fatal error message if there is no whisk in the kitchen. Such
+arguments, however, allow for greater flexibility of the
+<code>mixed</code> relation. Likewise, we might specify
+<code>baked(in=grease)</code> if there is no oil in the
+kitchen. The only requirement for the object supplied as
+<code>in</code> argument is that one can bake in it, so this
+object must have some attribute
+<code>goodforbaking==TRUE</code>.</p>
+<p>For contrast, we might imagine how the pancake recipe would be
+formulated in a more traditional, procedure-oriented approach.
+Ingredients and a spoon are again assumed to be provided.</p>
+<pre class="text"><code>MIX batter = flour + milk/2 . # what utensil? 
+MIX batter = batter + eggs . 
+MIX batter = batter + milk/2 .
+BAKE batter IN oil .
+BAKE batter IN water . # garbage in garbage out</code></pre>
+<p>The programmer of this recipe has defined the key procedures <code>MIX</code> and
+<code>BAKE</code>, and has stipulated boundary conditions such as utensils and
+temperatures. Optional arguments are allowed for the <code>BAKE</code> command, but
+only within the limits set by the programmer (see footnote 2).</p>
+<p>So far, you may have thought that the difference between the two recipes
+was semantic rather than pragmatic. To demonstrate the greater
+flexibility of an object-oriented approach, let us consider the
+following variant of the recipe, again in R syntax:</p>
+<pre class="text"><code># batter is done
+while (number(pancakes)&lt;2) # first bake 2 pancakes
+    pancake &lt;- baked(batter,in=oil,with=pan,temp=max(fire))
+feed(pancake,child) # feed one to hungry spectator
+# define new function, data ’x’ split into ’n’ pieces
+chopped &lt;- function(x,n=1000) { return(split(x,n)) } 
+pieces &lt;- chopped(pancake) # new data object, array of 1000 pieces
+batter &lt;- mixed(batter,pieces) # mix pancake pieces into batter
+# etc</code></pre>
+<p>Such complex relations between objects are quite difficult to specify,
+if there are strong a priori limits to what one can <code>MIX</code> or <code>BAKE</code>.
+Thus, object-oriented programs such as R allow for
+greater flexibility than procedure-oriented programs.</p>
+<p>If you are a user of the <code>Praat</code> software (<a href="http://www.praat.org" class="uri">http://www.praat.org</a>) then you are already familiar with this basic idea.
+<code>Praat</code> has an object window, listing the known objects.
+These objects are the output of previous operations (e.g. Create, Read,
+ToSpectrum), as well as input for subsequent operations (e.g. Write,
+Draw). The classes or types of these objects are pre-defined (Sound,
+Spectrum, Periodicity, etc). R takes the same idea even
+further: users may create their own <em>classes</em> of data objects (
+e.g. class <code>SuperData</code>) and may create their own methods or relations to work with
+such objects.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
+<p>This object-oriented philosophy results in a different behavior than
+observed in procedure-oriented software:</p>
+<blockquote>
+<p>There is an important difference in philosophy between S (and hence R)
+and the other main statistical systems. In S a statistical analysis is
+normally done as a series of steps, with intermediate results being
+stored in objects. Thus whereas SAS and SPSS will give copious output
+from a regression or discriminant analysis, R will give minimal output
+and store the results in a fit object for subsequent interrogation by
+further R functions.</p>
+</blockquote>
+<blockquote>
+<p>from: <a href="http://cran.r-project.org/doc/manuals/R-intro.html" class="uri">http://cran.r-project.org/doc/manuals/R-intro.html</a></p>
+</blockquote>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>Technically speaking, R is an interpreted language, and not a compiled language<a href="ch-introduction.html#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>Praat allows the latter but not the former.<a href="ch-introduction.html#fnref2" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ch-objects.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-introduction.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-emlar2020.pdf", "bookdown-emlar2020.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

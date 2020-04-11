@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Objects | Statistics with R</title>
+  <meta name="description" content="This is a handout of the online tutorial on Statistics with R, to be held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Objects | Statistics with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a handout of the online tutorial on Statistics with R, to be held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-emlar2020" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Objects | Statistics with R" />
+  
+  <meta name="twitter:description" content="This is a handout of the online tutorial on Statistics with R, to be held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook." />
+  
+
+<meta name="author" content="Hugo Quené" />
+
+
+<meta name="date" content="2020-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ch-introduction.html"/>
+<link rel="next" href="ch-basicoperations.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Statistics with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="ch-introduction.html"><a href="ch-introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisR"><i class="fa fa-check"></i><b>1.1</b> What is R ?</a></li>
+<li class="chapter" data-level="1.2" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:objectorientedphilosophy"><i class="fa fa-check"></i><b>1.2</b> Object-oriented philosophy</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="ch-objects.html"><a href="ch-objects.html"><i class="fa fa-check"></i><b>2</b> Objects</a><ul>
+<li class="chapter" data-level="2.1" data-path="ch-objects.html"><a href="ch-objects.html#sec:vectors"><i class="fa fa-check"></i><b>2.1</b> Vectors</a></li>
+<li class="chapter" data-level="2.2" data-path="ch-objects.html"><a href="ch-objects.html#sec:factors"><i class="fa fa-check"></i><b>2.2</b> Factors</a></li>
+<li class="chapter" data-level="2.3" data-path="ch-objects.html"><a href="ch-objects.html#sec:complex.objects"><i class="fa fa-check"></i><b>2.3</b> Complex objects</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html"><i class="fa fa-check"></i><b>3</b> Basic operations</a><ul>
+<li class="chapter" data-level="3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sub:basics"><i class="fa fa-check"></i><b>3.1</b> Basics</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section"><i class="fa fa-check"></i><b>3.1.1</b> <code>&lt;-</code></a></li>
+<li class="chapter" data-level="3.1.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section-1"><i class="fa fa-check"></i><b>3.1.2</b> <code>#</code></a></li>
+<li class="chapter" data-level="3.1.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#scan"><i class="fa fa-check"></i><b>3.1.3</b> <code>scan</code></a></li>
+<li class="chapter" data-level="3.1.4" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#objects"><i class="fa fa-check"></i><b>3.1.4</b> <code>objects</code></a></li>
+<li class="chapter" data-level="3.1.5" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#rm"><i class="fa fa-check"></i><b>3.1.5</b> <code>rm</code></a></li>
+<li class="chapter" data-level="3.1.6" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#print"><i class="fa fa-check"></i><b>3.1.6</b> <code>print</code></a></li>
+<li class="chapter" data-level="3.1.7" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#summary"><i class="fa fa-check"></i><b>3.1.7</b> <code>summary</code></a></li>
+<li class="chapter" data-level="3.1.8" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#workspace"><i class="fa fa-check"></i><b>3.1.8</b> Workspace:</a></li>
+<li class="chapter" data-level="3.1.9" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#save"><i class="fa fa-check"></i><b>3.1.9</b> <code>save</code></a></li>
+<li class="chapter" data-level="3.1.10" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#read"><i class="fa fa-check"></i><b>3.1.10</b> <code>read</code></a></li>
+<li class="chapter" data-level="3.1.11" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#no-undo"><i class="fa fa-check"></i><b>3.1.11</b> No <code>undo</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:subselection"><i class="fa fa-check"></i><b>3.2</b> Subselection</a></li>
+<li class="chapter" data-level="3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:split.merge.reshape"><i class="fa fa-check"></i><b>3.3</b> Split, merge, reshape</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#split"><i class="fa fa-check"></i><b>3.3.1</b> <code>split</code></a></li>
+<li class="chapter" data-level="3.3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#merge"><i class="fa fa-check"></i><b>3.3.2</b> <code>merge</code></a></li>
+<li class="chapter" data-level="3.3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#reshape"><i class="fa fa-check"></i><b>3.3.3</b> <code>reshape</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ch-EDA.html"><a href="ch-EDA.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analyses</a><ul>
+<li class="chapter" data-level="4.1" data-path="ch-EDA.html"><a href="ch-EDA.html#hist"><i class="fa fa-check"></i><b>4.1</b> <code>hist</code></a></li>
+<li class="chapter" data-level="4.2" data-path="ch-EDA.html"><a href="ch-EDA.html#plot"><i class="fa fa-check"></i><b>4.2</b> <code>plot</code></a></li>
+<li class="chapter" data-level="4.3" data-path="ch-EDA.html"><a href="ch-EDA.html#rug"><i class="fa fa-check"></i><b>4.3</b> <code>rug</code></a></li>
+<li class="chapter" data-level="4.4" data-path="ch-EDA.html"><a href="ch-EDA.html#boxplot"><i class="fa fa-check"></i><b>4.4</b> <code>boxplot</code></a></li>
+<li class="chapter" data-level="4.5" data-path="ch-EDA.html"><a href="ch-EDA.html#qqnorm"><i class="fa fa-check"></i><b>4.5</b> <code>qqnorm</code></a></li>
+<li class="chapter" data-level="4.6" data-path="ch-EDA.html"><a href="ch-EDA.html#summary-1"><i class="fa fa-check"></i><b>4.6</b> <code>summary</code></a></li>
+<li class="chapter" data-level="4.7" data-path="ch-EDA.html"><a href="ch-EDA.html#var"><i class="fa fa-check"></i><b>4.7</b> <code>var</code></a></li>
+<li class="chapter" data-level="4.8" data-path="ch-EDA.html"><a href="ch-EDA.html#length"><i class="fa fa-check"></i><b>4.8</b> <code>length</code></a></li>
+<li class="chapter" data-level="4.9" data-path="ch-EDA.html"><a href="ch-EDA.html#unique"><i class="fa fa-check"></i><b>4.9</b> <code>unique</code></a></li>
+<li class="chapter" data-level="4.10" data-path="ch-EDA.html"><a href="ch-EDA.html#table"><i class="fa fa-check"></i><b>4.10</b> <code>table</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html"><i class="fa fa-check"></i><b>5</b> Testing hypotheses</a><ul>
+<li class="chapter" data-level="5.1" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#formula"><i class="fa fa-check"></i><b>5.1</b> formula</a></li>
+<li class="chapter" data-level="5.2" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#t-test"><i class="fa fa-check"></i><b>5.2</b> <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="5.3" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#chisq.test"><i class="fa fa-check"></i><b>5.3</b> <code>chisq.test</code></a></li>
+<li class="chapter" data-level="5.4" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#aov"><i class="fa fa-check"></i><b>5.4</b> <code>aov</code></a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ch-regression.html"><a href="ch-regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a><ul>
+<li class="chapter" data-level="6.1" data-path="ch-regression.html"><a href="ch-regression.html#lm"><i class="fa fa-check"></i><b>6.1</b> <code>lm</code></a></li>
+<li class="chapter" data-level="6.2" data-path="ch-regression.html"><a href="ch-regression.html#glm"><i class="fa fa-check"></i><b>6.2</b> <code>glm</code></a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ch-mixedeffects.html"><a href="ch-mixedeffects.html"><i class="fa fa-check"></i><b>7</b> Mixed-effects modeling</a></li>
+<li class="chapter" data-level="8" data-path="ch-packages.html"><a href="ch-packages.html"><i class="fa fa-check"></i><b>8</b> Packages</a></li>
+<li class="chapter" data-level="9" data-path="sec-furtherreading.html"><a href="sec-furtherreading.html"><i class="fa fa-check"></i><b>9</b> Further reading</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistics with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch:objects" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Objects</h1>
+<div id="sec:vectors" class="section level2">
+<h2><span class="header-section-number">2.1</span> Vectors</h2>
+<p>A vector is a simple, one-dimensional list of data, like a single column
+in Excel or in SPSS. Typically a single vector holds a single variable
+of interest. The data in a vector can be of various classes: numeric,
+character (strings of letters, always enclosed in double quotes), or
+logical (i.e., boolean, <code>TRUE</code> or
+<code>FALSE</code>, may be abbreviated to
+<code>T</code> or <code>F</code>).</p>
+<ul>
+<li><p><code>c</code>: Atomic data are combined into a vector by means of the
+<code>c</code> (combine, concatenate) operator.</p></li>
+<li><p><code>seq</code> The sequence operator, also abbreviated as a colon
+[<code>:</code>, creates subsequent values.</p></li>
+</ul>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">print</span>(x)</a></code></pre></div>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="dv">2</span><span class="op">*</span>(x<span class="dv">-1</span>)</a></code></pre></div>
+<pre><code>## [1] 0 2 4 6 8</code></pre>
+<p>Computations are also done on whole vectors, as exemplified above.
+In the last example, we see that the result of the computation is
+<em>not</em> assigned to a new object. Hence the result is displayed —
+and then lost. This may still be useful however when you use
+R as a pocket calculator.</p>
+<ul>
+<li><code>rep</code> Finally, the repeat operator is very useful in creating repetitive
+sequences, e.g. for levels of an independent variable.</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">rep</span>( <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dt">each=</span><span class="dv">2</span> )</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">x</a></code></pre></div>
+<pre><code>##  [1] 1 1 2 2 3 3 4 4 5 5</code></pre>
+</div>
+<div id="sec:factors" class="section level2">
+<h2><span class="header-section-number">2.2</span> Factors</h2>
+<p>Factors constitute a special class of variables. A factor is a variable
+that holds categorical, character-like data. R realizes
+that variables of this class hold categorical data, and that the values
+are category labels or <em>levels</em> rather than real characters or digits,
+as illustrated in the examples below.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">x1 &lt;-<span class="st"> </span><span class="kw">rep</span>( <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>, <span class="dt">each=</span><span class="dv">2</span> ) <span class="co"># create vector of numbers</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">print</span>(x1) <span class="co"># numeric</span></a></code></pre></div>
+<pre><code>## [1] 1 1 2 2 3 3 4 4</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">summary</span>(x1) <span class="co"># of numeric vector</span></a></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.00    1.75    2.50    2.50    3.25    4.00</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">x2 &lt;-<span class="st"> </span><span class="kw">as.character</span>(x1) <span class="co"># convert to char</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw">print</span>(x2) <span class="co"># character vector</span></a></code></pre></div>
+<pre><code>## [1] &quot;1&quot; &quot;1&quot; &quot;2&quot; &quot;2&quot; &quot;3&quot; &quot;3&quot; &quot;4&quot; &quot;4&quot;</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">x3 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(x1) <span class="co"># convert to factor</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="kw">print</span>(x3) <span class="co"># factor</span></a></code></pre></div>
+<pre><code>## [1] 1 1 2 2 3 3 4 4
+## Levels: 1 2 3 4</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">summary</span>(x3) <span class="co"># compare against summary(x1) above </span></a></code></pre></div>
+<pre><code>## 1 2 3 4 
+## 2 2 2 2</code></pre>
+</div>
+<div id="sec:complex.objects" class="section level2">
+<h2><span class="header-section-number">2.3</span> Complex objects</h2>
+<p>Simple objects, like the ones introduced above, may be combined into
+composite objects. For example, we may combine all pancake ingredients
+into a complex object of class <code>list</code>.</p>
+<p>In R we often use a particular complex object, a <em>data
+frame</em>, to hold various data together. A data frame is a complex object
+like an Excel worksheet or SPSS data sheet. The columns represent
+variables, and the rows represent single observations — these may be
+“cases” or sampling units, or single measurements repeated for each
+sampling unit, depending on the study.<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a></p>
+<p>The easiest way to create a data object is to read it from a plain-text
+(ASCII) file, using the command <code>read.table</code>.
+(Windows users must remember to use double backslashes in the file
+specification string). An optional <code>header=TRUE</code>
+argument indicates whether the first line contains the names of the
+variables; argument <code>sep</code> specifies the
+character(s) that separate the variables in the input file. The
+<code>file</code> argument can be a string specifying a
+local file, or a <code>url</code> to a web-based file, or a
+call of function <code>file.choose()</code> to select a file
+interactively. Argument <code>na.strings</code> specifies
+the character string(s) that indicate missing values in the input file.</p>
+<pre class="text"><code># in Windows system
+myexp &lt;- read.table(
+  file=&quot;f:\\temp\\mydata.txt&quot;, header=T, sep=&quot;,&quot; )</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">nlspkr &lt;-<span class="st"> </span><span class="kw">read.table</span>(</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">  <span class="dt">file=</span><span class="kw">url</span>(<span class="st">&quot;http://www.hugoquene.nl/emlar/intra.bysubj.txt&quot;</span>),</a>
+<a class="sourceLine" id="cb25-3" data-line-number="3">  <span class="dt">header=</span><span class="ot">TRUE</span>, <span class="dt">na.strings=</span><span class="kw">c</span>(<span class="st">&quot;NA&quot;</span>,<span class="st">&quot;MISSING&quot;</span>) )</a></code></pre></div>
+<p>It is also possible to read so-called CSV files (comma-separated values) saved from Excel or SPSS (<code>read.csv</code>), and it is also possible to read Excel or SPSS data files directly using extension packages (<code>readxl::readxl</code>, <code>foreign::read.spss</code>).</p>
+<p>The basic R and extension packages already have many
+datasets pre-defined, for immediate use.
+To see a long(!) overview o these datasets, enter the command <code>data()</code>.</p>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="3">
+<li id="fn3"><p>For repeated measures analyses, R does not require a multivariate or “wide” layout, with repeated measures for each participant on a single row, as SPSS does. Instead R always uses a univariate or “long” layout, with each measurement on a single row of input. See the <code>reshape</code> command to convert between layouts, section @(sec:split.merge.reshape).<a href="ch-objects.html#fnref3" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ch-introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ch-basicoperations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-objects.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-emlar2020.pdf", "bookdown-emlar2020.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

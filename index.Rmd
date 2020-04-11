@@ -21,9 +21,11 @@ Here's the abstract for the tutorial:
 > This tutorial will introduce the R programming environment for statistical analysis. Contrary to SPSS which is procedure-oriented (commands are verbs, e.g. “compute”), R is object-oriented (objects are nouns, e.g. “factor”). In this workshop, we will try to ease the learning curve of using R for your data analysis. Experience with statistical software is NOT required! We will use data simulation as well as real data sets, to explore topics like t-tests, $\chi^2$ tests, and regression. We will also show how R produces publication-quality figures.
 
 This document is licensed under the _GNU GPL 3_ license (for details see 
-https://www.gnu.org/licenses/gpl-3.0.en.html). It was created with the `bookdown` package [@R-bookdown] in Rstudio <https://www.rstudio.com>.
+https://www.gnu.org/licenses/gpl-3.0.en.html). It was created with the `bookdown` package [@R-bookdown] in [Rstudio](https://www.rstudio.com).
 
-Hugo Quené, Utrecht institute of Linguistics OTS, Utrecht University,  https://www.hugoquene.nl
+Hugo Quené, Utrecht institute of Linguistics OTS, Utrecht University
+
+<https://www.hugoquene.nl>
 
 
 ```{r include=FALSE}

@@ -22,7 +22,7 @@ data(talkers)
 
 ## What is R ? {#sec:whatisR}
 
-Perhpas surprisingly, R is several things at once:
+Perhaps surprisingly, R is several things at once:
 
 -   a program for statistical analyses
 
