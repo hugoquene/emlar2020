@@ -223,7 +223,7 @@ logical (i.e., boolean, <code>TRUE</code> or
 <li><p><code>c</code>: Atomic data are combined into a vector by means of the
 <code>c</code> (combine, concatenate) operator.</p></li>
 <li><p><code>seq</code> The sequence operator, also abbreviated as a colon
-[<code>:</code>, creates subsequent values.</p></li>
+<code>:</code>, creates subsequent values.</p></li>
 </ul>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">print</span>(x)</a></code></pre></div>
@@ -296,10 +296,10 @@ myexp &lt;- read.table(
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">nlspkr &lt;-<span class="st"> </span><span class="kw">read.table</span>(</a>
 <a class="sourceLine" id="cb25-2" data-line-number="2">  <span class="dt">file=</span><span class="kw">url</span>(<span class="st">&quot;http://www.hugoquene.nl/emlar/intra.bysubj.txt&quot;</span>),</a>
 <a class="sourceLine" id="cb25-3" data-line-number="3">  <span class="dt">header=</span><span class="ot">TRUE</span>, <span class="dt">na.strings=</span><span class="kw">c</span>(<span class="st">&quot;NA&quot;</span>,<span class="st">&quot;MISSING&quot;</span>) )</a></code></pre></div>
-<p>It is also possible to read so-called CSV files (comma-separated values) saved from Excel or SPSS (<code>read.csv</code>), and it is also possible to read Excel or SPSS data files directly using extension packages (<code>readxl::readxl</code>, <code>foreign::read.spss</code>).</p>
+<p>It is also possible to read so-called CSV files (comma-separated values) saved from Excel or SPSS (<code>read.csv</code>), and it is also possible to read Excel or SPSS data files directly using extension packages (<code>readxl::readxl</code>, <code>foreign::read.spss</code>, see Chapter <a href="ch-packages.html#ch:packages">8</a>).</p>
 <p>The basic R and extension packages already have many
 datasets pre-defined, for immediate use.
-To see a long(!) overview o these datasets, enter the command <code>data()</code>.</p>
+To see a long(!) overview of these datasets, enter the command <code>data()</code>.</p>
 
 </div>
 </div>

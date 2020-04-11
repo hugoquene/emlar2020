@@ -14,7 +14,7 @@ logical (i.e., boolean, `TRUE` or
     `c` (combine, concatenate) operator.
 
 -   `seq` The sequence operator, also abbreviated as a colon
-    [`:`, creates subsequent values.
+    `:`, creates subsequent values.
 ```{r 2.1.1}
 x <- 1:5
 print(x)
@@ -89,8 +89,8 @@ nlspkr <- read.table(
   header=TRUE, na.strings=c("NA","MISSING") )
 ```
 
-It is also possible to read so-called CSV files (comma-separated values) saved from Excel or SPSS (`read.csv`), and it is also possible to read Excel or SPSS data files directly using extension packages (`readxl::readxl`, `foreign::read.spss`).
+It is also possible to read so-called CSV files (comma-separated values) saved from Excel or SPSS (`read.csv`), and it is also possible to read Excel or SPSS data files directly using extension packages (`readxl::readxl`, `foreign::read.spss`, see Chapter \@ref(ch:packages)).
 
 The basic R  and extension packages already have many
 datasets pre-defined, for immediate use. 
-To see a long(!) overview o these datasets, enter the command `data()`.
+To see a long(!) overview of these datasets, enter the command `data()`.
