@@ -1,0 +1,149 @@
+# Introduction {#ch:introduction}
+
+This tutorial offers a first introduction into R. 
+R  is available as freeware from
+<http://www.r-project.org>, where one can also find a wealth of
+information and documentation.
+
+This tutorial assumes that R is already properly
+installed on your computer. It is further assumed that the reader has
+some basic knowledge about statistics, equivalent to an introductory
+course in statistics. This tutorial introduces the R 
+software for statistical analyses, and not the statistical analyses
+themselves. This tutorial occasionally mentions differences with SPSS,
+but the tutorial is also intended for novice users of statistical
+software.
+
+```{r init, echo=FALSE}
+# initialization, invisible after rendering Rmd file
+require(hqmisc) # for data set hqmisc::talkers
+data(talkers)
+```
+
+## What is R ? {#sec:whatisR}
+
+Perhpas surprisingly, R is several things at once:
+
+-   a program for statistical analyses
+
+```{r 1.1.1}
+firstmodel.lm <- lm( syldur~age, data=talkers ) # linear-model regression
+```
+
+-   a calculator
+
+```{r 1.1.2}
+# 440 Hz is `how many` semitones above 110 Hz?
+(log(440)-log(110)) / log(2^(1/12)) 
+```
+
+-   a programming language
+
+```{r 1.1.3}
+# function to convert hertz to semitones, relative to `base`, by Mark Liberman
+h2st <- function( h, base=50 ) { 
+  semi1<-log(2^(1/12)); # log of frequency ratio of 1 semitone
+  return( (log(h)-log(base)) / semi1 ) }
+```
+
+The assignment operator `<-`
+is further explained in section \@ref(sub:basics) below. 
+
+The hash `#` indicates comment, which is not processed.
+
+## Object-oriented philosophy {#sec:objectorientedphilosophy}
+
+R works in an object-oriented way. This means that
+*objects* are the most important things in R , and *not*
+the actions we perform with these objects. Let's use a culinary example
+to illustrate this. In order to obtain pancakes, a cook needs flour,
+milk, eggs, some mixing utensils, a pan, oil, and a fire. An
+object-oriented approach places primary focus on these six objects. If
+the relations between these are properly specified, then a good pancake
+will result. Provided that the necessary objects (ingredients) are
+available, the R syntax could be as follows:
+```{text 1.2.1}
+# batter <- mixed( flour,  milk/2 ) # mix flour and half of milk
+# batter <- mixed( batter, egg*2 ) # add 2 eggs
+# batter <- mixed( batter, milk/2, use=whisk) # add other half of milk
+# while (enough(batter)) # FALSE if insufficient for next
+#  pancake <- baked( batter, in=oil, with=pan, temp=max(fire) )
+```
+
+This example illustrates that R is indeed a full
+programming language (but see footnote ^[Technically speaking, R is an interpreted language, and not a compiled language]). 
+In fact, there is no recipe, in the
+traditional sense. This "pancake" script merely specifies the relations
+between the ingredients and the result. Note that some relations are
+recursive: batter can be both input and output of the mixing operation.
+Also note that the `mixed` relation takes an
+optional argument `use=whisk`, which will produce
+a fatal error message if there is no whisk in the kitchen. Such
+arguments, however, allow for greater flexibility of the
+`mixed` relation. Likewise, we might specify
+`baked(in=grease)` if there is no oil in the
+kitchen. The only requirement for the object supplied as
+`in` argument is that one can bake in it, so this
+object must have some attribute
+`goodforbaking==TRUE`.
+
+For contrast, we might imagine how the pancake recipe would be
+formulated in a more traditional, procedure-oriented approach.
+Ingredients and a spoon are again assumed to be provided.
+```{text 1.2.2}
+MIX batter = flour + milk/2 . # what utensil? 
+MIX batter = batter + eggs . 
+MIX batter = batter + milk/2 .
+BAKE batter IN oil .
+BAKE batter IN water . # garbage in garbage out
+```
+
+The programmer of this recipe has defined the key procedures `MIX` and
+`BAKE`, and has stipulated boundary conditions such as utensils and
+temperatures. Optional arguments are allowed for the `BAKE` command, but
+only within the limits set by the programmer (see footnote 2).
+
+So far, you may have thought that the difference between the two recipes
+was semantic rather than pragmatic. To demonstrate the greater
+flexibility of an object-oriented approach, let us consider the
+following variant of the recipe, again in R syntax:
+
+```{text 1.2.3}
+# batter is done
+while (number(pancakes)<2) # first bake 2 pancakes
+    pancake <- baked(batter,in=oil,with=pan,temp=max(fire))
+feed(pancake,child) # feed one to hungry spectator
+# define new function, data ’x’ split into ’n’ pieces
+chopped <- function(x,n=1000) { return(split(x,n)) } 
+pieces <- chopped(pancake) # new data object, array of 1000 pieces
+batter <- mixed(batter,pieces) # mix pancake pieces into batter
+# etc
+```
+
+Such complex relations between objects are quite difficult to specify,
+if there are strong a priori limits to what one can `MIX` or `BAKE`.
+Thus, object-oriented programs such as R  allow for
+greater flexibility than procedure-oriented programs.
+
+If you are a user of the `Praat` software (<http://www.praat.org>) then you are already familiar with this basic idea. 
+`Praat` has an object window, listing the known objects.
+These objects are the output of previous operations (e.g. Create, Read,
+ToSpectrum), as well as input for subsequent operations (e.g. Write,
+Draw). The classes or types of these objects are pre-defined (Sound,
+Spectrum, Periodicity, etc). R  takes the same idea even
+further: users may create their own *classes* of data objects (e.g.
+class `SuperData`) and may create their own methods or relations to work with
+such objects ^[Praat allows the latter but not the former.].
+
+This object-oriented philosophy results in a different behavior than
+observed in procedure-oriented software:
+
+> There is an important difference in philosophy between S (and hence R)
+> and the other main statistical systems. In S a statistical analysis is
+> normally done as a series of steps, with intermediate results being
+> stored in objects. Thus whereas SAS and SPSS will give copious output
+> from a regression or discriminant analysis, R will give minimal output
+> and store the results in a fit object for subsequent interrogation by
+> further R functions.
+
+> from: <http://cran.r-project.org/doc/manuals/R-intro.html>

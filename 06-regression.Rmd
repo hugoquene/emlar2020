@@ -1,0 +1,99 @@
+# Regression {#ch:regression}
+
+## `lm`
+This function is used for regression according to a linear model,
+    i.e. linear regression. It returns a model-class object. There are
+    specialized functions for such models, e.g. 
+    to extract residuals (`resid`), 
+    to extract regression coefficients (`coef`), 
+    to modify (`update`) the model, etc.
+
+In the following example, we construct two regression models. 
+The first step in your regression analysis should always be a thorough visual and numerical inspection, including histograms and scatterplots of the variables under
+    study.
+    
+The first model is 
+
+$\texttt{nsyl} = b_0$
+
+having only a
+    constant intercept. The second model includes the speakers' age as a
+    predictor, i.e. 
+    
+$\texttt{nsyl} = b_0 + b_1 \texttt{age}$
+
+(The intercept is included in this model too, by default, unless
+    suppressed explicitly with `-1` or
+    `~0` in the regression formula). The key
+    question here is whether inclusion of a predictor yields a better
+    model, with significantly smaller residuals and significantly higher
+    $R^2$. The intercept-only model and the linear-regression model are
+    compared with the `anova` function.
+
+```{r 6.1.1}
+require(hqmisc)
+data(talkers)
+model1.lm <- lm( nsyl~1, data=talkers ) # only intercept
+model2.lm <- lm( nsyl~age, data=talkers ) # with intercept
+anova( model1.lm, model2.lm ) # compare two models
+```
+
+Including the `age` predictor does improve the model a little bit,
+    as indicated by the somewhat smaller residual sums-of-squares
+    (`RSS`). The improvement, however, is too small to be of
+    significance. The linear effect of a speaker's age on his or her
+    average phrase length (in syllables) is not significant.
+
+## `glm` 
+
+For logistic regression we use function
+    `glm(family=binomial)`, again with a
+    regression formula as an obligatory argument. Logistic regression
+    can be imagined as computing the logit of the hit-rate for each
+    cell, and then regressing these logits on the predictor(s). Here is
+    an annotated example [@MMC03] (Exercise 15.25).
+    
+The response variable `outcome` indicates
+    the death (`0`) or survival
+    (`1`) of 2900 patients in two hospitals.
+    
+```{r 6.2.1}
+ips1525 <- read.table( 
+  file=url("http://www.hugoquene.nl/emlar/ipsex1525.txt"),
+  header=T, sep=",") 
+with( ips1525, table(outcome) ) 
+log(2821/79) # log of odds of survival is 3.575
+# intercept-only logistic-regression model
+model1.glm <- glm( outcome~1, data=ips1525, family=binomial )
+summary(model1.glm) 
+```
+
+The intercept coefficient of the intercept-only logistic regression
+    model equals the overall log odds of survival; this intercept is
+    significantly different from zero ^[If the odds are $1:1$, then the log of the odds is $\log(1)=0$.]. Thus the intercept-only
+    logistic regression model captures the overall log odds of survival.
+    Next, let's try to improve this model, by including two predictors:
+    first, the `hospital` where the patient was treated, and second, the
+    patient's `condition` at intake, classified as bad
+    (`0`) or good (`1`).
+
+```{r 6.2.2}
+model2.glm <- glm( outcome~hospital, data=ips1525, family=binomial ) 
+model3.glm <- glm( outcome~hospital*condition, 
+                   data=ips1525, family=binomial ) 
+```
+
+The deviance among logistic-regression models follows a $\chi^2$
+    distribution. Hence we can compare models by computing the $\chi^2$
+    probability of their deviances. Both model 2 and model 3
+    are compared here against model 1.
+```{r 6.2.3}
+anova( model1.glm, model2.glm, model3.glm, test="Chisq" ) 
+```
+
+The results indicate that there is no significant difference among
+    hospitals in their survival rates (model 2, $p>.10$), but there is a
+    significant effect of intake condition on the outcome (model 3,
+    $p<.001$). Of course, you should also inspect the models themselves
+    before drawing conclusions.
+

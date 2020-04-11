@@ -1,0 +1,101 @@
+# Mixed-effects modeling {#ch:mixedeffects}
+
+Many language (acquisition) studies are based on samples of two random
+factors: a sample of participants (subjects) and a sample of language
+items (words, sentences, texts). The two random factors are *crossed*,
+i.e., each item is presented to each participant --- often only once, so
+that a subject does not respond to the same item repeatedly in multiple
+conditions. The analysis methods shown above
+(`aov`, `lm`,
+`glm`) all fail to acknowledge this particular
+structure in the random part of the design. They include a single random
+factor (named `Residual`) that aggregates all
+random effects.
+
+A better method is to use *mixed-effects modeling*,
+which may be done in R by using the `lmer` command. Key
+advantages of this method[^15] are (a) it allows multiple random
+factors, crossed and/or nested, (b) it does not require homogeneity of
+variance, (c) it is robust against missing data. Hence mixed-effects
+modeling is quickly gaining in popularity
+[@QB04; @QB08; @baay08; @HMS18].
+
+For mixed-effects modeling, you need to install two add-on packages to
+R , named `lme4` and `languageR` [@BDB08]. For more
+information on packages, see Chapter \@ref(ch:packages) below. 
+After activation of these packages, we
+can simply perform a mixed-effects analysis. First, we read in an
+example dataset [@QB08] in long data layout:
+
+```{r 7.1.1}
+x24 <- read.table( file=url("http://www.hugoquene.nl/emlar/x24r2.txt"), header=T )
+```
+
+These fictitious responses were provided by 24 subjects, for 36 items,
+in 3 conditions, with rotation of items over conditions. This rotation
+may be inspected for a small subset of the data frame:
+```{r 7.1.2}
+with( subset(x24, subj<=3&item<=6), table(subj,item,cond) ) 
+```
+
+Next, we need to specify that `cond` is a
+categorical factor, and not a continuous predictor. In addition, we
+specify the levels of the factor, we specify its contrasts, and indicate
+that the second level is the baseline or reference level.
+
+```{r 7.1.3}
+x24$cond <- as.factor(x24$cond)
+contrasts(x24$cond) <- contr.treatment( c(".A",".B",".C"), base=2 )
+```
+
+After these preliminary steps we can estimate an appropriate mixed-effects
+model in a single command. The estimated model is also stored as an
+object, and a summary is displayed.
+
+```{r 7.1.4}
+summary( x24.m1 <- lmer(resp ~ 1+cond+(1|subj)+(1|item),
+                        data=x24, REML=FALSE) )
+```
+
+The output correctly shows that there are two unrelated random effects,
+plus unexplained residual variance. Each response is now modeled as a
+unique combination of the intercept (mean of baseline condition B), item
+effect, subject effect, condition effect, and residual. The average
+response in the baseline condition B is $0.046$ units. Responses in
+condition A are 0.170 units higher than baseline, and in condition C
+they are $-0.237$ units higher than baseline, i.e. $0.237$ units lower.
+
+For reasons not discussed here ^[See Frequently Asked Questions about R, Question
+7.35, at <http://cran.r-project.org/doc/FAQ/R-FAQ.html>], the significance levels of the
+fixed effects are not reported in the output of
+`lmer`. There are several solutions to obtain
+these significance levels.
+
+* The most conservative option [@HMS18] is to use the critical $t$ value
+associated with the random effect that has the fewest levels (here
+`subj`), corrected for the number of fixed
+coefficients including the intercept (here $3$). 
+If a fixed effect is significant by this very
+conservative criterion, then it will also be significant by any other
+criterion that is less conservative and more liberal.
+```{r 7.1.5}
+qt( p=1-.05/2, df=24-3 ) # critical value t*, alpha=.05, two-sided
+```
+
+Comparison of the fixed effects with this critical $t^*$ = `r round(qt( p=1-.05/2, df=24-3),2)` shows that
+both conditions A and C differ significantly from the baseline condition
+B.
+
+* A second option is to estimate 95% confidence intervals for all
+coefficients in the resulting mixed-effects model. This can be
+time-consuming, as the mixed-effects model will be re-fit many times on
+slightly varying datasets.
+```{r 7.1.8}
+# warnings may occur
+print( x24.m1.ci <- confint( x24.m1, method="boot", nsim=250 ))
+```
+
+As the interval for `cond.A` is entirely
+positive, we may conclude with 95% confidence that condition A yields
+higher scores than the baseline condition B, and mutatis mutandis that
+condition C yields lower scores than condition B.

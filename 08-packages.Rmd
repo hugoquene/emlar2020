@@ -1,0 +1,44 @@
+# Packages {#ch:packages}
+
+Packages are user-provided extensions to the basic R 
+system (comparable to an "add-on" or "extension" for some web browsers). 
+Packages
+may contain custom datasets, additional functions, re-formulations of
+existing functions, and more. There are by now thousands of useful
+packages extending R. 
+
+A package named `ABC` can be installed by
+entering `install.packages("ABC")` (with double quotes) and then `require(ABC)` (without double quotes).
+If a package in turn requires other packages, these are also installed
+and loaded. 
+
+Some useful packages are the following:
+
+-   `datasets`: A wide
+    variety of datasets, for exploration and education. This
+    package is now integrated within R (see Help on `datasets`). 
+
+-   `foreign`: Functions for reading and writing data stored by statistical
+    packages such as Minitab, S, SAS, SPSS, Stata, Systat, and for
+    reading CSV files (comma separated values) created by Microsoft
+    Excel, and for reading and writing dBase files [@R-foreign].
+    
+-   `lattice`: Trellis graphics for R. The functions provide a
+    powerful, elegant and flexible high-level data visualization system,
+    using Trellis graphics, with an emphasis on multivariate data [@R-lattice].
+
+-   `MASS`: Datasets and functions accompanying [@VR02;@R-MASS]
+
+-   `languageR`: Datasets and functions accompanying [@baay08;@R-languageR]. 
+
+-   `hqmisc`: Some convenience functions and an example dataset, by the present author [@R-hqmisc], and used in this booklet. 
+
+-   `tidyverse`: A meta-package consisting of many other packages supporting your data science, such as `dplyr` for data transformation, `ggplot2` for data visualization, and `rmarkdown` for reporting (also used for this booklet) [@tidy19]; all component packages can also be used separately. 
+
+Packages are stored on a so-called *repository*; the CRAN repository is
+the most important one (https://cran.r-project.org/). 
+You should use a nearby mirror site of the CRAN
+repository, by giving the command `chooseCRANmirror()`. 
+Rstudio and R remember your chosen mirror site over multiple sessions.
+
+Finally, to inspect the status of your current session in R, use the command `sessionInfo()`. This will return a listing of technical information, locale settings, all attached packages, and all loaded packages, with version info for each. 

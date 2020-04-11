@@ -1,0 +1,210 @@
+# Basic operations {#ch:basicoperations}
+
+## Basics {#sub:basics}
+
+### `<-`
+This is the assignment operator: the expression to its right is
+    evaluated (if applicable) and then assigned to the object on the
+    left of the operator. Hence the expression
+    `a<-10` means that the object `a`, a single
+    number, "gets" the value of 10, i.e. the value of 10 is assigned to `a`. 
+    The symbol resembles
+    an arrow in the direction of assignment. The assignment may also be
+    in the other direction, with symbol `->` (and see note 
+    ^[The equal sign `=` is also available for assignment. Using
+    it is somewhat dangerous, however, because the equal sign does not
+    specify the direction of assignment explicitly.]). 
+    There should be no space between the two characters making up the arrow. 
+    Use spaces or brackets to avoid ambiguities and errors: 
+```{r 3.1.1}
+x <- 10 # assignment of atomic value 10 to object x
+x < -10 # is value of x less than -10 ?
+```
+
+### `#`
+indicates a comment: everything following this symbol, on the same
+    line of input, is ignored.
+
+### `scan`
+
+This command reads a simple vector from the keyboard. Make sure to
+    assign the result to a new object! Read in the numbers 1 to 10, and
+    assign them to a new object.
+
+### `objects`
+
+This command shows a list of all objects in memory (similar to the
+contents of the `Praat` Objects window). With `objects(pattern="abc")` the list is filtered so that only the objects matching the pattern string `"abc"` are shown.
+
+### `rm` 
+Objects are removed *forever* with this command.
+
+### `print`
+
+Contents of an object can be inspected with this command, or by just
+    entering the name of the object, as in some examples above.
+
+### `summary`
+
+This command offers a summary of an object. The result depends on
+    the data class of the object, as illustrated in section REF
+    above.
+
+### Workspace:
+
+R  holds its objects in memory. The whole workspace,
+    containing all data objects, can be stored from the 
+    Rstudio window (`Session > Save Workspace As...`).
+    This allows you to save a
+    session, and continue your work later (`Session > Load Workspace...`).
+
+### `save`
+
+(to write) and
+
+### `read`
+
+(to read) an object from/to memory to hard disk. By default,
+    R  data objects have the extension `.Rda`.
+
+### No `undo`
+
+Remember that there is *no* `undo` command, nor such a menu
+    option. Save your work regularly. If in doubt, work with scratch
+    copies of your data sets.
+
+## Subselection {#sec:subselection}
+
+Subselection within an object is a very powerful tool in
+R. The subselection operator `x[…]` selects only those data from object `x`
+that match the expression within square brackets. This expression can be a
+single index number, a sequence or list of numbers, or an evaluated
+expression, as illustrated in the following example.
+
+In the following example, variable `x` contains
+30 numbers, but 3 of these are `NA`. Notice that
+the output of `is.na` is the input of
+`table`.
+```{r 3.2.1.pre, echo=FALSE}
+set.seed(17)
+x <- rgamma(30,10,10)
+x[ sample(length(x),size=3) ] <- NA
+```
+
+```{r 3.2.1}
+# is.na() returns TRUE/FALSE for each element of ’x’. 
+# table() summarizes categorical data 
+table( is.na(x) ) 
+ok <- !is.na( x ) # exclamation mark means NOT 
+which( !ok ) # which index numbers are NOT ok? inspect! 
+mean( x[ok] ) # select ok values, compute mean, display 
+```
+
+Subselection can also be achieved by using the function
+`subset(data, subset, select)`. The first
+argument is the input data (set), the second argument is the selector
+condition, and the optional third argument indicates which columns of a
+data frame should be kept in the output.
+```{r 3.2.2}
+require(hqmisc)
+data(talkers)
+subset( talkers, subset=( age<45 & region=="W" ) )
+```
+
+This command selects rows from data frame `talkers` from the package `hqmisc`  
+(see \@ref(ch:packages)) corresponding to speakers who are under 45 years of age, and who are from the West region.
+
+## Split, merge, reshape {#sec:split.merge.reshape}
+
+There are useful functions available to split and merge data frames.
+First we create two example data frames. The first data frame has a list
+of English vowels, with a phonological feature for each vowel, and with the average frequency of the second formant^[A formant is a resonant frequency of the vocal tract, counted from low to high. The second formant or F2 is related to the front--back articulatory dimension.] of each vowel [@pete52] spoken by male speakers.  The second data frame has a partially overlapping list of vowels, with key words by John Wells ^[See <http://en.wikipedia.org/wiki/Lexical_set>].
+
+```{r 3.3.1}
+vowelsymb <- c( "i","I","e","E","ae", "A","V","o","U","u", "@" )
+v1df <- data.frame( vowel=vowelsymb,
+                    feat=factor( c(rep("front",5),
+                                   rep("back",5),
+                                   "central" ) ),
+                    F2=c( 2290,1990,NA,1840,1720, 
+                          1090,1190,NA,1020,870,
+                          NA ) )
+v2df <- data.frame( vowel=vowelsymb[1:10], 
+                    word=c("fleece","kit","face","dress","trap", 
+                           "lot","strut","goat","foot","goose") )
+```
+
+### `split`
+
+This command divides the data in the first argument (column `F2` in
+    data frame `v1df`) into the groups defined by the second argument.
+    
+```{r 3.3.2}
+with( v1df, split(F2,feat) ) -> v1list 
+```
+
+This is particularly helpful in combination with
+`lapply` to apply a function to these grouped
+data, e.g. to compute the mean of F2 for each vowel category
+separately:
+
+```{r 3.3.3.}
+with(v1df, lapply( split(F2,feat), mean, na.rm=T ) ) 
+```
+
+Also see `unsplit`.
+
+### `merge`
+
+This command merges two data frames, by common columns. Specify
+    argument `all=TRUE` if you want to include non-matching rows in the
+    output, with NA's in the appropriate columns.
+    
+```{r 3.3.4}
+m1 <- merge(v1df, v2df)
+```
+
+The resulting merged data frame is also sorted on the common
+columns, unless argument `sort=FALSE`.
+
+### `reshape` 
+
+If you need to perform a
+    Repeated Measures (within-subjects) analysis of variance (RM-ANOVA)
+    in SPSS, your data have to be in "wide" data layout, with all
+    observations from one subject on a single data line.
+    R on the other hand uses the "long" data layout, with
+    one observation per line, and with all descriptors of that
+    observation repeated for each line. There is a convenient command
+    `reshape` to convert data between the wide
+    layout (of SPSS RM-ANOVA) and the long layout (of R ).
+    To illustrate, first we read a wide data set:
+```{r 3.3.3.1}
+widedata <- read.table( 
+  file=url("http://www.hugoquene.nl/emlar/widedata.txt"),
+  header=T)
+```
+
+The wide data show the subject id, between-subject group, and three
+    within-subject observations, for 6 subjects (with leading row
+    numbers):
+```{r 3.3.3.2}
+head(widedata)
+```
+
+These data are then reshaped to long layout with the following
+    command:
+```{r 3.3.3.3}
+longdata <- reshape( widedata, direction="long",
+                     varying=c("item1","item2","item3"),
+                     timevar="item", times=c("1","2","3"),
+                     v.names="resp", idvar="subject")
+```
+
+The observations from multiple columns `varying` are
+    collected into a new single column `v.names`, using
+    identifiers in column `idvar`. The
+    information contained in the multiple column names of
+    `varying` is stored in a new single column
+    `timevar`, using the values `times`. 
+Inspect the two data frames to verify this.

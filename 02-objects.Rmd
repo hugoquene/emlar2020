@@ -1,0 +1,96 @@
+# Objects {#ch:objects}
+
+## Vectors {#sec:vectors}
+
+A vector is a simple, one-dimensional list of data, like a single column
+in Excel or in SPSS. Typically a single vector holds a single variable
+of interest. The data in a vector can be of various classes: numeric,
+character (strings of letters, always enclosed in double quotes), or
+logical (i.e., boolean, `TRUE` or
+`FALSE`, may be abbreviated to
+`T` or `F`).
+
+-   `c`: Atomic data are combined into a vector by means of the
+    `c` (combine, concatenate) operator.
+
+-   `seq` The sequence operator, also abbreviated as a colon
+    [`:`, creates subsequent values.
+```{r 2.1.1}
+x <- 1:5
+print(x)
+2*(x-1)
+```
+
+Computations are also done on whole vectors, as exemplified above.
+In the last example, we see that the result of the computation is
+*not* assigned to a new object. Hence the result is displayed ---
+and then lost. This may still be useful however when you use
+R  as a pocket calculator.
+
+-   `rep` Finally, the repeat operator is very useful in creating repetitive
+    sequences, e.g. for levels of an independent variable.
+```{r 2.1.2}
+x <- rep( 1:5, each=2 )
+x
+```
+
+## Factors {#sec:factors}
+
+Factors constitute a special class of variables. A factor is a variable
+that holds categorical, character-like data. R  realizes
+that variables of this class hold categorical data, and that the values
+are category labels or *levels* rather than real characters or digits,
+as illustrated in the examples below.
+```{r 2.2.1}
+x1 <- rep( 1:4, each=2 ) # create vector of numbers
+print(x1) # numeric
+summary(x1) # of numeric vector
+x2 <- as.character(x1) # convert to char
+print(x2) # character vector
+x3 <- as.factor(x1) # convert to factor
+print(x3) # factor
+summary(x3) # compare against summary(x1) above 
+```
+
+## Complex objects {#sec:complex.objects}
+
+Simple objects, like the ones introduced above, may be combined into
+composite objects. For example, we may combine all pancake ingredients
+into a complex object of class `list`.
+
+In R we often use a particular complex object, a *data
+frame*, to hold various data together. A data frame is a complex object
+like an Excel worksheet or SPSS data sheet. The columns represent
+variables, and the rows represent single observations --- these may be
+"cases" or sampling units, or single measurements repeated for each
+sampling unit, depending on the study ^[For repeated measures analyses, R does not require a multivariate or "wide" layout, with repeated measures for each participant on a single row, as SPSS does. Instead R always uses a univariate or "long" layout, with each measurement on a single row of input. See  the `reshape` command to convert between layouts, section @\ref(sec:split.merge.reshape).].
+
+The easiest way to create a data object is to read it from a plain-text
+(ASCII) file, using the command `read.table`.
+(Windows users must remember to use double backslashes in the file
+specification string). An optional `header=TRUE`
+argument indicates whether the first line contains the names of the
+variables; argument `sep` specifies the
+character(s) that separate the variables in the input file. The
+`file` argument can be a string specifying a
+local file, or a `url` to a web-based file, or a
+call of function `file.choose()` to select a file
+interactively. Argument `na.strings` specifies
+the character string(s) that indicate missing values in the input file.
+```{text}
+# in Windows system
+myexp <- read.table(
+  file="f:\\temp\\mydata.txt", header=T, sep="," )
+```
+
+```{r 2.3.1}
+nlspkr <- read.table(
+  file=url("http://www.hugoquene.nl/emlar/intra.bysubj.txt"),
+  header=TRUE, na.strings=c("NA","MISSING") )
+```
+
+It is also possible to read so-called CSV files (comma-separated values) saved from Excel or SPSS (`read.csv`), and it is also possible to read Excel or SPSS data files directly using extension packages (`readxl::readxl`, `foreign::read.spss`).
+
+The basic R  and extension packages already have many
+datasets pre-defined, for immediate use. 
+To see a long(!) overview o these datasets, enter the command `data()`.
