@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Regression | Statistics with R</title>
+  <meta name="description" content="This is a handout of the online tutorial on Statistics with R, to be held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook." />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Regression | Statistics with R" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a handout of the online tutorial on Statistics with R, to be held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook." />
+  <meta name="github-repo" content="rstudio/bookdown-emlar2020" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Regression | Statistics with R" />
+  
+  <meta name="twitter:description" content="This is a handout of the online tutorial on Statistics with R, to be held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook." />
+  
+
+<meta name="author" content="Hugo Quené" />
+
+
+<meta name="date" content="2020-04-11" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="ch-testinghypotheses.html"/>
+<link rel="next" href="ch-mixedeffects.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Statistics with R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="ch-introduction.html"><a href="ch-introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisR"><i class="fa fa-check"></i><b>1.1</b> What is R ?</a></li>
+<li class="chapter" data-level="1.2" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:objectorientedphilosophy"><i class="fa fa-check"></i><b>1.2</b> Object-oriented philosophy</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="ch-objects.html"><a href="ch-objects.html"><i class="fa fa-check"></i><b>2</b> Objects</a><ul>
+<li class="chapter" data-level="2.1" data-path="ch-objects.html"><a href="ch-objects.html#sec:vectors"><i class="fa fa-check"></i><b>2.1</b> Vectors</a></li>
+<li class="chapter" data-level="2.2" data-path="ch-objects.html"><a href="ch-objects.html#sec:factors"><i class="fa fa-check"></i><b>2.2</b> Factors</a></li>
+<li class="chapter" data-level="2.3" data-path="ch-objects.html"><a href="ch-objects.html#sec:complex.objects"><i class="fa fa-check"></i><b>2.3</b> Complex objects</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html"><i class="fa fa-check"></i><b>3</b> Basic operations</a><ul>
+<li class="chapter" data-level="3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sub:basics"><i class="fa fa-check"></i><b>3.1</b> Basics</a><ul>
+<li class="chapter" data-level="3.1.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section"><i class="fa fa-check"></i><b>3.1.1</b> <code>&lt;-</code></a></li>
+<li class="chapter" data-level="3.1.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section-1"><i class="fa fa-check"></i><b>3.1.2</b> <code>#</code></a></li>
+<li class="chapter" data-level="3.1.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#scan"><i class="fa fa-check"></i><b>3.1.3</b> <code>scan</code></a></li>
+<li class="chapter" data-level="3.1.4" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#objects"><i class="fa fa-check"></i><b>3.1.4</b> <code>objects</code></a></li>
+<li class="chapter" data-level="3.1.5" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#rm"><i class="fa fa-check"></i><b>3.1.5</b> <code>rm</code></a></li>
+<li class="chapter" data-level="3.1.6" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#print"><i class="fa fa-check"></i><b>3.1.6</b> <code>print</code></a></li>
+<li class="chapter" data-level="3.1.7" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#summary"><i class="fa fa-check"></i><b>3.1.7</b> <code>summary</code></a></li>
+<li class="chapter" data-level="3.1.8" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#workspace"><i class="fa fa-check"></i><b>3.1.8</b> Workspace:</a></li>
+<li class="chapter" data-level="3.1.9" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#save"><i class="fa fa-check"></i><b>3.1.9</b> <code>save</code></a></li>
+<li class="chapter" data-level="3.1.10" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#read"><i class="fa fa-check"></i><b>3.1.10</b> <code>read</code></a></li>
+<li class="chapter" data-level="3.1.11" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#no-undo"><i class="fa fa-check"></i><b>3.1.11</b> No <code>undo</code></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:subselection"><i class="fa fa-check"></i><b>3.2</b> Subselection</a></li>
+<li class="chapter" data-level="3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:split.merge.reshape"><i class="fa fa-check"></i><b>3.3</b> Split, merge, reshape</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#split"><i class="fa fa-check"></i><b>3.3.1</b> <code>split</code></a></li>
+<li class="chapter" data-level="3.3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#merge"><i class="fa fa-check"></i><b>3.3.2</b> <code>merge</code></a></li>
+<li class="chapter" data-level="3.3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#reshape"><i class="fa fa-check"></i><b>3.3.3</b> <code>reshape</code></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ch-EDA.html"><a href="ch-EDA.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analyses</a><ul>
+<li class="chapter" data-level="4.1" data-path="ch-EDA.html"><a href="ch-EDA.html#hist"><i class="fa fa-check"></i><b>4.1</b> <code>hist</code></a></li>
+<li class="chapter" data-level="4.2" data-path="ch-EDA.html"><a href="ch-EDA.html#plot"><i class="fa fa-check"></i><b>4.2</b> <code>plot</code></a></li>
+<li class="chapter" data-level="4.3" data-path="ch-EDA.html"><a href="ch-EDA.html#rug"><i class="fa fa-check"></i><b>4.3</b> <code>rug</code></a></li>
+<li class="chapter" data-level="4.4" data-path="ch-EDA.html"><a href="ch-EDA.html#boxplot"><i class="fa fa-check"></i><b>4.4</b> <code>boxplot</code></a></li>
+<li class="chapter" data-level="4.5" data-path="ch-EDA.html"><a href="ch-EDA.html#qqnorm"><i class="fa fa-check"></i><b>4.5</b> <code>qqnorm</code></a></li>
+<li class="chapter" data-level="4.6" data-path="ch-EDA.html"><a href="ch-EDA.html#summary-1"><i class="fa fa-check"></i><b>4.6</b> <code>summary</code></a></li>
+<li class="chapter" data-level="4.7" data-path="ch-EDA.html"><a href="ch-EDA.html#var"><i class="fa fa-check"></i><b>4.7</b> <code>var</code></a></li>
+<li class="chapter" data-level="4.8" data-path="ch-EDA.html"><a href="ch-EDA.html#length"><i class="fa fa-check"></i><b>4.8</b> <code>length</code></a></li>
+<li class="chapter" data-level="4.9" data-path="ch-EDA.html"><a href="ch-EDA.html#unique"><i class="fa fa-check"></i><b>4.9</b> <code>unique</code></a></li>
+<li class="chapter" data-level="4.10" data-path="ch-EDA.html"><a href="ch-EDA.html#table"><i class="fa fa-check"></i><b>4.10</b> <code>table</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html"><i class="fa fa-check"></i><b>5</b> Testing hypotheses</a><ul>
+<li class="chapter" data-level="5.1" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#formula"><i class="fa fa-check"></i><b>5.1</b> formula</a></li>
+<li class="chapter" data-level="5.2" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#t-test"><i class="fa fa-check"></i><b>5.2</b> <span class="math inline">\(t\)</span> test</a></li>
+<li class="chapter" data-level="5.3" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#chisq.test"><i class="fa fa-check"></i><b>5.3</b> <code>chisq.test</code></a></li>
+<li class="chapter" data-level="5.4" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#aov"><i class="fa fa-check"></i><b>5.4</b> <code>aov</code></a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="ch-regression.html"><a href="ch-regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a><ul>
+<li class="chapter" data-level="6.1" data-path="ch-regression.html"><a href="ch-regression.html#lm"><i class="fa fa-check"></i><b>6.1</b> <code>lm</code></a></li>
+<li class="chapter" data-level="6.2" data-path="ch-regression.html"><a href="ch-regression.html#glm"><i class="fa fa-check"></i><b>6.2</b> <code>glm</code></a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ch-mixedeffects.html"><a href="ch-mixedeffects.html"><i class="fa fa-check"></i><b>7</b> Mixed-effects modeling</a></li>
+<li class="chapter" data-level="8" data-path="ch-packages.html"><a href="ch-packages.html"><i class="fa fa-check"></i><b>8</b> Packages</a></li>
+<li class="chapter" data-level="9" data-path="sec-furtherreading.html"><a href="sec-furtherreading.html"><i class="fa fa-check"></i><b>9</b> Further reading</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Statistics with R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ch:regression" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Regression</h1>
+<div id="lm" class="section level2">
+<h2><span class="header-section-number">6.1</span> <code>lm</code></h2>
+<p>This function is used for regression according to a linear model,
+i.e. linear regression. It returns a model-class object. There are
+specialized functions for such models, e.g.
+to extract residuals (<code>resid</code>),
+to extract regression coefficients (<code>coef</code>),
+to modify (<code>update</code>) the model, etc.</p>
+<p>In the following example, we construct two regression models.
+The first step in your regression analysis should always be a thorough visual and numerical inspection, including histograms and scatterplots of the variables under
+study.</p>
+<p>The first model is</p>
+<p><span class="math inline">\(\texttt{nsyl} = b_0\)</span></p>
+<p>having only a
+constant intercept. The second model includes the speakers’ age as a
+predictor, i.e.</p>
+<p><span class="math inline">\(\texttt{nsyl} = b_0 + b_1 \texttt{age}\)</span></p>
+<p>(The intercept is included in this model too, by default, unless
+suppressed explicitly with <code>-1</code> or
+<code>~0</code> in the regression formula). The key
+question here is whether inclusion of a predictor yields a better
+model, with significantly smaller residuals and significantly higher
+<span class="math inline">\(R^2\)</span>. The intercept-only model and the linear-regression model are
+compared with the <code>anova</code> function.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1"><span class="kw">require</span>(hqmisc)</a>
+<a class="sourceLine" id="cb73-2" data-line-number="2"><span class="kw">data</span>(talkers)</a>
+<a class="sourceLine" id="cb73-3" data-line-number="3">model1.lm &lt;-<span class="st"> </span><span class="kw">lm</span>( nsyl<span class="op">~</span><span class="dv">1</span>, <span class="dt">data=</span>talkers ) <span class="co"># only intercept</span></a>
+<a class="sourceLine" id="cb73-4" data-line-number="4">model2.lm &lt;-<span class="st"> </span><span class="kw">lm</span>( nsyl<span class="op">~</span>age, <span class="dt">data=</span>talkers ) <span class="co"># with intercept</span></a>
+<a class="sourceLine" id="cb73-5" data-line-number="5"><span class="kw">anova</span>( model1.lm, model2.lm ) <span class="co"># compare two models</span></a></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: nsyl ~ 1
+## Model 2: nsyl ~ age
+##   Res.Df    RSS Df Sum of Sq      F Pr(&gt;F)
+## 1     79 381.85                           
+## 2     78 375.06  1    6.7823 1.4105 0.2386</code></pre>
+<p>Including the <code>age</code> predictor does improve the model a little bit,
+as indicated by the somewhat smaller residual sums-of-squares
+(<code>RSS</code>). The improvement, however, is too small to be of
+significance. The linear effect of a speaker’s age on his or her
+average phrase length (in syllables) is not significant.</p>
+</div>
+<div id="glm" class="section level2">
+<h2><span class="header-section-number">6.2</span> <code>glm</code></h2>
+<p>For logistic regression we use function
+<code>glm(family=binomial)</code>, again with a
+regression formula as an obligatory argument. Logistic regression
+can be imagined as computing the logit of the hit-rate for each
+cell, and then regressing these logits on the predictor(s). Here is
+an annotated example <span class="citation">(Moore and McCabe <a href="#ref-MMC03">2003</a>)</span> (Exercise 15.25).</p>
+<p>The response variable <code>outcome</code> indicates
+the death (<code>0</code>) or survival
+(<code>1</code>) of 2900 patients in two hospitals.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1">ips1525 &lt;-<span class="st"> </span><span class="kw">read.table</span>( </a>
+<a class="sourceLine" id="cb75-2" data-line-number="2">  <span class="dt">file=</span><span class="kw">url</span>(<span class="st">&quot;http://www.hugoquene.nl/emlar/ipsex1525.txt&quot;</span>),</a>
+<a class="sourceLine" id="cb75-3" data-line-number="3">  <span class="dt">header=</span>T, <span class="dt">sep=</span><span class="st">&quot;,&quot;</span>) </a>
+<a class="sourceLine" id="cb75-4" data-line-number="4"><span class="kw">with</span>( ips1525, <span class="kw">table</span>(outcome) ) </a></code></pre></div>
+<pre><code>## outcome
+##    0    1 
+##   79 2821</code></pre>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1"><span class="kw">log</span>(<span class="dv">2821</span><span class="op">/</span><span class="dv">79</span>) <span class="co"># log of odds of survival is 3.575</span></a></code></pre></div>
+<pre><code>## [1] 3.575399</code></pre>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="co"># intercept-only logistic-regression model</span></a>
+<a class="sourceLine" id="cb79-2" data-line-number="2">model1.glm &lt;-<span class="st"> </span><span class="kw">glm</span>( outcome<span class="op">~</span><span class="dv">1</span>, <span class="dt">data=</span>ips1525, <span class="dt">family=</span>binomial )</a>
+<a class="sourceLine" id="cb79-3" data-line-number="3"><span class="kw">summary</span>(model1.glm) </a></code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = outcome ~ 1, family = binomial, data = ips1525)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -2.684   0.235   0.235   0.235   0.235  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   3.5754     0.1141   31.34   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 725.1  on 2899  degrees of freedom
+## Residual deviance: 725.1  on 2899  degrees of freedom
+## AIC: 727.1
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<p>The intercept coefficient of the intercept-only logistic regression
+model equals the overall log odds of survival; this intercept is
+significantly different from zero.<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> Thus the intercept-only
+logistic regression model captures the overall log odds of survival.
+Next, let’s try to improve this model, by including two predictors:
+first, the <code>hospital</code> where the patient was treated, and second, the
+patient’s <code>condition</code> at intake, classified as bad
+(<code>0</code>) or good (<code>1</code>).</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1">model2.glm &lt;-<span class="st"> </span><span class="kw">glm</span>( outcome<span class="op">~</span>hospital, <span class="dt">data=</span>ips1525, <span class="dt">family=</span>binomial ) </a>
+<a class="sourceLine" id="cb81-2" data-line-number="2">model3.glm &lt;-<span class="st"> </span><span class="kw">glm</span>( outcome<span class="op">~</span>hospital<span class="op">*</span>condition, </a>
+<a class="sourceLine" id="cb81-3" data-line-number="3">                   <span class="dt">data=</span>ips1525, <span class="dt">family=</span>binomial ) </a></code></pre></div>
+<p>The deviance among logistic-regression models follows a <span class="math inline">\(\chi^2\)</span>
+distribution. Hence we can compare models by computing the <span class="math inline">\(\chi^2\)</span>
+probability of their deviances. Both model 2 and model 3
+are compared here against model 1.</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1"><span class="kw">anova</span>( model1.glm, model2.glm, model3.glm, <span class="dt">test=</span><span class="st">&quot;Chisq&quot;</span> ) </a></code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: outcome ~ 1
+## Model 2: outcome ~ hospital
+## Model 3: outcome ~ hospital * condition
+##   Resid. Df Resid. Dev Df Deviance   Pr(&gt;Chi)    
+## 1      2899     725.10                           
+## 2      2898     722.78  1   2.3253     0.1273    
+## 3      2896     703.96  2  18.8222 0.00008181 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>The results indicate that there is no significant difference among
+hospitals in their survival rates (model 2, <span class="math inline">\(p&gt;.10\)</span>), but there is a
+significant effect of intake condition on the outcome (model 3,
+<span class="math inline">\(p&lt;.001\)</span>). Of course, you should also inspect the models themselves
+before drawing conclusions.</p>
+
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-MMC03">
+<p>Moore, David S., and George P. McCabe. 2003. <em>Introduction to the Practice of Statistics</em>. 4th ed. Freeman.</p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="8">
+<li id="fn8"><p>If the odds are <span class="math inline">\(1:1\)</span>, then the log of the odds is <span class="math inline">\(\log(1)=0\)</span>.<a href="ch-regression.html#fnref8" class="footnote-back">↩</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="ch-testinghypotheses.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ch-mixedeffects.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/06-regression.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-emlar2020.pdf", "bookdown-emlar2020.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
