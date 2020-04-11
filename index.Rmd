@@ -1,0 +1,36 @@
+--- 
+title: "Statistics with R"
+author: "Hugo Quené"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+bibliography: [book.bib, packages.bib, emlar.bib]
+biblio-style: apalike
+link-citations: yes
+github-repo: rstudio/bookdown-emlar2020
+description: "This is a handout of the online tutorial on Statistics with R, to be held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook."
+---
+
+# Preface {-}
+
+This booklet is written as accompaniment to the online tutorial on _Statistics with R (Basics)_, to be held as part of the workshop on Experimental Methods in Language Acquisition Research (EMLAR, https://emlar.wp.hum.uu.nl/), Utrecht, on 17 April 2020.
+
+Here's the abstract for the tutorial: 
+
+> This tutorial will introduce the R programming environment for statistical analysis. Contrary to SPSS which is procedure-oriented (commands are verbs, e.g. “compute”), R is object-oriented (objects are nouns, e.g. “factor”). In this workshop, we will try to ease the learning curve of using R for your data analysis. Experience with statistical software is NOT required! We will use data simulation as well as real data sets, to explore topics like t-tests, $\chi^2$ tests, and regression. We will also show how R produces publication-quality figures.
+
+This document is licensed under the _GNU GPL 3_ license (for details see 
+https://www.gnu.org/licenses/gpl-3.0.en.html). It was created with the `bookdown` package [@R-bookdown] in Rstudio <https://www.rstudio.com>.
+
+Hugo Quené, Utrecht institute of Linguistics OTS, Utrecht University,  https://www.hugoquene.nl
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+require(lattice)
+require(nnet)
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
