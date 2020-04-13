@@ -118,7 +118,7 @@
 
 \title{Statistics with R}
 \author{Hugo Quené}
-\date{2020-04-11}
+\date{2020-04-13}
 
 \begin{document}
 \maketitle
@@ -189,7 +189,7 @@ Perhaps surprisingly, R is several things at once:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# 440 Hz is `how many` semitones above 110 Hz?}
-\NormalTok{(}\KeywordTok{log}\NormalTok{(}\DecValTok{440}\NormalTok{)}\OperatorTok{-}\KeywordTok{log}\NormalTok{(}\DecValTok{110}\NormalTok{)) }\OperatorTok{/}\StringTok{ }\KeywordTok{log}\NormalTok{(}\DecValTok{2}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{12}\NormalTok{)) }
+\NormalTok{( }\KeywordTok{log}\NormalTok{(}\DecValTok{440}\NormalTok{)}\OperatorTok{-}\KeywordTok{log}\NormalTok{(}\DecValTok{110}\NormalTok{) ) }\OperatorTok{/}\StringTok{ }\KeywordTok{log}\NormalTok{(}\DecValTok{2}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{12}\NormalTok{)) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -206,9 +206,9 @@ Perhaps surprisingly, R is several things at once:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# function to convert hertz to semitones, relative to `base`, by Mark Liberman}
-\NormalTok{h2st <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{( h, }\DataTypeTok{base=}\DecValTok{50}\NormalTok{ ) \{ }
-\NormalTok{  semi1<-}\KeywordTok{log}\NormalTok{(}\DecValTok{2}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{12}\NormalTok{)); }\CommentTok{# log of frequency ratio of 1 semitone}
-  \KeywordTok{return}\NormalTok{( (}\KeywordTok{log}\NormalTok{(h)}\OperatorTok{-}\KeywordTok{log}\NormalTok{(base)) }\OperatorTok{/}\StringTok{ }\NormalTok{semi1 ) \}}
+\NormalTok{h2st <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{( h, }\DataTypeTok{base=}\DecValTok{110}\NormalTok{ ) \{ }
+\NormalTok{  semi1 <-}\StringTok{ }\KeywordTok{log}\NormalTok{(}\DecValTok{2}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{12}\NormalTok{)) }\CommentTok{# log of frequency ratio of 1 semitone}
+  \KeywordTok{return}\NormalTok{( ( }\KeywordTok{log}\NormalTok{(h)}\OperatorTok{-}\KeywordTok{log}\NormalTok{(base) ) }\OperatorTok{/}\StringTok{ }\NormalTok{semi1 ) \} }\CommentTok{# compare with above}
 \end{Highlighting}
 \end{Shaded}
 
@@ -228,14 +228,14 @@ milk, eggs, some mixing utensils, a pan, oil, and a fire. An
 object-oriented approach places primary focus on these six objects. If
 the relations between these are properly specified, then a good pancake
 will result. Provided that the necessary objects (ingredients) are
-available, the R syntax could be as follows:
+available, the quasi-R syntax could be as follows:
 
 \begin{verbatim}
-# batter <- mixed( flour,  milk/2 ) # mix flour and half of milk
-# batter <- mixed( batter, egg*2 ) # add 2 eggs
-# batter <- mixed( batter, milk/2, use=whisk) # add other half of milk
-# while (enough(batter)) # FALSE if insufficient for next
-#  pancake <- baked( batter, in=oil, with=pan, temp=max(fire) )
+batter <- mixed( flour,  milk/2 ) # mix flour and half of milk
+batter <- mixed( batter, egg*2 ) # add 2 eggs
+batter <- mixed( batter, milk/2, use=whisk) # add other half of milk
+while (enough(batter)) # FALSE if insufficient for next
+    pancake <- baked( batter, in=oil, with=pan, temp=max(fire) )
 \end{verbatim}
 
 This example illustrates that R is indeed a full
@@ -275,7 +275,7 @@ only within the limits set by the programmer (see footnote 2).
 So far, you may have thought that the difference between the two recipes
 was semantic rather than pragmatic. To demonstrate the greater
 flexibility of an object-oriented approach, let us consider the
-following variant of the recipe, again in R syntax:
+following variant of the recipe, again in quasi-R syntax:
 
 \begin{verbatim}
 # batter is done
@@ -283,7 +283,7 @@ while (number(pancakes)<2) # first bake 2 pancakes
     pancake <- baked(batter,in=oil,with=pan,temp=max(fire))
 feed(pancake,child) # feed one to hungry spectator
 # define new function, data ’x’ split into ’n’ pieces
-chopped <- function(x,n=1000) { return(split(x,n)) } 
+chopped <- function( x, n=1000 ) { return( split(x,n) ) } 
 pieces <- chopped(pancake) # new data object, array of 1000 pieces
 batter <- mixed(batter,pieces) # mix pancake pieces into batter
 # etc
@@ -300,8 +300,8 @@ These objects are the output of previous operations (e.g.~Create, Read,
 ToSpectrum), as well as input for subsequent operations (e.g.~Write,
 Draw). The classes or types of these objects are pre-defined (Sound,
 Spectrum, Periodicity, etc). R takes the same idea even
-further: users may create their own \emph{classes} of data objects (
-e.g.~class \texttt{SuperData}) and may create their own methods or relations to work with
+further: users may create their own \emph{classes} of data objects (e.g.~a new
+class \texttt{SuperData}) and may create their own methods or relations to work with
 such objects \footnote{Praat allows the latter but not the former.}.
 
 This object-oriented philosophy results in a different behavior than
@@ -318,7 +318,7 @@ further R functions.
 \end{quote}
 
 \begin{quote}
-from: \url{http://cran.r-project.org/doc/manuals/R-intro.html}
+from: \url{https://cran.r-project.org/doc/manuals/R-intro.html\#R-and-statistics}
 \end{quote}
 
 \hypertarget{ch:objects}{%
@@ -513,7 +513,7 @@ To see a long(!) overview of these datasets, enter the command \texttt{data()}.
 This is the assignment operator: the expression to its right is
 evaluated (if applicable) and then assigned to the object on the
 left of the operator. Hence the expression
-\texttt{a\textless{}-10} means that the object \texttt{a}, a single
+\texttt{a\ \textless{}-\ 10} means that the object \texttt{a}, a single
 number, ``gets'' the value of 10, i.e.~the value of 10 is assigned to \texttt{a}.
 The symbol resembles
 an arrow in the direction of assignment. The assignment may also be
@@ -527,7 +527,7 @@ Use spaces or brackets to avoid ambiguities and errors:
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{x <-}\StringTok{ }\DecValTok{10} \CommentTok{# assignment of atomic value 10 to object x}
-\NormalTok{x }\OperatorTok{<}\StringTok{ }\DecValTok{-10} \CommentTok{# is value of x less than -10 ?}
+\NormalTok{x }\OperatorTok{<}\StringTok{ }\OperatorTok{-}\StringTok{ }\DecValTok{10} \CommentTok{# is value of x less than -10 ?}
 \end{Highlighting}
 \end{Shaded}
 
@@ -852,7 +852,8 @@ commands \footnote{The semicolon separates multiple R commands on a single line 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x<-}\KeywordTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{); }\KeywordTok{hist}\NormalTok{(x,}\DataTypeTok{col=}\StringTok{"lightblue"}\NormalTok{); }\KeywordTok{rug}\NormalTok{(x,}\DataTypeTok{col=}\StringTok{"darkblue"}\NormalTok{)}
+\NormalTok{x<-}\KeywordTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{) }
+\KeywordTok{hist}\NormalTok{(x,}\DataTypeTok{col=}\StringTok{"lightblue"}\NormalTok{); }\KeywordTok{rug}\NormalTok{(x,}\DataTypeTok{col=}\StringTok{"darkblue"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -891,7 +892,7 @@ variable would be distributed normally. If the variable is indeed
 distributed normally, then the data should fall on an approximately
 straight line. Deviations of this line indicate deviations from
 normality. You can also add the expected line with
-{\texttt{qqline}}.
+\texttt{qqline}.
 
 \hypertarget{summary-1}{%
 \section{\texorpdfstring{\texttt{summary}}{summary}}\label{summary-1}}
@@ -1054,7 +1055,7 @@ complex models.
 
 There are three ways to use the t test.
 
-In a one-sample test, the mean is compared against an expected mean,
+In a \textbf{one-sample \(t\) test}, the mean is compared against an expected mean,
 with
 
 \begin{Shaded}
@@ -1077,13 +1078,13 @@ with
 ## 0.9980461
 \end{verbatim}
 
-In a two-sample test with independent observations, we often compare
+In a \textbf{two-sample test with independent observations}, we often compare
 the same dependent variable, broken down by an independent
 variable.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{t.test}\NormalTok{( y[x1}\OperatorTok{<}\KeywordTok{median}\NormalTok{(x1)], y[x1}\OperatorTok{>}\KeywordTok{median}\NormalTok{(x1)] ) }\CommentTok{# y split up by median of x1}
+\KeywordTok{t.test}\NormalTok{( y[x1}\OperatorTok{<}\KeywordTok{median}\NormalTok{(x1)], y[x1}\OperatorTok{>}\KeywordTok{median}\NormalTok{(x1)] ) }\CommentTok{# groups by median split of x1}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1102,7 +1103,7 @@ variable.
 \end{verbatim}
 
 This could also be achieved by specifying the dependent and
-independent variables in a formula:\\
+independent variables in a formula:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1124,7 +1125,7 @@ independent variables in a formula:\\
 ##            3.404204            2.749787
 \end{verbatim}
 
-In a two-sample test with paired observations, we often compare two
+In a \textbf{two-sample test with paired observations}, we often compare two
 different observations, stored in two different variables.
 
 \begin{Shaded}
@@ -1216,11 +1217,20 @@ with \texttt{hist}, \texttt{qqnorm}, etc).\\
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{a1<-}\KeywordTok{rpois}\NormalTok{(}\DecValTok{20}\NormalTok{,}\DataTypeTok{lambda=}\DecValTok{2}\NormalTok{); a2<-}\KeywordTok{rpois}\NormalTok{(}\DecValTok{20}\NormalTok{,}\DataTypeTok{lambda=}\DecValTok{4}\NormalTok{); a3<-}\KeywordTok{rpois}\NormalTok{(}\DecValTok{20}\NormalTok{,}\DataTypeTok{lambda=}\DecValTok{6}\NormalTok{) }
+\NormalTok{a1<-}\KeywordTok{rpois}\NormalTok{(}\DecValTok{20}\NormalTok{,}\DataTypeTok{lambda=}\DecValTok{2}\NormalTok{)}
+\NormalTok{a2<-}\KeywordTok{rpois}\NormalTok{(}\DecValTok{20}\NormalTok{,}\DataTypeTok{lambda=}\DecValTok{4}\NormalTok{) }
+\NormalTok{a3<-}\KeywordTok{rpois}\NormalTok{(}\DecValTok{20}\NormalTok{,}\DataTypeTok{lambda=}\DecValTok{6}\NormalTok{) }
 \NormalTok{aa <-}\StringTok{ }\KeywordTok{c}\NormalTok{(a1,a2,a3) }
 \NormalTok{x1 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{,}\DataTypeTok{each=}\DecValTok{20}\NormalTok{)) }
 \CommentTok{# x1 corresponds with the three different poisson distributions within aa}
 \NormalTok{x2 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(}\KeywordTok{rep}\NormalTok{( }\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{,}\DataTypeTok{each=}\DecValTok{10}\NormalTok{), }\DecValTok{3}\NormalTok{)) }\CommentTok{# no effect expected}
+\end{Highlighting}
+\end{Shaded}
+
+Thus the dependent variable \texttt{aa} intentionally differs between the levels of \texttt{x1}, but there should be no effect of the independent variable \texttt{x2} nor of the interaction between the two independent variables (\(F<1\) expected for both effects). The model is estimated and summarized in a single composite command.
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \KeywordTok{summary}\NormalTok{( model1.aov <-}\StringTok{ }\KeywordTok{aov}\NormalTok{(aa}\OperatorTok{~}\NormalTok{x1}\OperatorTok{*}\NormalTok{x2) )}
 \end{Highlighting}
 \end{Shaded}

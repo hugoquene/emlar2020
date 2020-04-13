@@ -24,7 +24,7 @@
 <meta name="author" content="Hugo Quené" />
 
 
-<meta name="date" content="2020-04-11" />
+<meta name="date" content="2020-04-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -236,7 +236,8 @@ can use a third variable to vary the plot symbols.</p>
 the visual effect of a rug. This is useful in combination with a
 scattergram or histogram. Try it out, with the following
 commands:<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a></p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">x&lt;-<span class="kw">rnorm</span>(<span class="dv">100</span>); <span class="kw">hist</span>(x,<span class="dt">col=</span><span class="st">&quot;lightblue&quot;</span>); <span class="kw">rug</span>(x,<span class="dt">col=</span><span class="st">&quot;darkblue&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">x&lt;-<span class="kw">rnorm</span>(<span class="dv">100</span>) </a>
+<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="kw">hist</span>(x,<span class="dt">col=</span><span class="st">&quot;lightblue&quot;</span>); <span class="kw">rug</span>(x,<span class="dt">col=</span><span class="st">&quot;darkblue&quot;</span>)</a></code></pre></div>
 <p><img src="bookdown-emlar2020_files/figure-html/4.3.1-1.png" width="672" /></p>
 </div>
 <div id="boxplot" class="section level2">
@@ -264,7 +265,7 @@ variable would be distributed normally. If the variable is indeed
 distributed normally, then the data should fall on an approximately
 straight line. Deviations of this line indicate deviations from
 normality. You can also add the expected line with
-<span style="color: blue"><code>qqline</code></span>.</p>
+<code>qqline</code>.</p>
 </div>
 <div id="summary-1" class="section level2">
 <h2><span class="header-section-number">4.6</span> <code>summary</code></h2>

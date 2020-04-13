@@ -40,26 +40,26 @@ Consult the help files for further information on how to specify
 ## $t$ test
 There are three ways to use the t test. 
 
-In a one-sample test, the mean is compared against an expected mean,
+In a **one-sample $t$ test**, the mean is compared against an expected mean,
     with
 ```{r 5.2.1}
 t.test( x1, mu=0.80 )
 ```
 
-In a two-sample test with independent observations, we often compare
+In a **two-sample test with independent observations**, we often compare
     the same dependent variable, broken down by an independent
     variable.
 ```{r 5.2.2}
-t.test( y[x1<median(x1)], y[x1>median(x1)] ) # y split up by median of x1
+t.test( y[x1<median(x1)], y[x1>median(x1)] ) # groups by median split of x1
 ```
 
 This could also be achieved by specifying the dependent and
-    independent variables in a formula:\
+    independent variables in a formula:
 ```{r 5.2.3}
 t.test( y ~ (x1<median(x1)) ) # equivalent
 ```
 
-In a two-sample test with paired observations, we often compare two
+In a **two-sample test with paired observations**, we often compare two
     different observations, stored in two different variables.
 ```{r 5.2.4}
 t.test( x1, x2 )
@@ -104,11 +104,18 @@ This function performs a between-subjects analysis of variance, with
     (check
     with `hist`, `qqnorm`, etc).\
 ```{r 5.4.1}
-a1<-rpois(20,lambda=2); a2<-rpois(20,lambda=4); a3<-rpois(20,lambda=6) 
+a1<-rpois(20,lambda=2)
+a2<-rpois(20,lambda=4) 
+a3<-rpois(20,lambda=6) 
 aa <- c(a1,a2,a3) 
 x1 <- as.factor(rep(1:3,each=20)) 
 # x1 corresponds with the three different poisson distributions within aa
 x2 <- as.factor(rep( rep(1:2,each=10), 3)) # no effect expected
+```
+
+Thus the dependent variable `aa` intentionally differs between the levels of `x1`, but there should be no effect of the independent variable `x2` nor of the interaction between the two independent variables ($F<1$ expected for both effects). The model is estimated and summarized in a single composite command. 
+
+```{r 5.4.2}
 summary( model1.aov <- aov(aa~x1*x2) )
 ```
 

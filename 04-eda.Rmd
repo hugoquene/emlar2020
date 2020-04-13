@@ -28,7 +28,8 @@ This command produces tick marks at the actual data values, yielding
     scattergram or histogram. Try it out, with the following
     commands ^[The semicolon separates multiple R commands on a single line of input.]:
 ```{r 4.3.1}
-x<-rnorm(100); hist(x,col="lightblue"); rug(x,col="darkblue")
+x<-rnorm(100) 
+hist(x,col="lightblue"); rug(x,col="darkblue")
 ```
 
 ## `boxplot`
@@ -57,7 +58,7 @@ This produces a quantile--quantile (QQ) plot. This plots the
     distributed normally, then the data should fall on an approximately
     straight line. Deviations of this line indicate deviations from
     normality. You can also add the expected line with
-    [`qqline`]{style="color: blue"}.
+    `qqline`.
 
 ## `summary`
 This command produces a numerical summary of the argument variable.

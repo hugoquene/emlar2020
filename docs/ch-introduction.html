@@ -24,7 +24,7 @@
 <meta name="author" content="Hugo Quené" />
 
 
-<meta name="date" content="2020-04-11" />
+<meta name="date" content="2020-04-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -233,15 +233,15 @@ software.</p>
 <li>a calculator</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># 440 Hz is `how many` semitones above 110 Hz?</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">(<span class="kw">log</span>(<span class="dv">440</span>)<span class="op">-</span><span class="kw">log</span>(<span class="dv">110</span>)) <span class="op">/</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">2</span><span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">12</span>)) </a></code></pre></div>
+<a class="sourceLine" id="cb2-2" data-line-number="2">( <span class="kw">log</span>(<span class="dv">440</span>)<span class="op">-</span><span class="kw">log</span>(<span class="dv">110</span>) ) <span class="op">/</span><span class="st"> </span><span class="kw">log</span>(<span class="dv">2</span><span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">12</span>)) </a></code></pre></div>
 <pre><code>## [1] 24</code></pre>
 <ul>
 <li>a programming language</li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># function to convert hertz to semitones, relative to `base`, by Mark Liberman</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">h2st &lt;-<span class="st"> </span><span class="cf">function</span>( h, <span class="dt">base=</span><span class="dv">50</span> ) { </a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">  semi1&lt;-<span class="kw">log</span>(<span class="dv">2</span><span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">12</span>)); <span class="co"># log of frequency ratio of 1 semitone</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="kw">return</span>( (<span class="kw">log</span>(h)<span class="op">-</span><span class="kw">log</span>(base)) <span class="op">/</span><span class="st"> </span>semi1 ) }</a></code></pre></div>
+<a class="sourceLine" id="cb4-2" data-line-number="2">h2st &lt;-<span class="st"> </span><span class="cf">function</span>( h, <span class="dt">base=</span><span class="dv">110</span> ) { </a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">  semi1 &lt;-<span class="st"> </span><span class="kw">log</span>(<span class="dv">2</span><span class="op">^</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">12</span>)) <span class="co"># log of frequency ratio of 1 semitone</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="kw">return</span>( ( <span class="kw">log</span>(h)<span class="op">-</span><span class="kw">log</span>(base) ) <span class="op">/</span><span class="st"> </span>semi1 ) } <span class="co"># compare with above</span></a></code></pre></div>
 <p>The assignment operator <code>&lt;-</code>
 is further explained in section <a href="ch-basicoperations.html#sub:basics">3.1</a> below.</p>
 <p>The hash <code>#</code> indicates comment, which is not processed.</p>
@@ -256,12 +256,12 @@ milk, eggs, some mixing utensils, a pan, oil, and a fire. An
 object-oriented approach places primary focus on these six objects. If
 the relations between these are properly specified, then a good pancake
 will result. Provided that the necessary objects (ingredients) are
-available, the R syntax could be as follows:</p>
-<pre class="text"><code># batter &lt;- mixed( flour,  milk/2 ) # mix flour and half of milk
-# batter &lt;- mixed( batter, egg*2 ) # add 2 eggs
-# batter &lt;- mixed( batter, milk/2, use=whisk) # add other half of milk
-# while (enough(batter)) # FALSE if insufficient for next
-#  pancake &lt;- baked( batter, in=oil, with=pan, temp=max(fire) )</code></pre>
+available, the quasi-R syntax could be as follows:</p>
+<pre class="text"><code>batter &lt;- mixed( flour,  milk/2 ) # mix flour and half of milk
+batter &lt;- mixed( batter, egg*2 ) # add 2 eggs
+batter &lt;- mixed( batter, milk/2, use=whisk) # add other half of milk
+while (enough(batter)) # FALSE if insufficient for next
+    pancake &lt;- baked( batter, in=oil, with=pan, temp=max(fire) )</code></pre>
 <p>This example illustrates that R is indeed a full
 programming language (but see footnote<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>).
 In fact, there is no recipe, in the
@@ -293,13 +293,13 @@ only within the limits set by the programmer (see footnote 2).</p>
 <p>So far, you may have thought that the difference between the two recipes
 was semantic rather than pragmatic. To demonstrate the greater
 flexibility of an object-oriented approach, let us consider the
-following variant of the recipe, again in R syntax:</p>
+following variant of the recipe, again in quasi-R syntax:</p>
 <pre class="text"><code># batter is done
 while (number(pancakes)&lt;2) # first bake 2 pancakes
     pancake &lt;- baked(batter,in=oil,with=pan,temp=max(fire))
 feed(pancake,child) # feed one to hungry spectator
 # define new function, data ’x’ split into ’n’ pieces
-chopped &lt;- function(x,n=1000) { return(split(x,n)) } 
+chopped &lt;- function( x, n=1000 ) { return( split(x,n) ) } 
 pieces &lt;- chopped(pancake) # new data object, array of 1000 pieces
 batter &lt;- mixed(batter,pieces) # mix pancake pieces into batter
 # etc</code></pre>
@@ -313,8 +313,8 @@ These objects are the output of previous operations (e.g. Create, Read,
 ToSpectrum), as well as input for subsequent operations (e.g. Write,
 Draw). The classes or types of these objects are pre-defined (Sound,
 Spectrum, Periodicity, etc). R takes the same idea even
-further: users may create their own <em>classes</em> of data objects (
-e.g. class <code>SuperData</code>) and may create their own methods or relations to work with
+further: users may create their own <em>classes</em> of data objects (e.g. a new
+class <code>SuperData</code>) and may create their own methods or relations to work with
 such objects.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
 <p>This object-oriented philosophy results in a different behavior than
 observed in procedure-oriented software:</p>
@@ -328,7 +328,7 @@ and store the results in a fit object for subsequent interrogation by
 further R functions.</p>
 </blockquote>
 <blockquote>
-<p>from: <a href="http://cran.r-project.org/doc/manuals/R-intro.html" class="uri">http://cran.r-project.org/doc/manuals/R-intro.html</a></p>
+<p>from: <a href="https://cran.r-project.org/doc/manuals/R-intro.html#R-and-statistics" class="uri">https://cran.r-project.org/doc/manuals/R-intro.html#R-and-statistics</a></p>
 </blockquote>
 
 </div>

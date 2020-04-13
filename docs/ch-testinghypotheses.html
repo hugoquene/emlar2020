@@ -24,7 +24,7 @@
 <meta name="author" content="Hugo Quené" />
 
 
-<meta name="date" content="2020-04-11" />
+<meta name="date" content="2020-04-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -237,7 +237,7 @@ complex models.</p>
 <div id="t-test" class="section level2">
 <h2><span class="header-section-number">5.2</span> <span class="math inline">\(t\)</span> test</h2>
 <p>There are three ways to use the t test.</p>
-<p>In a one-sample test, the mean is compared against an expected mean,
+<p>In a <strong>one-sample <span class="math inline">\(t\)</span> test</strong>, the mean is compared against an expected mean,
 with</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">t.test</span>( x1, <span class="dt">mu=</span><span class="fl">0.80</span> )</a></code></pre></div>
 <pre><code>## 
@@ -251,10 +251,10 @@ with</p>
 ## sample estimates:
 ## mean of x 
 ## 0.9980461</code></pre>
-<p>In a two-sample test with independent observations, we often compare
+<p>In a <strong>two-sample test with independent observations</strong>, we often compare
 the same dependent variable, broken down by an independent
 variable.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">t.test</span>( y[x1<span class="op">&lt;</span><span class="kw">median</span>(x1)], y[x1<span class="op">&gt;</span><span class="kw">median</span>(x1)] ) <span class="co"># y split up by median of x1</span></a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">t.test</span>( y[x1<span class="op">&lt;</span><span class="kw">median</span>(x1)], y[x1<span class="op">&gt;</span><span class="kw">median</span>(x1)] ) <span class="co"># groups by median split of x1</span></a></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -267,8 +267,7 @@ variable.</p>
 ## mean of x mean of y 
 ##  2.749787  3.404204</code></pre>
 <p>This could also be achieved by specifying the dependent and
-independent variables in a formula:<br />
-</p>
+independent variables in a formula:</p>
 <div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="kw">t.test</span>( y <span class="op">~</span><span class="st"> </span>(x1<span class="op">&lt;</span><span class="kw">median</span>(x1)) ) <span class="co"># equivalent</span></a></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
@@ -281,7 +280,7 @@ independent variables in a formula:<br />
 ## sample estimates:
 ## mean in group FALSE  mean in group TRUE 
 ##            3.404204            2.749787</code></pre>
-<p>In a two-sample test with paired observations, we often compare two
+<p>In a <strong>two-sample test with paired observations</strong>, we often compare two
 different observations, stored in two different variables.</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="kw">t.test</span>( x1, x2 )</a></code></pre></div>
 <pre><code>## 
@@ -338,12 +337,15 @@ response variable <code>aa</code> which is not normally distributed
 (check
 with <code>hist</code>, <code>qqnorm</code>, etc).<br />
 </p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">a1&lt;-<span class="kw">rpois</span>(<span class="dv">20</span>,<span class="dt">lambda=</span><span class="dv">2</span>); a2&lt;-<span class="kw">rpois</span>(<span class="dv">20</span>,<span class="dt">lambda=</span><span class="dv">4</span>); a3&lt;-<span class="kw">rpois</span>(<span class="dv">20</span>,<span class="dt">lambda=</span><span class="dv">6</span>) </a>
-<a class="sourceLine" id="cb71-2" data-line-number="2">aa &lt;-<span class="st"> </span><span class="kw">c</span>(a1,a2,a3) </a>
-<a class="sourceLine" id="cb71-3" data-line-number="3">x1 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="dt">each=</span><span class="dv">20</span>)) </a>
-<a class="sourceLine" id="cb71-4" data-line-number="4"><span class="co"># x1 corresponds with the three different poisson distributions within aa</span></a>
-<a class="sourceLine" id="cb71-5" data-line-number="5">x2 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">rep</span>( <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,<span class="dt">each=</span><span class="dv">10</span>), <span class="dv">3</span>)) <span class="co"># no effect expected</span></a>
-<a class="sourceLine" id="cb71-6" data-line-number="6"><span class="kw">summary</span>( model1.aov &lt;-<span class="st"> </span><span class="kw">aov</span>(aa<span class="op">~</span>x1<span class="op">*</span>x2) )</a></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">a1&lt;-<span class="kw">rpois</span>(<span class="dv">20</span>,<span class="dt">lambda=</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb71-2" data-line-number="2">a2&lt;-<span class="kw">rpois</span>(<span class="dv">20</span>,<span class="dt">lambda=</span><span class="dv">4</span>) </a>
+<a class="sourceLine" id="cb71-3" data-line-number="3">a3&lt;-<span class="kw">rpois</span>(<span class="dv">20</span>,<span class="dt">lambda=</span><span class="dv">6</span>) </a>
+<a class="sourceLine" id="cb71-4" data-line-number="4">aa &lt;-<span class="st"> </span><span class="kw">c</span>(a1,a2,a3) </a>
+<a class="sourceLine" id="cb71-5" data-line-number="5">x1 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="dt">each=</span><span class="dv">20</span>)) </a>
+<a class="sourceLine" id="cb71-6" data-line-number="6"><span class="co"># x1 corresponds with the three different poisson distributions within aa</span></a>
+<a class="sourceLine" id="cb71-7" data-line-number="7">x2 &lt;-<span class="st"> </span><span class="kw">as.factor</span>(<span class="kw">rep</span>( <span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>,<span class="dt">each=</span><span class="dv">10</span>), <span class="dv">3</span>)) <span class="co"># no effect expected</span></a></code></pre></div>
+<p>Thus the dependent variable <code>aa</code> intentionally differs between the levels of <code>x1</code>, but there should be no effect of the independent variable <code>x2</code> nor of the interaction between the two independent variables (<span class="math inline">\(F&lt;1\)</span> expected for both effects). The model is estimated and summarized in a single composite command.</p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1"><span class="kw">summary</span>( model1.aov &lt;-<span class="st"> </span><span class="kw">aov</span>(aa<span class="op">~</span>x1<span class="op">*</span>x2) )</a></code></pre></div>
 <pre><code>##             Df Sum Sq Mean Sq F value     Pr(&gt;F)    
 ## x1           2 109.73   54.87  15.512 0.00000475 ***
 ## x2           1   0.27    0.27   0.075      0.785    

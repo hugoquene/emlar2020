@@ -6,7 +6,7 @@
 This is the assignment operator: the expression to its right is
     evaluated (if applicable) and then assigned to the object on the
     left of the operator. Hence the expression
-    `a<-10` means that the object `a`, a single
+    `a <- 10` means that the object `a`, a single
     number, "gets" the value of 10, i.e. the value of 10 is assigned to `a`. 
     The symbol resembles
     an arrow in the direction of assignment. The assignment may also be
@@ -18,7 +18,7 @@ This is the assignment operator: the expression to its right is
     Use spaces or brackets to avoid ambiguities and errors: 
 ```{r 3.1.1}
 x <- 10 # assignment of atomic value 10 to object x
-x < -10 # is value of x less than -10 ?
+x < - 10 # is value of x less than -10 ?
 ```
 
 ### `#`

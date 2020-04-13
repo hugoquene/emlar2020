@@ -24,7 +24,7 @@
 <meta name="author" content="Hugo Quené" />
 
 
-<meta name="date" content="2020-04-11" />
+<meta name="date" content="2020-04-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -227,18 +227,18 @@ advantages of this method[^15] are (a) it allows multiple random
 factors, crossed and/or nested, (b) it does not require homogeneity of
 variance, (c) it is robust against missing data. Hence mixed-effects
 modeling is quickly gaining in popularity
-<span class="citation">(Quené and Bergh <a href="#ref-QB04">2004</a>; Quené and Van den Bergh <a href="#ref-QB08">2008</a>; R. Baayen <a href="#ref-baay08">2008</a>; Hox, Moerbeek, and Schoot <a href="#ref-HMS18">2018</a>)</span>.</p>
+<span class="citation">(Quené and Van den Bergh <a href="#ref-QB04">2004</a>, <a href="#ref-QB08">2008</a>; Baayen <a href="#ref-baay08">2008</a>; Hox, Moerbeek, and Van de Schoot <a href="#ref-HMS18">2018</a>)</span>.</p>
 <p>For mixed-effects modeling, you need to install two add-on packages to
-R , named <code>lme4</code> and <code>languageR</code> <span class="citation">(R. Baayen, Davidson, and Bates <a href="#ref-BDB08">2008</a>)</span>. For more
+R , named <code>lme4</code> and <code>languageR</code> <span class="citation">(Baayen, Davidson, and Bates <a href="#ref-BDB08">2008</a>)</span>. For more
 information on packages, see Chapter <a href="ch-packages.html#ch:packages">8</a> below.
 After activation of these packages, we
 can simply perform a mixed-effects analysis. First, we read in an
 example dataset <span class="citation">(Quené and Van den Bergh <a href="#ref-QB08">2008</a>)</span> in long data layout:</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" data-line-number="1">x24 &lt;-<span class="st"> </span><span class="kw">read.table</span>( <span class="dt">file=</span><span class="kw">url</span>(<span class="st">&quot;http://www.hugoquene.nl/emlar/x24r2.txt&quot;</span>), <span class="dt">header=</span>T )</a></code></pre></div>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1">x24 &lt;-<span class="st"> </span><span class="kw">read.table</span>( <span class="dt">file=</span><span class="kw">url</span>(<span class="st">&quot;http://www.hugoquene.nl/emlar/x24r2.txt&quot;</span>), <span class="dt">header=</span>T )</a></code></pre></div>
 <p>These fictitious responses were provided by 24 subjects, for 36 items,
 in 3 conditions, with rotation of items over conditions. This rotation
 may be inspected for a small subset of the data frame:</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="kw">with</span>( <span class="kw">subset</span>(x24, subj<span class="op">&lt;=</span><span class="dv">3</span><span class="op">&amp;</span>item<span class="op">&lt;=</span><span class="dv">6</span>), <span class="kw">table</span>(subj,item,cond) ) </a></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="kw">with</span>( <span class="kw">subset</span>(x24, subj<span class="op">&lt;=</span><span class="dv">3</span><span class="op">&amp;</span>item<span class="op">&lt;=</span><span class="dv">6</span>), <span class="kw">table</span>(subj,item,cond) ) </a></code></pre></div>
 <pre><code>## , , cond = 1
 ## 
 ##     item
@@ -266,13 +266,13 @@ may be inspected for a small subset of the data frame:</p>
 categorical factor, and not a continuous predictor. In addition, we
 specify the levels of the factor, we specify its contrasts, and indicate
 that the second level is the baseline or reference level.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1">x24<span class="op">$</span>cond &lt;-<span class="st"> </span><span class="kw">as.factor</span>(x24<span class="op">$</span>cond)</a>
-<a class="sourceLine" id="cb87-2" data-line-number="2"><span class="kw">contrasts</span>(x24<span class="op">$</span>cond) &lt;-<span class="st"> </span><span class="kw">contr.treatment</span>( <span class="kw">c</span>(<span class="st">&quot;.A&quot;</span>,<span class="st">&quot;.B&quot;</span>,<span class="st">&quot;.C&quot;</span>), <span class="dt">base=</span><span class="dv">2</span> )</a></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1">x24<span class="op">$</span>cond &lt;-<span class="st"> </span><span class="kw">as.factor</span>(x24<span class="op">$</span>cond)</a>
+<a class="sourceLine" id="cb88-2" data-line-number="2"><span class="kw">contrasts</span>(x24<span class="op">$</span>cond) &lt;-<span class="st"> </span><span class="kw">contr.treatment</span>( <span class="kw">c</span>(<span class="st">&quot;.A&quot;</span>,<span class="st">&quot;.B&quot;</span>,<span class="st">&quot;.C&quot;</span>), <span class="dt">base=</span><span class="dv">2</span> )</a></code></pre></div>
 <p>After these preliminary steps we can estimate an appropriate mixed-effects
 model in a single command. The estimated model is also stored as an
 object, and a summary is displayed.</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1"><span class="kw">summary</span>( x24.m1 &lt;-<span class="st"> </span><span class="kw">lmer</span>(resp <span class="op">~</span><span class="st"> </span><span class="dv">1</span><span class="op">+</span>cond<span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>subj)<span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>item),</a>
-<a class="sourceLine" id="cb88-2" data-line-number="2">                        <span class="dt">data=</span>x24, <span class="dt">REML=</span><span class="ot">FALSE</span>) )</a></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw">summary</span>( x24.m1 &lt;-<span class="st"> </span><span class="kw">lmer</span>(resp <span class="op">~</span><span class="st"> </span><span class="dv">1</span><span class="op">+</span>cond<span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>subj)<span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>item),</a>
+<a class="sourceLine" id="cb89-2" data-line-number="2">                        <span class="dt">data=</span>x24, <span class="dt">REML=</span><span class="ot">FALSE</span>) )</a></code></pre></div>
 <pre><code>## Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
 ## Formula: resp ~ 1 + cond + (1 | subj) + (1 | item)
 ##    Data: x24
@@ -313,7 +313,7 @@ fixed effects are not reported in the output of
 <code>lmer</code>. There are several solutions to obtain
 these significance levels.</p>
 <ul>
-<li>The most conservative option <span class="citation">(Hox, Moerbeek, and Schoot <a href="#ref-HMS18">2018</a>)</span> is to use the critical <span class="math inline">\(t\)</span> value
+<li>The most conservative option <span class="citation">(Hox, Moerbeek, and Van de Schoot <a href="#ref-HMS18">2018</a>)</span> is to use the critical <span class="math inline">\(t\)</span> value
 associated with the random effect that has the fewest levels (here
 <code>subj</code>), corrected for the number of fixed
 coefficients including the intercept (here <span class="math inline">\(3\)</span>).
@@ -321,7 +321,7 @@ If a fixed effect is significant by this very
 conservative criterion, then it will also be significant by any other
 criterion that is less conservative and more liberal.</li>
 </ul>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb90-1" data-line-number="1"><span class="kw">qt</span>( <span class="dt">p=</span><span class="dv">1</span><span class="fl">-.05</span><span class="op">/</span><span class="dv">2</span>, <span class="dt">df=</span><span class="dv">24-3</span> ) <span class="co"># critical value t*, alpha=.05, two-sided</span></a></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw">qt</span>( <span class="dt">p=</span><span class="dv">1</span><span class="fl">-.05</span><span class="op">/</span><span class="dv">2</span>, <span class="dt">df=</span><span class="dv">24-3</span> ) <span class="co"># critical value t*, alpha=.05, two-sided</span></a></code></pre></div>
 <pre><code>## [1] 2.079614</code></pre>
 <p>Comparison of the fixed effects with this critical <span class="math inline">\(t^*\)</span> = 2.08 shows that
 both conditions A and C differ significantly from the baseline condition
@@ -332,8 +332,8 @@ coefficients in the resulting mixed-effects model. This can be
 time-consuming, as the mixed-effects model will be re-fit many times on
 slightly varying datasets.</li>
 </ul>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="co"># warnings may occur</span></a>
-<a class="sourceLine" id="cb92-2" data-line-number="2"><span class="kw">print</span>( x24.m1.ci &lt;-<span class="st"> </span><span class="kw">confint</span>( x24.m1, <span class="dt">method=</span><span class="st">&quot;boot&quot;</span>, <span class="dt">nsim=</span><span class="dv">250</span> ))</a></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1"><span class="co"># warnings may occur</span></a>
+<a class="sourceLine" id="cb93-2" data-line-number="2"><span class="kw">print</span>( x24.m1.ci &lt;-<span class="st"> </span><span class="kw">confint</span>( x24.m1, <span class="dt">method=</span><span class="st">&quot;boot&quot;</span>, <span class="dt">nsim=</span><span class="dv">250</span> ))</a></code></pre></div>
 <pre><code>## Computing bootstrap confidence intervals ...</code></pre>
 <pre><code>## 
 ## 6 warning(s): Model failed to converge with max|grad| = 0.00267345 (tol = 0.002, component 1) (and others)</code></pre>
@@ -353,16 +353,16 @@ condition C yields lower scores than condition B.</p>
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-baay08">
-<p>Baayen, R.H. 2008. <em>Analyzing Linguistic Data: A Practical Introduction to Statistics Using R</em>. Cambridge University Press.</p>
+<p>Baayen, R. H. 2008. <em>Analyzing Linguistic Data: A Practical Introduction to Statistics Using R</em>. Cambridge University Press.</p>
 </div>
 <div id="ref-BDB08">
-<p>Baayen, R.H., D.J. Davidson, and Douglas M. Bates. 2008. “Mixed-Effects Modeling with Crossed Random Effects for Subjects and Items.” <em>Journal of Memory and Language</em> 59 (4): 390–412.</p>
+<p>Baayen, R. H., D. J. Davidson, and Douglas M. Bates. 2008. “Mixed-Effects Modeling with Crossed Random Effects for Subjects and Items.” <em>Journal of Memory and Language</em> 59 (4): 390–412.</p>
 </div>
 <div id="ref-HMS18">
-<p>Hox, Joop J., Mirjam Moerbeek, and Rens van de Schoot. 2018. <em>Multilevel Analysis: Techniques and Applications</em>. 3rd ed. Routledge.</p>
+<p>Hox, Joop J., Mirjam Moerbeek, and Rens Van de Schoot. 2018. <em>Multilevel Analysis: Techniques and Applications</em>. 3rd ed. Routledge.</p>
 </div>
 <div id="ref-QB04">
-<p>Quené, Hugo, and Huub van den Bergh. 2004. “On Multi-Level Modeling of Data from Repeated Measures Designs: A Tutorial.” <em>Speech Communication</em> 43 (1–2): 103–21.</p>
+<p>Quené, Hugo, and Huub Van den Bergh. 2004. “On Multi-Level Modeling of Data from Repeated Measures Designs: A Tutorial.” <em>Speech Communication</em> 43 (1–2): 103–21.</p>
 </div>
 <div id="ref-QB08">
 <p>Quené, Hugo, and Huub Van den Bergh. 2008. “Examples of Mixed-Effects Modeling with Crossed Random Effects and with Binomial Data.” <em>Journal of Memory and Language</em> 59 (4): 413–25.</p>
