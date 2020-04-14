@@ -1,15 +1,15 @@
-# Further reading {#sec:furtherreading}
+# Further reading and learning {#sec:furtherreading}
 
-A wealth of useful documentation is available through the `Help` tab
-in the lower right pane of RStudio. Browse in the FAQ files, the help files, the
-manuals and the vignettes that come with R and Rstudio. 
-
-More help can be called from within R by giving the command
+More help can be called from within **R** by giving the command
 `help(ABC)` or `?ABC` with a
 command or operator as argument. 
 (This can be typed in the `Console` tab in the lower left pane of RStudio.)
 
-There is also a lot more help available on the internet, in particular
+A wealth of useful documentation is available through the `Help` tab
+in the lower right pane of **RStudio**. Browse in the FAQ files, the help files, the
+manuals and the vignettes that come with R and Rstudio. 
+
+There is also a lot more help available **online**, in particular
 from the R project website <https://www.r-project.org>
 and the RStudio website <https://www.Rstudio.com>.
 
@@ -19,7 +19,11 @@ A few other useful web resources are:
 
 -   <http://math.illinoisstate.edu/dhkim/Rstuff/Rtutor.html>
 
-The following three books on using R and on its
+For those working or studying at Utrecht University, 
+there are one-day **workshops** on working with R: see 
+<https://www.uu.nl/en/research/research-data-management/training-workshops/introduction-to-r-data>.
+
+For further study, the following three **books** on using R and on its
 applications in linguistics are highly recommended: 
 [@baay08;@john08;@adler10].
 
