@@ -40,15 +40,14 @@ Consult the help files for further information on how to specify
 ## $t$ test
 There are three ways to use the t test. 
 
-In a **one-sample $t$ test**, the mean is compared against an expected mean,
+In a **one-sample $t$ test**, the sample mean is compared against an expected mean `mu`,
     with
 ```{r 5.2.1}
 t.test( x1, mu=0.80 )
 ```
 
-In a **two-sample test with independent observations**, we often compare
-    the same dependent variable, broken down by an independent
-    variable.
+In a **two-sample test with independent observations**, we compare
+    the same dependent variable, in two groups of sampling units; these groups are defined by an independent variable.
 ```{r 5.2.2}
 t.test( y[x1<median(x1)], y[x1>median(x1)] ) # groups by median split of x1
 ```
@@ -59,14 +58,14 @@ This could also be achieved by specifying the dependent and
 t.test( y ~ (x1<median(x1)) ) # equivalent
 ```
 
-In a **two-sample test with paired observations**, we often compare two
-    different observations, stored in two different variables.
+In a **two-sample test with paired observations**, we compare the same construct, but observed under two conditions, which were "paired" within the same sampling units. The two observations are typically stored in two different variables. 
 ```{r 5.2.4}
-t.test( x1, x2 )
+t.test( x1, x2, paired=TRUE )
 ```
 
-Note that the number of observations in the test (and hence d.f.)
-    varies in these examples.
+The small $p$-value reported here is $p < 2.2 * 10^{-16}$ in scientific notation^[This is the smallest $p$ value that can be computed and displayed, while being different from zero. The actual value depends on your hardware, operating system, and R settings.]. 
+
+Note that the number of sampling units (e.g. participants) and of observations varies in these three $t$ tests, yielding different degrees of freedom. 
 
 ## `chisq.test`
 
@@ -119,3 +118,8 @@ Thus the dependent variable `aa` intentionally differs between the levels of `x1
 summary( model1.aov <- aov(aa~x1*x2) )
 ```
 
+---
+
+> When reporting any of the hypothesis tests in this section, you should always report the _effect size_ too [@quene10]. 
+
+---

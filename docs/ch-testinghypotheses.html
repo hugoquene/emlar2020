@@ -237,7 +237,7 @@ complex models.</p>
 <div id="t-test" class="section level2">
 <h2><span class="header-section-number">5.2</span> <span class="math inline">\(t\)</span> test</h2>
 <p>There are three ways to use the t test.</p>
-<p>In a <strong>one-sample <span class="math inline">\(t\)</span> test</strong>, the mean is compared against an expected mean,
+<p>In a <strong>one-sample <span class="math inline">\(t\)</span> test</strong>, the sample mean is compared against an expected mean <code>mu</code>,
 with</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">t.test</span>( x1, <span class="dt">mu=</span><span class="fl">0.80</span> )</a></code></pre></div>
 <pre><code>## 
@@ -251,9 +251,8 @@ with</p>
 ## sample estimates:
 ## mean of x 
 ## 0.9980461</code></pre>
-<p>In a <strong>two-sample test with independent observations</strong>, we often compare
-the same dependent variable, broken down by an independent
-variable.</p>
+<p>In a <strong>two-sample test with independent observations</strong>, we compare
+the same dependent variable, in two groups of sampling units; these groups are defined by an independent variable.</p>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1"><span class="kw">t.test</span>( y[x1<span class="op">&lt;</span><span class="kw">median</span>(x1)], y[x1<span class="op">&gt;</span><span class="kw">median</span>(x1)] ) <span class="co"># groups by median split of x1</span></a></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
@@ -280,22 +279,21 @@ independent variables in a formula:</p>
 ## sample estimates:
 ## mean in group FALSE  mean in group TRUE 
 ##            3.404204            2.749787</code></pre>
-<p>In a <strong>two-sample test with paired observations</strong>, we often compare two
-different observations, stored in two different variables.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="kw">t.test</span>( x1, x2 )</a></code></pre></div>
+<p>In a <strong>two-sample test with paired observations</strong>, we compare the same construct, but observed under two conditions, which were “paired” within the same sampling units. The two observations are typically stored in two different variables.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="kw">t.test</span>( x1, x2, <span class="dt">paired=</span><span class="ot">TRUE</span> )</a></code></pre></div>
 <pre><code>## 
-##  Welch Two Sample t-test
+##  Paired t-test
 ## 
 ## data:  x1 and x2
-## t = -6.3729, df = 197.68, p-value = 1.279e-09
+## t = -14.581, df = 99, p-value &lt; 2.2e-16
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -1.2764242 -0.6731481
+##  -1.1074340 -0.8421383
 ## sample estimates:
-## mean of x mean of y 
-## 0.9980461 1.9728323</code></pre>
-<p>Note that the number of observations in the test (and hence d.f.)
-varies in these examples.</p>
+## mean of the differences 
+##              -0.9747861</code></pre>
+<p>The small <span class="math inline">\(p\)</span>-value reported here is <span class="math inline">\(p &lt; 2.2 * 10^{-16}\)</span> in scientific notation<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a>.</p>
+<p>Note that the number of sampling units (e.g. participants) and of observations varies in these three <span class="math inline">\(t\)</span> tests, yielding different degrees of freedom.</p>
 </div>
 <div id="chisq.test" class="section level2">
 <h2><span class="header-section-number">5.3</span> <code>chisq.test</code></h2>
@@ -353,6 +351,11 @@ with <code>hist</code>, <code>qqnorm</code>, etc).<br />
 ## Residuals   54 191.00    3.54                       
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<hr />
+<blockquote>
+<p>When reporting any of the hypothesis tests in this section, you should always report the <em>effect size</em> too <span class="citation">(Quené <a href="#ref-quene10">2010</a>)</span>.</p>
+</blockquote>
+<hr />
 
 </div>
 </div>
@@ -361,12 +364,21 @@ with <code>hist</code>, <code>qqnorm</code>, etc).<br />
 <div id="ref-john08">
 <p>Johnson, Keith. 2008. <em>Quantitative Methods in Linguistics</em>. Blackwell.</p>
 </div>
+<div id="ref-quene10">
+<p>Quené, Hugo. 2010. “How to Design and Analyze Language Acquisition Studies.” In <em>Experimental Methods in Language Acquisition Research</em>, edited by Elma Blom and Sharon Unsworth, 269–87. Benjamins.</p>
+</div>
 <div id="ref-R-hqmisc">
 <p>Quené, Hugo. 2014. <em>Hqmisc: Miscellaneous Convenience Functions and Dataset</em>. <a href="https://CRAN.R-project.org/package=hqmisc">https://CRAN.R-project.org/package=hqmisc</a>.</p>
 </div>
 <div id="ref-wilk73">
 <p>Wilkinson, G. N., and C. E. Rogers. 1973. “Symbolic Description of Factorial Models for Analysis of Variance.” <em>Journal of the Royal Statistical Society. Series C (Applied Statistics)</em> 22 (3): 392–99.</p>
 </div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="8">
+<li id="fn8"><p>This is the smallest <span class="math inline">\(p\)</span> value that can be computed and displayed, while being different from zero. The actual value depends on your hardware, operating system, and R settings.<a href="ch-testinghypotheses.html#fnref8" class="footnote-back">↩</a></p></li>
+</ol>
 </div>
             </section>
 

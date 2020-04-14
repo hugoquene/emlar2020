@@ -1055,7 +1055,7 @@ complex models.
 
 There are three ways to use the t test.
 
-In a \textbf{one-sample \(t\) test}, the mean is compared against an expected mean,
+In a \textbf{one-sample \(t\) test}, the sample mean is compared against an expected mean \texttt{mu},
 with
 
 \begin{Shaded}
@@ -1078,9 +1078,8 @@ with
 ## 0.9980461
 \end{verbatim}
 
-In a \textbf{two-sample test with independent observations}, we often compare
-the same dependent variable, broken down by an independent
-variable.
+In a \textbf{two-sample test with independent observations}, we compare
+the same dependent variable, in two groups of sampling units; these groups are defined by an independent variable.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1125,31 +1124,31 @@ independent variables in a formula:
 ##            3.404204            2.749787
 \end{verbatim}
 
-In a \textbf{two-sample test with paired observations}, we often compare two
-different observations, stored in two different variables.
+In a \textbf{two-sample test with paired observations}, we compare the same construct, but observed under two conditions, which were ``paired'' within the same sampling units. The two observations are typically stored in two different variables.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{t.test}\NormalTok{( x1, x2 )}
+\KeywordTok{t.test}\NormalTok{( x1, x2, }\DataTypeTok{paired=}\OtherTok{TRUE}\NormalTok{ )}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
 ## 
-##  Welch Two Sample t-test
+##  Paired t-test
 ## 
 ## data:  x1 and x2
-## t = -6.3729, df = 197.68, p-value = 1.279e-09
+## t = -14.581, df = 99, p-value < 2.2e-16
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -1.2764242 -0.6731481
+##  -1.1074340 -0.8421383
 ## sample estimates:
-## mean of x mean of y 
-## 0.9980461 1.9728323
+## mean of the differences 
+##              -0.9747861
 \end{verbatim}
 
-Note that the number of observations in the test (and hence d.f.)
-varies in these examples.
+The small \(p\)-value reported here is \(p < 2.2 * 10^{-16}\) in scientific notation\footnote{This is the smallest \(p\) value that can be computed and displayed, while being different from zero. The actual value depends on your hardware, operating system, and R settings.}.
+
+Note that the number of sampling units (e.g.~participants) and of observations varies in these three \(t\) tests, yielding different degrees of freedom.
 
 \hypertarget{chisq.test}{%
 \section{\texorpdfstring{\texttt{chisq.test}}{chisq.test}}\label{chisq.test}}
@@ -1244,6 +1243,14 @@ Thus the dependent variable \texttt{aa} intentionally differs between the levels
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\begin{quote}
+When reporting any of the hypothesis tests in this section, you should always report the \emph{effect size} too \citep{quene10}.
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
 \hypertarget{ch:regression}{%
 \chapter{Regression}\label{ch:regression}}
