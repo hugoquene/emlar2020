@@ -63,7 +63,8 @@ frame*, to hold various data together. A data frame is a complex object
 like an Excel worksheet or SPSS data sheet. The columns represent
 variables, and the rows represent single observations --- these may be
 "cases" or sampling units, or single measurements repeated for each
-sampling unit, depending on the study ^[For repeated measures analyses, R does not require a multivariate or "wide" layout, with repeated measures for each participant on a single row, as SPSS does. Instead R always uses a univariate or "long" layout, with each measurement on a single row of input. See  the `reshape` command to convert between layouts, section @\ref(sec:split.merge.reshape).].
+sampling unit, depending on the study 
+^[For repeated measures analyses, R does not require a multivariate or "wide" layout, with repeated measures for each participant on a single row, as SPSS does. Instead R always uses a univariate or "long" layout, with each measurement on a single row of input. See the `reshape` command to convert between layouts, discussed in the next chapter, section \@ref(sec:split.merge.reshape).].
 
 The easiest way to create a data object is to read it from a plain-text
 (ASCII) file, using the command `read.table`.

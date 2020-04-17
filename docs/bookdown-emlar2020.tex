@@ -118,7 +118,7 @@
 
 \title{Statistics with R}
 \author{Hugo Quené}
-\date{2020-04-14}
+\date{2020-04-17}
 
 \begin{document}
 \maketitle
@@ -131,7 +131,7 @@
 \chapter*{Preface}\label{preface}}
 \addcontentsline{toc}{chapter}{Preface}
 
-This booklet is written as accompaniment to the online tutorial on \emph{Statistics with R (Basics)}, to be held as part of the workshop on Experimental Methods in Language Acquisition Research (EMLAR, \url{https://emlar.wp.hum.uu.nl/}), Utrecht, on 17 April 2020.
+This booklet is written as accompaniment to the online tutorial on \emph{Statistics with R (Basics)}, held as part of the workshop on Experimental Methods in Language Acquisition Research (EMLAR, \url{https://emlar.wp.hum.uu.nl/}), Utrecht, on 17 April 2020.
 
 Here's the abstract for the tutorial:
 
@@ -466,7 +466,8 @@ frame}, to hold various data together. A data frame is a complex object
 like an Excel worksheet or SPSS data sheet. The columns represent
 variables, and the rows represent single observations --- these may be
 ``cases'' or sampling units, or single measurements repeated for each
-sampling unit, depending on the study \footnote{For repeated measures analyses, R does not require a multivariate or ``wide'' layout, with repeated measures for each participant on a single row, as SPSS does. Instead R always uses a univariate or ``long'' layout, with each measurement on a single row of input. See the \texttt{reshape} command to convert between layouts, section @\ref(sec:split.merge.reshape).}.
+sampling unit, depending on the study
+\footnote{For repeated measures analyses, R does not require a multivariate or ``wide'' layout, with repeated measures for each participant on a single row, as SPSS does. Instead R always uses a univariate or ``long'' layout, with each measurement on a single row of input. See the \texttt{reshape} command to convert between layouts, discussed in the next chapter, section @ref(sec:split.merge.reshape).}.
 
 The easiest way to create a data object is to read it from a plain-text
 (ASCII) file, using the command \texttt{read.table}.
