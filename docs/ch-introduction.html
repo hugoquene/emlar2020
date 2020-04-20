@@ -24,7 +24,7 @@
 <meta name="author" content="Hugo Quené" />
 
 
-<meta name="date" content="2020-04-17" />
+<meta name="date" content="2020-04-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -134,7 +134,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
 <li class="chapter" data-level="1" data-path="ch-introduction.html"><a href="ch-introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
 <li class="chapter" data-level="1.1" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisR"><i class="fa fa-check"></i><b>1.1</b> What is R ?</a></li>
-<li class="chapter" data-level="1.2" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:objectorientedphilosophy"><i class="fa fa-check"></i><b>1.2</b> Object-oriented philosophy</a></li>
+<li class="chapter" data-level="1.2" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisrstudio"><i class="fa fa-check"></i><b>1.2</b> What is RStudio?</a></li>
+<li class="chapter" data-level="1.3" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:objectorientedphilosophy"><i class="fa fa-check"></i><b>1.3</b> Object-oriented philosophy</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="ch-objects.html"><a href="ch-objects.html"><i class="fa fa-check"></i><b>2</b> Objects</a><ul>
 <li class="chapter" data-level="2.1" data-path="ch-objects.html"><a href="ch-objects.html#sec:vectors"><i class="fa fa-check"></i><b>2.1</b> Vectors</a></li>
@@ -212,7 +213,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
 <p>This tutorial offers a first introduction into R.
 R is available as freeware from
-<a href="http://www.r-project.org" class="uri">http://www.r-project.org</a>, where one can also find a wealth of
+<a href="https://www.r-project.org" class="uri">https://www.r-project.org</a>, where one can also find a wealth of
 information and documentation.</p>
 <p>This tutorial assumes that R is already properly
 installed on your computer. It is further assumed that the reader has
@@ -246,8 +247,16 @@ software.</p>
 is further explained in section <a href="ch-basicoperations.html#sub:basics">3.1</a> below.</p>
 <p>The hash <code>#</code> indicates comment, which is not processed.</p>
 </div>
+<div id="sec:whatisrstudio" class="section level2">
+<h2><span class="header-section-number">1.2</span> What is RStudio?</h2>
+<p>Most users will use R in combination with the program RStudio (<a href="https://www.rstudio.com" class="uri">https://www.rstudio.com</a>). RStudio can be regarded as a wrapper around R, actively assisting you with many housekeeping tasks. (For users familiar with SPSS, this is somewhat similar to the SPSS graphical user interface wrapped around the SPSS “engine”). After opening, RStudio displays three or four panels or panes, with multiple tabs (in bold) within each pane.</p>
+<p>The left panel, or lower left panel, has a tab named <strong>Console</strong> which importantly contains the current R session. You can input R commands there (try typing <code>date()</code> and press Enter) and see the output (warning and error messages are displayed in red).</p>
+<p>In the top right panel, the tab <strong>Environment</strong> lists all objects in the workspace (see explanation below), and the tab <strong>History</strong> lists your previously entered R commands.</p>
+<p>In the bottom right panel, the tab <strong>Files</strong> shows files in your current folder or directory, <strong>Plots</strong> contains plots produced by R/RStudio, and <strong>Help</strong> gives you access to help information.</p>
+<p>You could work your way through most of this booklet using only the <strong>Console</strong> tab of RStudio, but most users find R+RStudio far easier to work with than R by itself.</p>
+</div>
 <div id="sec:objectorientedphilosophy" class="section level2">
-<h2><span class="header-section-number">1.2</span> Object-oriented philosophy</h2>
+<h2><span class="header-section-number">1.3</span> Object-oriented philosophy</h2>
 <p>R works in an object-oriented way. This means that
 <em>objects</em> are the most important things in R , and <em>not</em>
 the actions we perform with these objects. Let’s use a culinary example

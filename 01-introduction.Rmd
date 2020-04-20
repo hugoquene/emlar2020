@@ -1,8 +1,8 @@
 # Introduction {#ch:introduction}
 
 This tutorial offers a first introduction into R. 
-R  is available as freeware from
-<http://www.r-project.org>, where one can also find a wealth of
+R is available as freeware from
+<https://www.r-project.org>, where one can also find a wealth of
 information and documentation.
 
 This tutorial assumes that R is already properly
@@ -50,6 +50,18 @@ The assignment operator `<-`
 is further explained in section \@ref(sub:basics) below. 
 
 The hash `#` indicates comment, which is not processed.
+
+## What is RStudio? {#sec:whatisrstudio}
+
+Most users will use R in combination with the program RStudio (<https://www.rstudio.com>). RStudio can be regarded as a wrapper around R, actively assisting you with many housekeeping tasks. (For users familiar with SPSS, this is somewhat similar to the SPSS graphical user interface wrapped around the SPSS "engine"). After opening, RStudio displays three or four panels or panes, with multiple tabs (in bold) within each pane. 
+
+The left panel, or lower left panel, has a tab named **Console** which importantly contains the current R session. You can input R commands there (try typing `date()` and press Enter) and see the output (warning and error messages are displayed in red). 
+
+In the top right panel, the tab **Environment** lists all objects in the workspace (see explanation below), and the tab **History** lists your previously entered R commands. 
+
+In the bottom right panel, the tab **Files** shows files in your current folder or directory, **Plots** contains plots produced by R/RStudio, and **Help** gives you access to help information. 
+
+You could work your way through most of this booklet using only the **Console** tab of RStudio, but most users find R+RStudio far easier to work with than R by itself. 
 
 ## Object-oriented philosophy {#sec:objectorientedphilosophy}
 
