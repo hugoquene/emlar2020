@@ -1,39 +1,46 @@
-\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 %
-\documentclass[]{book}
+\documentclass[
+]{book}
+\usepackage{amsmath,amssymb}
 \usepackage{lmodern}
-\usepackage{amssymb,amsmath}
-\usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+\usepackage{iftex}
+\ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provides euro and other symbols
-\else % if luatex or xelatex
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
   \usepackage{unicode-math}
-  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-% use upquote if available, for straight quotes in verbatim environments
+% Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-% use microtype if available
-\IfFileExists{microtype.sty}{%
-\usepackage[]{microtype}
-\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\IfFileExists{parskip.sty}{%
-\usepackage{parskip}
-}{% else
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{6pt plus 2pt minus 1pt}
-}
-\usepackage{hyperref}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \hypersetup{
-            pdftitle={Statistics with R},
-            pdfauthor={Hugo Quené},
-            pdfborder={0 0 0},
-            breaklinks=true}
-\urlstyle{same}  % don't use monospace font for urls
+  pdftitle={Statistics with R},
+  pdfauthor={Hugo Quené},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
 \usepackage{color}
 \usepackage{fancyvrb}
 \newcommand{\VerbBar}{|}
@@ -74,10 +81,17 @@
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\usepackage{longtable,booktabs}
-% Fix footnotes in tables (requires footnote package)
-\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
-\usepackage{graphicx,grffile}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -86,25 +100,14 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\setlength{\emergencystretch}{3em}  % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{5}
-% Redefines (sub)paragraphs to behave more like sections
-\ifx\paragraph\undefined\else
-\let\oldparagraph\paragraph
-\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-\let\oldsubparagraph\subparagraph
-\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-
-% set default figure placement to htbp
+% Set default figure placement to htbp
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
-
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
 \usepackage{booktabs}
 \usepackage{amsthm}
 \makeatletter
@@ -113,12 +116,15 @@
   \thm@postskip=\thm@preskip
 }
 \makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
 
 \title{Statistics with R}
 \author{Hugo Quené}
-\date{2020-04-20}
+\date{2022-03-15}
 
 \begin{document}
 \maketitle
@@ -136,7 +142,7 @@ This booklet is written as accompaniment to the online tutorial on \emph{Statist
 Here's the abstract for the tutorial:
 
 \begin{quote}
-This tutorial will introduce the R programming environment for statistical analysis. Contrary to SPSS which is procedure-oriented (commands are verbs, e.g. ``compute''), R is object-oriented (objects are nouns, e.g. ``factor''). In this workshop, we will try to ease the learning curve of using R for your data analysis. Experience with statistical software is NOT required! We will use data simulation as well as real data sets, to explore topics like t-tests, \(\chi^2\) tests, and regression. We will also show how R produces publication-quality figures.
+This tutorial will introduce the R programming environment for statistical analysis. Contrary to SPSS which is procedure-oriented (commands are verbs, e.g.~``compute''), R is object-oriented (objects are nouns, e.g.~``factor''). In this workshop, we will try to ease the learning curve of using R for your data analysis. Experience with statistical software is NOT required! We will use data simulation as well as real data sets, to explore topics like t-tests, \(\chi^2\) tests, and regression. We will also show how R produces publication-quality figures.
 \end{quote}
 
 This document is licensed under the \emph{GNU GPL 3} license (for details see
@@ -146,8 +152,14 @@ Hugo Quené, Utrecht institute of Linguistics OTS, Utrecht University
 
 \url{https://www.hugoquene.nl}
 
-\hypertarget{ch:introduction}{%
-\chapter{Introduction}\label{ch:introduction}}
+\hypertarget{versions}{%
+\section*{Versions}\label{versions}}
+\addcontentsline{toc}{section}{Versions}
+
+2022.03.15: minor security issues fixed (packages updated, crossref chapter labels fixed, then recompiled entire book)
+
+\hypertarget{ch-introduction}{%
+\chapter{Introduction}\label{ch-introduction}}
 
 This tutorial offers a first introduction into R.
 R is available as freeware from
@@ -176,7 +188,7 @@ Perhaps surprisingly, R is several things at once:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{firstmodel.lm <-}\StringTok{ }\KeywordTok{lm}\NormalTok{( syldur}\OperatorTok{~}\NormalTok{age, }\DataTypeTok{data=}\NormalTok{talkers ) }\CommentTok{# linear-model regression}
+\NormalTok{firstmodel.lm }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{( syldur}\SpecialCharTok{\textasciitilde{}}\NormalTok{age, }\AttributeTok{data=}\NormalTok{talkers ) }\CommentTok{\# linear{-}model regression}
 \end{Highlighting}
 \end{Shaded}
 
@@ -188,8 +200,8 @@ Perhaps surprisingly, R is several things at once:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# 440 Hz is `how many` semitones above 110 Hz?}
-\NormalTok{( }\KeywordTok{log}\NormalTok{(}\DecValTok{440}\NormalTok{)}\OperatorTok{-}\KeywordTok{log}\NormalTok{(}\DecValTok{110}\NormalTok{) ) }\OperatorTok{/}\StringTok{ }\KeywordTok{log}\NormalTok{(}\DecValTok{2}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{12}\NormalTok{)) }
+\CommentTok{\# 440 Hz is \textasciigrave{}how many\textasciigrave{} semitones above 110 Hz?}
+\NormalTok{( }\FunctionTok{log}\NormalTok{(}\DecValTok{440}\NormalTok{)}\SpecialCharTok{{-}}\FunctionTok{log}\NormalTok{(}\DecValTok{110}\NormalTok{) ) }\SpecialCharTok{/} \FunctionTok{log}\NormalTok{(}\DecValTok{2}\SpecialCharTok{\^{}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{12}\NormalTok{)) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -205,10 +217,10 @@ Perhaps surprisingly, R is several things at once:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# function to convert hertz to semitones, relative to `base`, by Mark Liberman}
-\NormalTok{h2st <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{( h, }\DataTypeTok{base=}\DecValTok{110}\NormalTok{ ) \{ }
-\NormalTok{  semi1 <-}\StringTok{ }\KeywordTok{log}\NormalTok{(}\DecValTok{2}\OperatorTok{^}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{12}\NormalTok{)) }\CommentTok{# log of frequency ratio of 1 semitone}
-  \KeywordTok{return}\NormalTok{( ( }\KeywordTok{log}\NormalTok{(h)}\OperatorTok{-}\KeywordTok{log}\NormalTok{(base) ) }\OperatorTok{/}\StringTok{ }\NormalTok{semi1 ) \} }\CommentTok{# compare with above}
+\CommentTok{\# function to convert hertz to semitones, relative to \textasciigrave{}base\textasciigrave{}, by Mark Liberman}
+\NormalTok{h2st }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{( h, }\AttributeTok{base=}\DecValTok{110}\NormalTok{ ) \{ }
+\NormalTok{  semi1 }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(}\DecValTok{2}\SpecialCharTok{\^{}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{12}\NormalTok{)) }\CommentTok{\# log of frequency ratio of 1 semitone}
+  \FunctionTok{return}\NormalTok{( ( }\FunctionTok{log}\NormalTok{(h)}\SpecialCharTok{{-}}\FunctionTok{log}\NormalTok{(base) ) }\SpecialCharTok{/}\NormalTok{ semi1 ) \} }\CommentTok{\# compare with above}
 \end{Highlighting}
 \end{Shaded}
 
@@ -334,8 +346,8 @@ further R functions.
 from: \url{https://cran.r-project.org/doc/manuals/R-intro.html\#R-and-statistics}
 \end{quote}
 
-\hypertarget{ch:objects}{%
-\chapter{Objects}\label{ch:objects}}
+\hypertarget{ch-objects}{%
+\chapter{Objects}\label{ch-objects}}
 
 \hypertarget{sec:vectors}{%
 \section{Vectors}\label{sec:vectors}}
@@ -359,8 +371,8 @@ logical (i.e., boolean, \texttt{TRUE} or
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x <-}\StringTok{ }\DecValTok{1}\OperatorTok{:}\DecValTok{5}
-\KeywordTok{print}\NormalTok{(x)}
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{5}
+\FunctionTok{print}\NormalTok{(x)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -370,7 +382,7 @@ logical (i.e., boolean, \texttt{TRUE} or
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\DecValTok{2}\OperatorTok{*}\NormalTok{(x}\DecValTok{-1}\NormalTok{)}
+\DecValTok{2}\SpecialCharTok{*}\NormalTok{(x}\DecValTok{{-}1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -393,7 +405,7 @@ R as a pocket calculator.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x <-}\StringTok{ }\KeywordTok{rep}\NormalTok{( }\DecValTok{1}\OperatorTok{:}\DecValTok{5}\NormalTok{, }\DataTypeTok{each=}\DecValTok{2}\NormalTok{ )}
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{( }\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{, }\AttributeTok{each=}\DecValTok{2}\NormalTok{ )}
 \NormalTok{x}
 \end{Highlighting}
 \end{Shaded}
@@ -413,8 +425,8 @@ as illustrated in the examples below.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x1 <-}\StringTok{ }\KeywordTok{rep}\NormalTok{( }\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{, }\DataTypeTok{each=}\DecValTok{2}\NormalTok{ ) }\CommentTok{# create vector of numbers}
-\KeywordTok{print}\NormalTok{(x1) }\CommentTok{# numeric}
+\NormalTok{x1 }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{( }\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{, }\AttributeTok{each=}\DecValTok{2}\NormalTok{ ) }\CommentTok{\# create vector of numbers}
+\FunctionTok{print}\NormalTok{(x1) }\CommentTok{\# numeric}
 \end{Highlighting}
 \end{Shaded}
 
@@ -424,7 +436,7 @@ as illustrated in the examples below.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(x1) }\CommentTok{# of numeric vector}
+\FunctionTok{summary}\NormalTok{(x1) }\CommentTok{\# of numeric vector}
 \end{Highlighting}
 \end{Shaded}
 
@@ -435,8 +447,8 @@ as illustrated in the examples below.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x2 <-}\StringTok{ }\KeywordTok{as.character}\NormalTok{(x1) }\CommentTok{# convert to char}
-\KeywordTok{print}\NormalTok{(x2) }\CommentTok{# character vector}
+\NormalTok{x2 }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(x1) }\CommentTok{\# convert to char}
+\FunctionTok{print}\NormalTok{(x2) }\CommentTok{\# character vector}
 \end{Highlighting}
 \end{Shaded}
 
@@ -446,8 +458,8 @@ as illustrated in the examples below.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x3 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(x1) }\CommentTok{# convert to factor}
-\KeywordTok{print}\NormalTok{(x3) }\CommentTok{# factor}
+\NormalTok{x3 }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(x1) }\CommentTok{\# convert to factor}
+\FunctionTok{print}\NormalTok{(x3) }\CommentTok{\# factor}
 \end{Highlighting}
 \end{Shaded}
 
@@ -458,7 +470,7 @@ as illustrated in the examples below.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{(x3) }\CommentTok{# compare against summary(x1) above }
+\FunctionTok{summary}\NormalTok{(x3) }\CommentTok{\# compare against summary(x1) above }
 \end{Highlighting}
 \end{Shaded}
 
@@ -503,26 +515,26 @@ myexp <- read.table(
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{nlspkr <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}
-  \DataTypeTok{file=}\KeywordTok{url}\NormalTok{(}\StringTok{"http://www.hugoquene.nl/emlar/intra.bysubj.txt"}\NormalTok{),}
-  \DataTypeTok{header=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{na.strings=}\KeywordTok{c}\NormalTok{(}\StringTok{"NA"}\NormalTok{,}\StringTok{"MISSING"}\NormalTok{) )}
+\NormalTok{nlspkr }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}
+  \AttributeTok{file=}\FunctionTok{url}\NormalTok{(}\StringTok{"http://www.hugoquene.nl/emlar/intra.bysubj.txt"}\NormalTok{),}
+  \AttributeTok{header=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{na.strings=}\FunctionTok{c}\NormalTok{(}\StringTok{"NA"}\NormalTok{,}\StringTok{"MISSING"}\NormalTok{) )}
 \end{Highlighting}
 \end{Shaded}
 
-It is also possible to read so-called CSV files (comma-separated values) saved from Excel or SPSS (\texttt{read.csv}), and it is also possible to read Excel or SPSS data files directly using extension packages (\texttt{readxl::readxl}, \texttt{foreign::read.spss}, see Chapter \ref{ch:packages}).
+It is also possible to read so-called CSV files (comma-separated values) saved from Excel or SPSS (\texttt{read.csv}), and it is also possible to read Excel or SPSS data files directly using extension packages (\texttt{readxl::readxl}, \texttt{foreign::read.spss}, see Chapter \ref{ch-packages}).
 
 The basic R and extension packages already have many
 datasets pre-defined, for immediate use.
 To see a long(!) overview of these datasets, enter the command \texttt{data()}.
 
-\hypertarget{ch:basicoperations}{%
-\chapter{Basic operations}\label{ch:basicoperations}}
+\hypertarget{ch-basicoperations}{%
+\chapter{Basic operations}\label{ch-basicoperations}}
 
 \hypertarget{sub:basics}{%
 \section{Basics}\label{sub:basics}}
 
 \hypertarget{section}{%
-\subsection{\texorpdfstring{\texttt{\textless{}-}}{\textless{}-}}\label{section}}
+\subsection{\texorpdfstring{\texttt{\textless{}-}}{\textless-}}\label{section}}
 
 This is the assignment operator: the expression to its right is
 evaluated (if applicable) and then assigned to the object on the
@@ -540,8 +552,8 @@ Use spaces or brackets to avoid ambiguities and errors:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x <-}\StringTok{ }\DecValTok{10} \CommentTok{# assignment of atomic value 10 to object x}
-\NormalTok{x }\OperatorTok{<}\StringTok{ }\OperatorTok{-}\StringTok{ }\DecValTok{10} \CommentTok{# is value of x less than -10 ?}
+\NormalTok{x }\OtherTok{\textless{}{-}} \DecValTok{10} \CommentTok{\# assignment of atomic value 10 to object x}
+\NormalTok{x }\SpecialCharTok{\textless{}} \SpecialCharTok{{-}} \DecValTok{10} \CommentTok{\# is value of x less than {-}10 ?}
 \end{Highlighting}
 \end{Shaded}
 
@@ -617,7 +629,7 @@ copies of your data sets.
 \section{Subselection}\label{sec:subselection}}
 
 Subselection within an object is a very powerful tool in
-R. The subselection operator \texttt{x{[}\ldots{}{]}} selects only those data from object \texttt{x}
+R. The subselection operator \texttt{x{[}…{]}} selects only those data from object \texttt{x}
 that match the expression within square brackets. This expression can be a
 single index number, a sequence or list of numbers, or an evaluated
 expression, as illustrated in the following example.
@@ -629,9 +641,9 @@ the output of \texttt{is.na} is the input of
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# is.na() returns TRUE/FALSE for each element of ’x’. }
-\CommentTok{# table() summarizes categorical data }
-\KeywordTok{table}\NormalTok{( }\KeywordTok{is.na}\NormalTok{(x) ) }
+\CommentTok{\# is.na() returns TRUE/FALSE for each element of ’x’. }
+\CommentTok{\# table() summarizes categorical data }
+\FunctionTok{table}\NormalTok{( }\FunctionTok{is.na}\NormalTok{(x) ) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -643,8 +655,8 @@ the output of \texttt{is.na} is the input of
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ok <-}\StringTok{ }\OperatorTok{!}\KeywordTok{is.na}\NormalTok{( x ) }\CommentTok{# exclamation mark means NOT }
-\KeywordTok{which}\NormalTok{( }\OperatorTok{!}\NormalTok{ok ) }\CommentTok{# which index numbers are NOT ok? inspect! }
+\NormalTok{ok }\OtherTok{\textless{}{-}} \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{( x ) }\CommentTok{\# exclamation mark means NOT }
+\FunctionTok{which}\NormalTok{( }\SpecialCharTok{!}\NormalTok{ok ) }\CommentTok{\# which index numbers are NOT ok? inspect! }
 \end{Highlighting}
 \end{Shaded}
 
@@ -654,7 +666,7 @@ the output of \texttt{is.na} is the input of
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{mean}\NormalTok{( x[ok] ) }\CommentTok{# select ok values, compute mean, display }
+\FunctionTok{mean}\NormalTok{( x[ok] ) }\CommentTok{\# select ok values, compute mean, display }
 \end{Highlighting}
 \end{Shaded}
 
@@ -670,9 +682,9 @@ data frame should be kept in the output.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{require}\NormalTok{(hqmisc)}
-\KeywordTok{data}\NormalTok{(talkers)}
-\KeywordTok{subset}\NormalTok{( talkers, }\DataTypeTok{subset=}\NormalTok{( age}\OperatorTok{<}\DecValTok{45} \OperatorTok{&}\StringTok{ }\NormalTok{region}\OperatorTok{==}\StringTok{"W"}\NormalTok{ ) )}
+\FunctionTok{require}\NormalTok{(hqmisc)}
+\FunctionTok{data}\NormalTok{(talkers)}
+\FunctionTok{subset}\NormalTok{( talkers, }\AttributeTok{subset=}\NormalTok{( age}\SpecialCharTok{\textless{}}\DecValTok{45} \SpecialCharTok{\&}\NormalTok{ region}\SpecialCharTok{==}\StringTok{"W"}\NormalTok{ ) )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -691,7 +703,7 @@ data frame should be kept in the output.
 \end{verbatim}
 
 This command selects rows from data frame \texttt{talkers} from the package \texttt{hqmisc}\\
-(see \ref{ch:packages}) corresponding to speakers who are under 45 years of age, and who are from the West region.
+(see \ref{ch-packages}) corresponding to speakers who are under 45 years of age, and who are from the West region.
 
 \hypertarget{sec:split.merge.reshape}{%
 \section{Split, merge, reshape}\label{sec:split.merge.reshape}}
@@ -702,16 +714,16 @@ of English vowels, with a phonological feature for each vowel, and with the aver
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{vowelsymb <-}\StringTok{ }\KeywordTok{c}\NormalTok{( }\StringTok{"i"}\NormalTok{,}\StringTok{"I"}\NormalTok{,}\StringTok{"e"}\NormalTok{,}\StringTok{"E"}\NormalTok{,}\StringTok{"ae"}\NormalTok{, }\StringTok{"A"}\NormalTok{,}\StringTok{"V"}\NormalTok{,}\StringTok{"o"}\NormalTok{,}\StringTok{"U"}\NormalTok{,}\StringTok{"u"}\NormalTok{, }\StringTok{"@"}\NormalTok{ )}
-\NormalTok{v1df <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{( }\DataTypeTok{vowel=}\NormalTok{vowelsymb,}
-                    \DataTypeTok{feat=}\KeywordTok{factor}\NormalTok{( }\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\StringTok{"front"}\NormalTok{,}\DecValTok{5}\NormalTok{),}
-                                   \KeywordTok{rep}\NormalTok{(}\StringTok{"back"}\NormalTok{,}\DecValTok{5}\NormalTok{),}
+\NormalTok{vowelsymb }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{( }\StringTok{"i"}\NormalTok{,}\StringTok{"I"}\NormalTok{,}\StringTok{"e"}\NormalTok{,}\StringTok{"E"}\NormalTok{,}\StringTok{"ae"}\NormalTok{, }\StringTok{"A"}\NormalTok{,}\StringTok{"V"}\NormalTok{,}\StringTok{"o"}\NormalTok{,}\StringTok{"U"}\NormalTok{,}\StringTok{"u"}\NormalTok{, }\StringTok{"@"}\NormalTok{ )}
+\NormalTok{v1df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{( }\AttributeTok{vowel=}\NormalTok{vowelsymb,}
+                    \AttributeTok{feat=}\FunctionTok{factor}\NormalTok{( }\FunctionTok{c}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\StringTok{"front"}\NormalTok{,}\DecValTok{5}\NormalTok{),}
+                                   \FunctionTok{rep}\NormalTok{(}\StringTok{"back"}\NormalTok{,}\DecValTok{5}\NormalTok{),}
                                    \StringTok{"central"}\NormalTok{ ) ),}
-                    \DataTypeTok{F2=}\KeywordTok{c}\NormalTok{( }\DecValTok{2290}\NormalTok{,}\DecValTok{1990}\NormalTok{,}\OtherTok{NA}\NormalTok{,}\DecValTok{1840}\NormalTok{,}\DecValTok{1720}\NormalTok{, }
-                          \DecValTok{1090}\NormalTok{,}\DecValTok{1190}\NormalTok{,}\OtherTok{NA}\NormalTok{,}\DecValTok{1020}\NormalTok{,}\DecValTok{870}\NormalTok{,}
-                          \OtherTok{NA}\NormalTok{ ) )}
-\NormalTok{v2df <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{( }\DataTypeTok{vowel=}\NormalTok{vowelsymb[}\DecValTok{1}\OperatorTok{:}\DecValTok{10}\NormalTok{], }
-                    \DataTypeTok{word=}\KeywordTok{c}\NormalTok{(}\StringTok{"fleece"}\NormalTok{,}\StringTok{"kit"}\NormalTok{,}\StringTok{"face"}\NormalTok{,}\StringTok{"dress"}\NormalTok{,}\StringTok{"trap"}\NormalTok{, }
+                    \AttributeTok{F2=}\FunctionTok{c}\NormalTok{( }\DecValTok{2290}\NormalTok{,}\DecValTok{1990}\NormalTok{,}\ConstantTok{NA}\NormalTok{,}\DecValTok{1840}\NormalTok{,}\DecValTok{1720}\NormalTok{, }
+                          \DecValTok{1090}\NormalTok{,}\DecValTok{1190}\NormalTok{,}\ConstantTok{NA}\NormalTok{,}\DecValTok{1020}\NormalTok{,}\DecValTok{870}\NormalTok{,}
+                          \ConstantTok{NA}\NormalTok{ ) )}
+\NormalTok{v2df }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{( }\AttributeTok{vowel=}\NormalTok{vowelsymb[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{], }
+                    \AttributeTok{word=}\FunctionTok{c}\NormalTok{(}\StringTok{"fleece"}\NormalTok{,}\StringTok{"kit"}\NormalTok{,}\StringTok{"face"}\NormalTok{,}\StringTok{"dress"}\NormalTok{,}\StringTok{"trap"}\NormalTok{, }
                            \StringTok{"lot"}\NormalTok{,}\StringTok{"strut"}\NormalTok{,}\StringTok{"goat"}\NormalTok{,}\StringTok{"foot"}\NormalTok{,}\StringTok{"goose"}\NormalTok{) )}
 \end{Highlighting}
 \end{Shaded}
@@ -724,7 +736,7 @@ data frame \texttt{v1df}) into the groups defined by the second argument.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{with}\NormalTok{( v1df, }\KeywordTok{split}\NormalTok{(F2,feat) ) ->}\StringTok{ }\NormalTok{v1list }
+\FunctionTok{with}\NormalTok{( v1df, }\FunctionTok{split}\NormalTok{(F2,feat) ) }\OtherTok{{-}\textgreater{}}\NormalTok{ v1list }
 \end{Highlighting}
 \end{Shaded}
 
@@ -735,7 +747,7 @@ separately:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{with}\NormalTok{(v1df, }\KeywordTok{lapply}\NormalTok{( }\KeywordTok{split}\NormalTok{(F2,feat), mean, }\DataTypeTok{na.rm=}\NormalTok{T ) ) }
+\FunctionTok{with}\NormalTok{(v1df, }\FunctionTok{lapply}\NormalTok{( }\FunctionTok{split}\NormalTok{(F2,feat), mean, }\AttributeTok{na.rm=}\NormalTok{T ) ) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -761,7 +773,7 @@ output, with NA's in the appropriate columns.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{m1 <-}\StringTok{ }\KeywordTok{merge}\NormalTok{(v1df, v2df)}
+\NormalTok{m1 }\OtherTok{\textless{}{-}} \FunctionTok{merge}\NormalTok{(v1df, v2df)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -784,9 +796,9 @@ To illustrate, first we read a wide data set:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{widedata <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{( }
-  \DataTypeTok{file=}\KeywordTok{url}\NormalTok{(}\StringTok{"http://www.hugoquene.nl/emlar/widedata.txt"}\NormalTok{),}
-  \DataTypeTok{header=}\NormalTok{T)}
+\NormalTok{widedata }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{( }
+  \AttributeTok{file=}\FunctionTok{url}\NormalTok{(}\StringTok{"http://www.hugoquene.nl/emlar/widedata.txt"}\NormalTok{),}
+  \AttributeTok{header=}\NormalTok{T)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -796,7 +808,7 @@ numbers):
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{head}\NormalTok{(widedata)}
+\FunctionTok{head}\NormalTok{(widedata)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -815,10 +827,10 @@ command:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{longdata <-}\StringTok{ }\KeywordTok{reshape}\NormalTok{( widedata, }\DataTypeTok{direction=}\StringTok{"long"}\NormalTok{,}
-                     \DataTypeTok{varying=}\KeywordTok{c}\NormalTok{(}\StringTok{"item1"}\NormalTok{,}\StringTok{"item2"}\NormalTok{,}\StringTok{"item3"}\NormalTok{),}
-                     \DataTypeTok{timevar=}\StringTok{"item"}\NormalTok{, }\DataTypeTok{times=}\KeywordTok{c}\NormalTok{(}\StringTok{"1"}\NormalTok{,}\StringTok{"2"}\NormalTok{,}\StringTok{"3"}\NormalTok{),}
-                     \DataTypeTok{v.names=}\StringTok{"resp"}\NormalTok{, }\DataTypeTok{idvar=}\StringTok{"subject"}\NormalTok{)}
+\NormalTok{longdata }\OtherTok{\textless{}{-}} \FunctionTok{reshape}\NormalTok{( widedata, }\AttributeTok{direction=}\StringTok{"long"}\NormalTok{,}
+                     \AttributeTok{varying=}\FunctionTok{c}\NormalTok{(}\StringTok{"item1"}\NormalTok{,}\StringTok{"item2"}\NormalTok{,}\StringTok{"item3"}\NormalTok{),}
+                     \AttributeTok{timevar=}\StringTok{"item"}\NormalTok{, }\AttributeTok{times=}\FunctionTok{c}\NormalTok{(}\StringTok{"1"}\NormalTok{,}\StringTok{"2"}\NormalTok{,}\StringTok{"3"}\NormalTok{),}
+                     \AttributeTok{v.names=}\StringTok{"resp"}\NormalTok{, }\AttributeTok{idvar=}\StringTok{"subject"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -830,8 +842,8 @@ information contained in the multiple column names of
 \texttt{timevar}, using the values \texttt{times}.
 Inspect the two data frames to verify this.
 
-\hypertarget{ch:EDA}{%
-\chapter{Exploratory data analyses}\label{ch:EDA}}
+\hypertarget{ch-EDA}{%
+\chapter{Exploratory data analyses}\label{ch-EDA}}
 
 R is more graphically oriented than most other
 statistical packages; it relies more on plots and figures for initial
@@ -866,8 +878,8 @@ commands \footnote{The semicolon separates multiple R commands on a single line 
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x<-}\KeywordTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{) }
-\KeywordTok{hist}\NormalTok{(x,}\DataTypeTok{col=}\StringTok{"lightblue"}\NormalTok{); }\KeywordTok{rug}\NormalTok{(x,}\DataTypeTok{col=}\StringTok{"darkblue"}\NormalTok{)}
+\NormalTok{x}\OtherTok{\textless{}{-}}\FunctionTok{rnorm}\NormalTok{(}\DecValTok{100}\NormalTok{) }
+\FunctionTok{hist}\NormalTok{(x,}\AttributeTok{col=}\StringTok{"lightblue"}\NormalTok{); }\FunctionTok{rug}\NormalTok{(x,}\AttributeTok{col=}\StringTok{"darkblue"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -890,8 +902,8 @@ to the numbers of observations.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{boxplot}\NormalTok{( x, }\DataTypeTok{col=}\StringTok{"lightblue"}\NormalTok{, }\DataTypeTok{horizontal=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{notch=}\OtherTok{TRUE}\NormalTok{, }\DataTypeTok{varwidth=}\OtherTok{TRUE}\NormalTok{ )}
-\KeywordTok{rug}\NormalTok{(x, }\DataTypeTok{col=}\StringTok{"darkblue"}\NormalTok{ )}
+\FunctionTok{boxplot}\NormalTok{( x, }\AttributeTok{col=}\StringTok{"lightblue"}\NormalTok{, }\AttributeTok{horizontal=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{notch=}\ConstantTok{TRUE}\NormalTok{, }\AttributeTok{varwidth=}\ConstantTok{TRUE}\NormalTok{ )}
+\FunctionTok{rug}\NormalTok{(x, }\AttributeTok{col=}\StringTok{"darkblue"}\NormalTok{ )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -933,8 +945,8 @@ of data, as a preliminary for further analyses.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{valid.n <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x) \{ }
-  \KeywordTok{length}\NormalTok{(x)}\OperatorTok{-}\KeywordTok{length}\NormalTok{(}\KeywordTok{which}\NormalTok{(}\KeywordTok{is.na}\NormalTok{(x))) }
+\NormalTok{valid.n }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{ }
+  \FunctionTok{length}\NormalTok{(x)}\SpecialCharTok{{-}}\FunctionTok{length}\NormalTok{(}\FunctionTok{which}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(x))) }
 \NormalTok{  \}}
 \end{Highlighting}
 \end{Shaded}
@@ -952,7 +964,7 @@ checking your data.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{); }\KeywordTok{unique}\NormalTok{(x); }\KeywordTok{sort}\NormalTok{(}\KeywordTok{unique}\NormalTok{(x))}
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{); }\FunctionTok{unique}\NormalTok{(x); }\FunctionTok{sort}\NormalTok{(}\FunctionTok{unique}\NormalTok{(x))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -977,7 +989,7 @@ frequency table of a frequency table!
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{,}\DataTypeTok{each=}\DecValTok{7}\NormalTok{); }\KeywordTok{table}\NormalTok{(x) }\CommentTok{# three cells, each 7 observations, N=21}
+\NormalTok{x }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{,}\AttributeTok{each=}\DecValTok{7}\NormalTok{); }\FunctionTok{table}\NormalTok{(x) }\CommentTok{\# three cells, each 7 observations, N=21}
 \end{Highlighting}
 \end{Shaded}
 
@@ -989,7 +1001,7 @@ frequency table of a frequency table!
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{table}\NormalTok{( }\KeywordTok{table}\NormalTok{(x) ) }\CommentTok{# ok: all three cells have 7 observations, N=21}
+\FunctionTok{table}\NormalTok{( }\FunctionTok{table}\NormalTok{(x) ) }\CommentTok{\# ok: all three cells have 7 observations, N=21}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1005,8 +1017,8 @@ a single number representing the number of \emph{cells}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x[ }\KeywordTok{sample}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\OperatorTok{*}\DecValTok{7}\NormalTok{, }\DataTypeTok{size=}\DecValTok{2}\NormalTok{) ] <-}\StringTok{ }\OtherTok{NA} \CommentTok{# replace 2 out of 21 obs by NA}
-\KeywordTok{table}\NormalTok{( }\KeywordTok{table}\NormalTok{(x) ) }\CommentTok{# not ok: not all three cells have 7 observations, N<21}
+\NormalTok{x[ }\FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\SpecialCharTok{*}\DecValTok{7}\NormalTok{, }\AttributeTok{size=}\DecValTok{2}\NormalTok{) ] }\OtherTok{\textless{}{-}} \ConstantTok{NA} \CommentTok{\# replace 2 out of 21 obs by NA}
+\FunctionTok{table}\NormalTok{( }\FunctionTok{table}\NormalTok{(x) ) }\CommentTok{\# not ok: not all three cells have 7 observations, N\textless{}21}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1016,7 +1028,7 @@ a single number representing the number of \emph{cells}.
 ## 2 1
 \end{verbatim}
 
-The \texttt{lattice} package (see Chapter \ref{ch:packages}) contains additional functions for higher-order data visualization:
+The \texttt{lattice} package (see Chapter \ref{ch-packages}) contains additional functions for higher-order data visualization:
 \texttt{xyplot},
 \texttt{histogram},
 \texttt{densityplot},
@@ -1029,11 +1041,11 @@ and more. For more information, enter the command
 Now that we have obtained some insightful figures, we might want to
 include these in our documents. The best procedure in Rstudio is to go to the Plots tab in the lower right pane, and select \texttt{Export\ \textgreater{}\ Save\ as\ image...} or \texttt{Export\ \textgreater{}\ Save\ as\ PDF...}. Figures in PDF format (extension
 \texttt{pdf}) are easy to include in LaTeX documents, and are best for
-publication. Other formats (e.g. \texttt{png}) are easy to include
+publication. Other formats (e.g.~\texttt{png}) are easy to include
 in LaTeX, MS Word and web documents.
 
-\hypertarget{ch:testinghypotheses}{%
-\chapter{Testing hypotheses}\label{ch:testinghypotheses}}
+\hypertarget{ch-testinghypotheses}{%
+\chapter{Testing hypotheses}\label{ch-testinghypotheses}}
 
 \hypertarget{formula}{%
 \section{formula}\label{formula}}
@@ -1074,7 +1086,7 @@ with
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{t.test}\NormalTok{( x1, }\DataTypeTok{mu=}\FloatTok{0.80}\NormalTok{ )}
+\FunctionTok{t.test}\NormalTok{( x1, }\AttributeTok{mu=}\FloatTok{0.80}\NormalTok{ )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1097,7 +1109,7 @@ the same dependent variable, in two groups of sampling units; these groups are d
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{t.test}\NormalTok{( y[x1}\OperatorTok{<}\KeywordTok{median}\NormalTok{(x1)], y[x1}\OperatorTok{>}\KeywordTok{median}\NormalTok{(x1)] ) }\CommentTok{# groups by median split of x1}
+\FunctionTok{t.test}\NormalTok{( y[x1}\SpecialCharTok{\textless{}}\FunctionTok{median}\NormalTok{(x1)], y[x1}\SpecialCharTok{\textgreater{}}\FunctionTok{median}\NormalTok{(x1)] ) }\CommentTok{\# groups by median split of x1}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1120,7 +1132,7 @@ independent variables in a formula:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{t.test}\NormalTok{( y }\OperatorTok{~}\StringTok{ }\NormalTok{(x1}\OperatorTok{<}\KeywordTok{median}\NormalTok{(x1)) ) }\CommentTok{# equivalent}
+\FunctionTok{t.test}\NormalTok{( y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ (x1}\SpecialCharTok{\textless{}}\FunctionTok{median}\NormalTok{(x1)) ) }\CommentTok{\# equivalent}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1130,7 +1142,7 @@ independent variables in a formula:
 ## 
 ## data:  y by x1 < median(x1)
 ## t = 3.3044, df = 94.766, p-value = 0.001345
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true difference in means between group FALSE and group TRUE is not equal to 0
 ## 95 percent confidence interval:
 ##  0.2612324 1.0476023
 ## sample estimates:
@@ -1142,7 +1154,7 @@ In a \textbf{two-sample test with paired observations}, we compare the same cons
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{t.test}\NormalTok{( x1, x2, }\DataTypeTok{paired=}\OtherTok{TRUE}\NormalTok{ )}
+\FunctionTok{t.test}\NormalTok{( x1, x2, }\AttributeTok{paired=}\ConstantTok{TRUE}\NormalTok{ )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1177,10 +1189,10 @@ old) and of \texttt{phraselength} (short and long).
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{require}\NormalTok{(hqmisc)}
-\KeywordTok{data}\NormalTok{(talkers)}
-\NormalTok{age.cat <-}\StringTok{ }\KeywordTok{cut}\NormalTok{( talkers}\OperatorTok{$}\NormalTok{age, }\DataTypeTok{breaks=}\DecValTok{2}\NormalTok{ )}
-\NormalTok{phraselength.cat <-}\StringTok{ }\KeywordTok{cut}\NormalTok{( talkers}\OperatorTok{$}\NormalTok{nsyl, }\DataTypeTok{breaks=}\DecValTok{2}\NormalTok{ )}
+\FunctionTok{require}\NormalTok{(hqmisc)}
+\FunctionTok{data}\NormalTok{(talkers)}
+\NormalTok{age.cat }\OtherTok{\textless{}{-}} \FunctionTok{cut}\NormalTok{( talkers}\SpecialCharTok{$}\NormalTok{age, }\AttributeTok{breaks=}\DecValTok{2}\NormalTok{ )}
+\NormalTok{phraselength.cat }\OtherTok{\textless{}{-}} \FunctionTok{cut}\NormalTok{( talkers}\SpecialCharTok{$}\NormalTok{nsyl, }\AttributeTok{breaks=}\DecValTok{2}\NormalTok{ )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1190,7 +1202,7 @@ square) test.\\
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{table}\NormalTok{( age.cat, phraselength.cat ) }\CommentTok{# show 2x2 table}
+\FunctionTok{table}\NormalTok{( age.cat, phraselength.cat ) }\CommentTok{\# show 2x2 table}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1203,7 +1215,7 @@ square) test.\\
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{chisq.test}\NormalTok{( age.cat, phraselength.cat ) }
+\FunctionTok{chisq.test}\NormalTok{( age.cat, phraselength.cat ) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -1222,7 +1234,7 @@ The data in the table show that, as hypothesized, the odds of older talkers prod
 
 This function performs a between-subjects analysis of variance, with
 only fixed factors \citep{john08} (For more complex
-analyses of variance having repeated measures, see Johnson 2008; for mixed effects models, see Chapter \ref{ch:mixedeffects} and references cited there.)
+analyses of variance having repeated measures, see Johnson 2008; for mixed effects models, see Chapter \ref{ch-mixedeffects} and references cited there.)
 In the example below we create a
 response variable \texttt{aa} which is not normally distributed
 (check
@@ -1230,13 +1242,13 @@ with \texttt{hist}, \texttt{qqnorm}, etc).\\
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{a1<-}\KeywordTok{rpois}\NormalTok{(}\DecValTok{20}\NormalTok{,}\DataTypeTok{lambda=}\DecValTok{2}\NormalTok{)}
-\NormalTok{a2<-}\KeywordTok{rpois}\NormalTok{(}\DecValTok{20}\NormalTok{,}\DataTypeTok{lambda=}\DecValTok{4}\NormalTok{) }
-\NormalTok{a3<-}\KeywordTok{rpois}\NormalTok{(}\DecValTok{20}\NormalTok{,}\DataTypeTok{lambda=}\DecValTok{6}\NormalTok{) }
-\NormalTok{aa <-}\StringTok{ }\KeywordTok{c}\NormalTok{(a1,a2,a3) }
-\NormalTok{x1 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{,}\DataTypeTok{each=}\DecValTok{20}\NormalTok{)) }
-\CommentTok{# x1 corresponds with the three different poisson distributions within aa}
-\NormalTok{x2 <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(}\KeywordTok{rep}\NormalTok{( }\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{,}\DataTypeTok{each=}\DecValTok{10}\NormalTok{), }\DecValTok{3}\NormalTok{)) }\CommentTok{# no effect expected}
+\NormalTok{a1}\OtherTok{\textless{}{-}}\FunctionTok{rpois}\NormalTok{(}\DecValTok{20}\NormalTok{,}\AttributeTok{lambda=}\DecValTok{2}\NormalTok{)}
+\NormalTok{a2}\OtherTok{\textless{}{-}}\FunctionTok{rpois}\NormalTok{(}\DecValTok{20}\NormalTok{,}\AttributeTok{lambda=}\DecValTok{4}\NormalTok{) }
+\NormalTok{a3}\OtherTok{\textless{}{-}}\FunctionTok{rpois}\NormalTok{(}\DecValTok{20}\NormalTok{,}\AttributeTok{lambda=}\DecValTok{6}\NormalTok{) }
+\NormalTok{aa }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(a1,a2,a3) }
+\NormalTok{x1 }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{,}\AttributeTok{each=}\DecValTok{20}\NormalTok{)) }
+\CommentTok{\# x1 corresponds with the three different poisson distributions within aa}
+\NormalTok{x2 }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(}\FunctionTok{rep}\NormalTok{( }\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{,}\AttributeTok{each=}\DecValTok{10}\NormalTok{), }\DecValTok{3}\NormalTok{)) }\CommentTok{\# no effect expected}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1244,16 +1256,16 @@ Thus the dependent variable \texttt{aa} intentionally differs between the levels
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{( model1.aov <-}\StringTok{ }\KeywordTok{aov}\NormalTok{(aa}\OperatorTok{~}\NormalTok{x1}\OperatorTok{*}\NormalTok{x2) )}
+\FunctionTok{summary}\NormalTok{( model1.aov }\OtherTok{\textless{}{-}} \FunctionTok{aov}\NormalTok{(aa}\SpecialCharTok{\textasciitilde{}}\NormalTok{x1}\SpecialCharTok{*}\NormalTok{x2) )}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##             Df Sum Sq Mean Sq F value     Pr(>F)    
-## x1           2 109.73   54.87  15.512 0.00000475 ***
-## x2           1   0.27    0.27   0.075      0.785    
-## x1:x2        2   6.93    3.47   0.980      0.382    
-## Residuals   54 191.00    3.54                       
+##             Df Sum Sq Mean Sq F value   Pr(>F)    
+## x1           2 109.73   54.87  15.512 4.75e-06 ***
+## x2           1   0.27    0.27   0.075    0.785    
+## x1:x2        2   6.93    3.47   0.980    0.382    
+## Residuals   54 191.00    3.54                     
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
@@ -1266,15 +1278,15 @@ When reporting any of the hypothesis tests in this section, you should always re
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
-\hypertarget{ch:regression}{%
-\chapter{Regression}\label{ch:regression}}
+\hypertarget{ch-regression}{%
+\chapter{Regression}\label{ch-regression}}
 
 \hypertarget{lm}{%
 \section{\texorpdfstring{\texttt{lm}}{lm}}\label{lm}}
 
 This function is used for regression according to a linear model,
 i.e.~linear regression. It returns a model-class object. There are
-specialized functions for such models, e.g.
+specialized functions for such models, e.g.~
 to extract residuals (\texttt{resid}),
 to extract regression coefficients (\texttt{coef}),
 to modify (\texttt{update}) the model, etc.
@@ -1289,7 +1301,7 @@ The first model is
 
 having only a
 constant intercept. The second model includes the speakers' age as a
-predictor, i.e.
+predictor, i.e.~
 
 \(\texttt{nsyl} = b_0 + b_1 \texttt{age}\)
 
@@ -1303,11 +1315,11 @@ compared with the \texttt{anova} function.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{require}\NormalTok{(hqmisc)}
-\KeywordTok{data}\NormalTok{(talkers)}
-\NormalTok{model1.lm <-}\StringTok{ }\KeywordTok{lm}\NormalTok{( nsyl}\OperatorTok{~}\DecValTok{1}\NormalTok{, }\DataTypeTok{data=}\NormalTok{talkers ) }\CommentTok{# only intercept}
-\NormalTok{model2.lm <-}\StringTok{ }\KeywordTok{lm}\NormalTok{( nsyl}\OperatorTok{~}\NormalTok{age, }\DataTypeTok{data=}\NormalTok{talkers ) }\CommentTok{# with intercept}
-\KeywordTok{anova}\NormalTok{( model1.lm, model2.lm ) }\CommentTok{# compare two models}
+\FunctionTok{require}\NormalTok{(hqmisc)}
+\FunctionTok{data}\NormalTok{(talkers)}
+\NormalTok{model1.lm }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{( nsyl}\SpecialCharTok{\textasciitilde{}}\DecValTok{1}\NormalTok{, }\AttributeTok{data=}\NormalTok{talkers ) }\CommentTok{\# only intercept}
+\NormalTok{model2.lm }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{( nsyl}\SpecialCharTok{\textasciitilde{}}\NormalTok{age, }\AttributeTok{data=}\NormalTok{talkers ) }\CommentTok{\# with intercept}
+\FunctionTok{anova}\NormalTok{( model1.lm, model2.lm ) }\CommentTok{\# compare two models}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1343,10 +1355,10 @@ the death (\texttt{0}) or survival
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{ips1525 <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{( }
-  \DataTypeTok{file=}\KeywordTok{url}\NormalTok{(}\StringTok{"http://www.hugoquene.nl/emlar/ipsex1525.txt"}\NormalTok{),}
-  \DataTypeTok{header=}\NormalTok{T, }\DataTypeTok{sep=}\StringTok{","}\NormalTok{) }
-\KeywordTok{with}\NormalTok{( ips1525, }\KeywordTok{table}\NormalTok{(outcome) ) }
+\NormalTok{ips1525 }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{( }
+  \AttributeTok{file=}\FunctionTok{url}\NormalTok{(}\StringTok{"http://www.hugoquene.nl/emlar/ipsex1525.txt"}\NormalTok{),}
+  \AttributeTok{header=}\NormalTok{T, }\AttributeTok{sep=}\StringTok{","}\NormalTok{) }
+\FunctionTok{with}\NormalTok{( ips1525, }\FunctionTok{table}\NormalTok{(outcome) ) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -1358,7 +1370,7 @@ the death (\texttt{0}) or survival
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{log}\NormalTok{(}\DecValTok{2821}\OperatorTok{/}\DecValTok{79}\NormalTok{) }\CommentTok{# log of odds of survival is 3.575}
+\FunctionTok{log}\NormalTok{(}\DecValTok{2821}\SpecialCharTok{/}\DecValTok{79}\NormalTok{) }\CommentTok{\# log of odds of survival is 3.575}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1368,9 +1380,9 @@ the death (\texttt{0}) or survival
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# intercept-only logistic-regression model}
-\NormalTok{model1.glm <-}\StringTok{ }\KeywordTok{glm}\NormalTok{( outcome}\OperatorTok{~}\DecValTok{1}\NormalTok{, }\DataTypeTok{data=}\NormalTok{ips1525, }\DataTypeTok{family=}\NormalTok{binomial )}
-\KeywordTok{summary}\NormalTok{(model1.glm) }
+\CommentTok{\# intercept{-}only logistic{-}regression model}
+\NormalTok{model1.glm }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{( outcome}\SpecialCharTok{\textasciitilde{}}\DecValTok{1}\NormalTok{, }\AttributeTok{data=}\NormalTok{ips1525, }\AttributeTok{family=}\NormalTok{binomial )}
+\FunctionTok{summary}\NormalTok{(model1.glm) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -1409,9 +1421,9 @@ patient's \texttt{condition} at intake, classified as bad
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{model2.glm <-}\StringTok{ }\KeywordTok{glm}\NormalTok{( outcome}\OperatorTok{~}\NormalTok{hospital, }\DataTypeTok{data=}\NormalTok{ips1525, }\DataTypeTok{family=}\NormalTok{binomial ) }
-\NormalTok{model3.glm <-}\StringTok{ }\KeywordTok{glm}\NormalTok{( outcome}\OperatorTok{~}\NormalTok{hospital}\OperatorTok{*}\NormalTok{condition, }
-                   \DataTypeTok{data=}\NormalTok{ips1525, }\DataTypeTok{family=}\NormalTok{binomial ) }
+\NormalTok{model2.glm }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{( outcome}\SpecialCharTok{\textasciitilde{}}\NormalTok{hospital, }\AttributeTok{data=}\NormalTok{ips1525, }\AttributeTok{family=}\NormalTok{binomial ) }
+\NormalTok{model3.glm }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{( outcome}\SpecialCharTok{\textasciitilde{}}\NormalTok{hospital}\SpecialCharTok{*}\NormalTok{condition, }
+                   \AttributeTok{data=}\NormalTok{ips1525, }\AttributeTok{family=}\NormalTok{binomial ) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -1422,7 +1434,7 @@ are compared here against model 1.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{anova}\NormalTok{( model1.glm, model2.glm, model3.glm, }\DataTypeTok{test=}\StringTok{"Chisq"}\NormalTok{ ) }
+\FunctionTok{anova}\NormalTok{( model1.glm, model2.glm, model3.glm, }\AttributeTok{test=}\StringTok{"Chisq"}\NormalTok{ ) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -1432,10 +1444,10 @@ are compared here against model 1.
 ## Model 1: outcome ~ 1
 ## Model 2: outcome ~ hospital
 ## Model 3: outcome ~ hospital * condition
-##   Resid. Df Resid. Dev Df Deviance   Pr(>Chi)    
-## 1      2899     725.10                           
-## 2      2898     722.78  1   2.3253     0.1273    
-## 3      2896     703.96  2  18.8222 0.00008181 ***
+##   Resid. Df Resid. Dev Df Deviance  Pr(>Chi)    
+## 1      2899     725.10                          
+## 2      2898     722.78  1   2.3253    0.1273    
+## 3      2896     703.96  2  18.8222 8.181e-05 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 \end{verbatim}
@@ -1446,8 +1458,8 @@ significant effect of intake condition on the outcome (model 3,
 \(p<.001\)). Of course, you should also inspect the models themselves
 before drawing conclusions.
 
-\hypertarget{ch:mixedeffects}{%
-\chapter{Mixed-effects modeling}\label{ch:mixedeffects}}
+\hypertarget{ch-mixedeffects}{%
+\chapter{Mixed-effects modeling}\label{ch-mixedeffects}}
 
 Many language (acquisition) studies are based on samples of two random
 factors: a sample of participants (subjects) and a sample of language
@@ -1471,14 +1483,14 @@ modeling is quickly gaining in popularity
 
 For mixed-effects modeling, you need to install two add-on packages to
 R , named \texttt{lme4} and \texttt{languageR} \citep{BDB08}. For more
-information on packages, see Chapter \ref{ch:packages} below.
+information on packages, see Chapter \ref{ch-packages} below.
 After activation of these packages, we
 can simply perform a mixed-effects analysis. First, we read in an
 example dataset \citep{QB08} in long data layout:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x24 <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{( }\DataTypeTok{file=}\KeywordTok{url}\NormalTok{(}\StringTok{"http://www.hugoquene.nl/emlar/x24r2.txt"}\NormalTok{), }\DataTypeTok{header=}\NormalTok{T )}
+\NormalTok{x24 }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{( }\AttributeTok{file=}\FunctionTok{url}\NormalTok{(}\StringTok{"http://www.hugoquene.nl/emlar/x24r2.txt"}\NormalTok{), }\AttributeTok{header=}\NormalTok{T )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1488,7 +1500,7 @@ may be inspected for a small subset of the data frame:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{with}\NormalTok{( }\KeywordTok{subset}\NormalTok{(x24, subj}\OperatorTok{<=}\DecValTok{3}\OperatorTok{&}\NormalTok{item}\OperatorTok{<=}\DecValTok{6}\NormalTok{), }\KeywordTok{table}\NormalTok{(subj,item,cond) ) }
+\FunctionTok{with}\NormalTok{( }\FunctionTok{subset}\NormalTok{(x24, subj}\SpecialCharTok{\textless{}=}\DecValTok{3}\SpecialCharTok{\&}\NormalTok{item}\SpecialCharTok{\textless{}=}\DecValTok{6}\NormalTok{), }\FunctionTok{table}\NormalTok{(subj,item,cond) ) }
 \end{Highlighting}
 \end{Shaded}
 
@@ -1525,8 +1537,8 @@ that the second level is the baseline or reference level.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{x24}\OperatorTok{$}\NormalTok{cond <-}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(x24}\OperatorTok{$}\NormalTok{cond)}
-\KeywordTok{contrasts}\NormalTok{(x24}\OperatorTok{$}\NormalTok{cond) <-}\StringTok{ }\KeywordTok{contr.treatment}\NormalTok{( }\KeywordTok{c}\NormalTok{(}\StringTok{".A"}\NormalTok{,}\StringTok{".B"}\NormalTok{,}\StringTok{".C"}\NormalTok{), }\DataTypeTok{base=}\DecValTok{2}\NormalTok{ )}
+\NormalTok{x24}\SpecialCharTok{$}\NormalTok{cond }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(x24}\SpecialCharTok{$}\NormalTok{cond)}
+\FunctionTok{contrasts}\NormalTok{(x24}\SpecialCharTok{$}\NormalTok{cond) }\OtherTok{\textless{}{-}} \FunctionTok{contr.treatment}\NormalTok{( }\FunctionTok{c}\NormalTok{(}\StringTok{".A"}\NormalTok{,}\StringTok{".B"}\NormalTok{,}\StringTok{".C"}\NormalTok{), }\AttributeTok{base=}\DecValTok{2}\NormalTok{ )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1536,8 +1548,8 @@ object, and a summary is displayed.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{summary}\NormalTok{( x24.m1 <-}\StringTok{ }\KeywordTok{lmer}\NormalTok{(resp }\OperatorTok{~}\StringTok{ }\DecValTok{1}\OperatorTok{+}\NormalTok{cond}\OperatorTok{+}\NormalTok{(}\DecValTok{1}\OperatorTok{|}\NormalTok{subj)}\OperatorTok{+}\NormalTok{(}\DecValTok{1}\OperatorTok{|}\NormalTok{item),}
-                        \DataTypeTok{data=}\NormalTok{x24, }\DataTypeTok{REML=}\OtherTok{FALSE}\NormalTok{) )}
+\FunctionTok{summary}\NormalTok{( x24.m1 }\OtherTok{\textless{}{-}} \FunctionTok{lmer}\NormalTok{(resp }\SpecialCharTok{\textasciitilde{}} \DecValTok{1}\SpecialCharTok{+}\NormalTok{cond}\SpecialCharTok{+}\NormalTok{(}\DecValTok{1}\SpecialCharTok{|}\NormalTok{subj)}\SpecialCharTok{+}\NormalTok{(}\DecValTok{1}\SpecialCharTok{|}\NormalTok{item),}
+                        \AttributeTok{data=}\NormalTok{x24, }\AttributeTok{REML=}\ConstantTok{FALSE}\NormalTok{) )}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1551,7 +1563,7 @@ object, and a summary is displayed.
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.1641 -0.6394 -0.0077  0.6416  2.7157 
+## -3.1641 -0.6394 -0.0078  0.6416  2.7157 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
@@ -1578,7 +1590,7 @@ unique combination of the intercept (mean of baseline condition B), item
 effect, subject effect, condition effect, and residual. The average
 response in the baseline condition B is \(0.046\) units. Responses in
 condition A are 0.170 units higher than baseline, and in condition C
-they are \(-0.237\) units higher than baseline, i.e. \(0.237\) units lower.
+they are \(-0.237\) units higher than baseline, i.e.~\(0.237\) units lower.
 
 For reasons not discussed here \footnote{See Frequently Asked Questions about R, Question
   7.35, at \url{http://cran.r-project.org/doc/FAQ/R-FAQ.html}}, the significance levels of the
@@ -1600,7 +1612,7 @@ these significance levels.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{qt}\NormalTok{( }\DataTypeTok{p=}\DecValTok{1}\FloatTok{-.05}\OperatorTok{/}\DecValTok{2}\NormalTok{, }\DataTypeTok{df=}\DecValTok{24-3}\NormalTok{ ) }\CommentTok{# critical value t*, alpha=.05, two-sided}
+\FunctionTok{qt}\NormalTok{( }\AttributeTok{p=}\DecValTok{1}\FloatTok{{-}.05}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\AttributeTok{df=}\DecValTok{24{-}3}\NormalTok{ ) }\CommentTok{\# critical value t*, alpha=.05, two{-}sided}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1623,8 +1635,8 @@ B.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{# warnings may occur}
-\KeywordTok{print}\NormalTok{( x24.m1.ci <-}\StringTok{ }\KeywordTok{confint}\NormalTok{( x24.m1, }\DataTypeTok{method=}\StringTok{"boot"}\NormalTok{, }\DataTypeTok{nsim=}\DecValTok{250}\NormalTok{ ))}
+\CommentTok{\# warnings may occur}
+\FunctionTok{print}\NormalTok{( x24.m1.ci }\OtherTok{\textless{}{-}} \FunctionTok{confint}\NormalTok{( x24.m1, }\AttributeTok{method=}\StringTok{"boot"}\NormalTok{, }\AttributeTok{nsim=}\DecValTok{250}\NormalTok{ ))}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1633,18 +1645,13 @@ B.
 \end{verbatim}
 
 \begin{verbatim}
-## 
-## 6 warning(s): Model failed to converge with max|grad| = 0.00267345 (tol = 0.002, component 1) (and others)
-\end{verbatim}
-
-\begin{verbatim}
 ##                   2.5 %     97.5 %
-## .sig01       0.35950709  0.6747204
-## .sig02       0.36333157  0.6844652
-## .sigma       0.68054619  0.7474401
-## (Intercept) -0.23533348  0.3634542
-## cond.A       0.05695928  0.3035280
-## cond.C      -0.36262503 -0.1261797
+## .sig01       0.35950579  0.6747133
+## .sig02       0.36332772  0.6844726
+## .sigma       0.68054611  0.7474402
+## (Intercept) -0.23533276  0.3634542
+## cond.A       0.05695926  0.3035281
+## cond.C      -0.36262505 -0.1261796
 \end{verbatim}
 
 As the interval for \texttt{cond.A} is entirely
@@ -1652,8 +1659,8 @@ positive, we may conclude with 95\% confidence that condition A yields
 higher scores than the baseline condition B, and mutatis mutandis that
 condition C yields lower scores than condition B.
 
-\hypertarget{ch:packages}{%
-\chapter{Packages}\label{ch:packages}}
+\hypertarget{ch-packages}{%
+\chapter{Packages}\label{ch-packages}}
 
 Packages are user-provided extensions to the basic R
 system (comparable to an ``add-on'' or ``extension'' for some web browsers).
@@ -1701,8 +1708,8 @@ Rstudio and R remember your chosen mirror site over multiple sessions.
 
 Finally, to inspect the status of your current session in R, use the command \texttt{sessionInfo()}. This will return a listing of technical information, locale settings, all attached packages, and all loaded packages, with version info for each.
 
-\hypertarget{sec:furtherreading}{%
-\chapter{Further reading and learning}\label{sec:furtherreading}}
+\hypertarget{sec-furtherreading}{%
+\chapter{Further reading and learning}\label{sec-furtherreading}}
 
 More help can be called from within \textbf{R} by giving the command
 \texttt{help(ABC)} or \texttt{?ABC} with a
@@ -1736,6 +1743,6 @@ applications in linguistics are highly recommended:
 
 Happy analyses!
 
-\bibliography{book.bib,packages.bib,emlar.bib}
+  \bibliography{book.bib,packages.bib,emlar.bib}
 
 \end{document}

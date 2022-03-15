@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 8 Packages | Statistics with R</title>
   <meta name="description" content="This is a handout of the online tutorial on Statistics with R, held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 8 Packages | Statistics with R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Hugo Quené" />
 
 
-<meta name="date" content="2020-04-20" />
+<meta name="date" content="2022-03-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,9 @@
   
 <link rel="prev" href="ch-mixedeffects.html"/>
 <link rel="next" href="sec-furtherreading.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,29 +51,33 @@
 
 
 
-
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +86,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -115,6 +121,29 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
@@ -131,64 +160,75 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Statistics with R</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
-<li class="chapter" data-level="1" data-path="ch-introduction.html"><a href="ch-introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
-<li class="chapter" data-level="1.1" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisR"><i class="fa fa-check"></i><b>1.1</b> What is R ?</a></li>
-<li class="chapter" data-level="1.2" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisrstudio"><i class="fa fa-check"></i><b>1.2</b> What is RStudio?</a></li>
-<li class="chapter" data-level="1.3" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:objectorientedphilosophy"><i class="fa fa-check"></i><b>1.3</b> Object-oriented philosophy</a></li>
+<li><a href="index.html#preface">Preface<span></span></a>
+<ul>
+<li><a href="index.html#versions">Versions<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="ch-objects.html"><a href="ch-objects.html"><i class="fa fa-check"></i><b>2</b> Objects</a><ul>
-<li class="chapter" data-level="2.1" data-path="ch-objects.html"><a href="ch-objects.html#sec:vectors"><i class="fa fa-check"></i><b>2.1</b> Vectors</a></li>
-<li class="chapter" data-level="2.2" data-path="ch-objects.html"><a href="ch-objects.html#sec:factors"><i class="fa fa-check"></i><b>2.2</b> Factors</a></li>
-<li class="chapter" data-level="2.3" data-path="ch-objects.html"><a href="ch-objects.html#sec:complex.objects"><i class="fa fa-check"></i><b>2.3</b> Complex objects</a></li>
+<li class="chapter" data-level="1" data-path="ch-introduction.html"><a href="ch-introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisR"><i class="fa fa-check"></i><b>1.1</b> What is R ?<span></span></a></li>
+<li class="chapter" data-level="1.2" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisrstudio"><i class="fa fa-check"></i><b>1.2</b> What is RStudio?<span></span></a></li>
+<li class="chapter" data-level="1.3" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:objectorientedphilosophy"><i class="fa fa-check"></i><b>1.3</b> Object-oriented philosophy<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html"><i class="fa fa-check"></i><b>3</b> Basic operations</a><ul>
-<li class="chapter" data-level="3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sub:basics"><i class="fa fa-check"></i><b>3.1</b> Basics</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section"><i class="fa fa-check"></i><b>3.1.1</b> <code>&lt;-</code></a></li>
-<li class="chapter" data-level="3.1.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section-1"><i class="fa fa-check"></i><b>3.1.2</b> <code>#</code></a></li>
-<li class="chapter" data-level="3.1.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#scan"><i class="fa fa-check"></i><b>3.1.3</b> <code>scan</code></a></li>
-<li class="chapter" data-level="3.1.4" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#objects"><i class="fa fa-check"></i><b>3.1.4</b> <code>objects</code></a></li>
-<li class="chapter" data-level="3.1.5" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#rm"><i class="fa fa-check"></i><b>3.1.5</b> <code>rm</code></a></li>
-<li class="chapter" data-level="3.1.6" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#print"><i class="fa fa-check"></i><b>3.1.6</b> <code>print</code></a></li>
-<li class="chapter" data-level="3.1.7" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#summary"><i class="fa fa-check"></i><b>3.1.7</b> <code>summary</code></a></li>
-<li class="chapter" data-level="3.1.8" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#workspace"><i class="fa fa-check"></i><b>3.1.8</b> Workspace:</a></li>
-<li class="chapter" data-level="3.1.9" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#save"><i class="fa fa-check"></i><b>3.1.9</b> <code>save</code></a></li>
-<li class="chapter" data-level="3.1.10" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#read"><i class="fa fa-check"></i><b>3.1.10</b> <code>read</code></a></li>
-<li class="chapter" data-level="3.1.11" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#no-undo"><i class="fa fa-check"></i><b>3.1.11</b> No <code>undo</code></a></li>
+<li class="chapter" data-level="2" data-path="ch-objects.html"><a href="ch-objects.html"><i class="fa fa-check"></i><b>2</b> Objects<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="ch-objects.html"><a href="ch-objects.html#sec:vectors"><i class="fa fa-check"></i><b>2.1</b> Vectors<span></span></a></li>
+<li class="chapter" data-level="2.2" data-path="ch-objects.html"><a href="ch-objects.html#sec:factors"><i class="fa fa-check"></i><b>2.2</b> Factors<span></span></a></li>
+<li class="chapter" data-level="2.3" data-path="ch-objects.html"><a href="ch-objects.html#sec:complex.objects"><i class="fa fa-check"></i><b>2.3</b> Complex objects<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:subselection"><i class="fa fa-check"></i><b>3.2</b> Subselection</a></li>
-<li class="chapter" data-level="3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:split.merge.reshape"><i class="fa fa-check"></i><b>3.3</b> Split, merge, reshape</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#split"><i class="fa fa-check"></i><b>3.3.1</b> <code>split</code></a></li>
-<li class="chapter" data-level="3.3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#merge"><i class="fa fa-check"></i><b>3.3.2</b> <code>merge</code></a></li>
-<li class="chapter" data-level="3.3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#reshape"><i class="fa fa-check"></i><b>3.3.3</b> <code>reshape</code></a></li>
+<li class="chapter" data-level="3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html"><i class="fa fa-check"></i><b>3</b> Basic operations<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sub:basics"><i class="fa fa-check"></i><b>3.1</b> Basics<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section"><i class="fa fa-check"></i><b>3.1.1</b> <code>&lt;-</code><span></span></a></li>
+<li class="chapter" data-level="3.1.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section-1"><i class="fa fa-check"></i><b>3.1.2</b> <code>#</code><span></span></a></li>
+<li class="chapter" data-level="3.1.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#scan"><i class="fa fa-check"></i><b>3.1.3</b> <code>scan</code><span></span></a></li>
+<li class="chapter" data-level="3.1.4" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#objects"><i class="fa fa-check"></i><b>3.1.4</b> <code>objects</code><span></span></a></li>
+<li class="chapter" data-level="3.1.5" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#rm"><i class="fa fa-check"></i><b>3.1.5</b> <code>rm</code><span></span></a></li>
+<li class="chapter" data-level="3.1.6" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#print"><i class="fa fa-check"></i><b>3.1.6</b> <code>print</code><span></span></a></li>
+<li class="chapter" data-level="3.1.7" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#summary"><i class="fa fa-check"></i><b>3.1.7</b> <code>summary</code><span></span></a></li>
+<li class="chapter" data-level="3.1.8" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#workspace"><i class="fa fa-check"></i><b>3.1.8</b> Workspace:<span></span></a></li>
+<li class="chapter" data-level="3.1.9" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#save"><i class="fa fa-check"></i><b>3.1.9</b> <code>save</code><span></span></a></li>
+<li class="chapter" data-level="3.1.10" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#read"><i class="fa fa-check"></i><b>3.1.10</b> <code>read</code><span></span></a></li>
+<li class="chapter" data-level="3.1.11" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#no-undo"><i class="fa fa-check"></i><b>3.1.11</b> No <code>undo</code><span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:subselection"><i class="fa fa-check"></i><b>3.2</b> Subselection<span></span></a></li>
+<li class="chapter" data-level="3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:split.merge.reshape"><i class="fa fa-check"></i><b>3.3</b> Split, merge, reshape<span></span></a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#split"><i class="fa fa-check"></i><b>3.3.1</b> <code>split</code><span></span></a></li>
+<li class="chapter" data-level="3.3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#merge"><i class="fa fa-check"></i><b>3.3.2</b> <code>merge</code><span></span></a></li>
+<li class="chapter" data-level="3.3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#reshape"><i class="fa fa-check"></i><b>3.3.3</b> <code>reshape</code><span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="ch-EDA.html"><a href="ch-EDA.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analyses</a><ul>
-<li class="chapter" data-level="4.1" data-path="ch-EDA.html"><a href="ch-EDA.html#hist"><i class="fa fa-check"></i><b>4.1</b> <code>hist</code></a></li>
-<li class="chapter" data-level="4.2" data-path="ch-EDA.html"><a href="ch-EDA.html#plot"><i class="fa fa-check"></i><b>4.2</b> <code>plot</code></a></li>
-<li class="chapter" data-level="4.3" data-path="ch-EDA.html"><a href="ch-EDA.html#rug"><i class="fa fa-check"></i><b>4.3</b> <code>rug</code></a></li>
-<li class="chapter" data-level="4.4" data-path="ch-EDA.html"><a href="ch-EDA.html#boxplot"><i class="fa fa-check"></i><b>4.4</b> <code>boxplot</code></a></li>
-<li class="chapter" data-level="4.5" data-path="ch-EDA.html"><a href="ch-EDA.html#qqnorm"><i class="fa fa-check"></i><b>4.5</b> <code>qqnorm</code></a></li>
-<li class="chapter" data-level="4.6" data-path="ch-EDA.html"><a href="ch-EDA.html#summary-1"><i class="fa fa-check"></i><b>4.6</b> <code>summary</code></a></li>
-<li class="chapter" data-level="4.7" data-path="ch-EDA.html"><a href="ch-EDA.html#var"><i class="fa fa-check"></i><b>4.7</b> <code>var</code></a></li>
-<li class="chapter" data-level="4.8" data-path="ch-EDA.html"><a href="ch-EDA.html#length"><i class="fa fa-check"></i><b>4.8</b> <code>length</code></a></li>
-<li class="chapter" data-level="4.9" data-path="ch-EDA.html"><a href="ch-EDA.html#unique"><i class="fa fa-check"></i><b>4.9</b> <code>unique</code></a></li>
-<li class="chapter" data-level="4.10" data-path="ch-EDA.html"><a href="ch-EDA.html#table"><i class="fa fa-check"></i><b>4.10</b> <code>table</code></a></li>
+<li class="chapter" data-level="4" data-path="ch-EDA.html"><a href="ch-EDA.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analyses<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ch-EDA.html"><a href="ch-EDA.html#hist"><i class="fa fa-check"></i><b>4.1</b> <code>hist</code><span></span></a></li>
+<li class="chapter" data-level="4.2" data-path="ch-EDA.html"><a href="ch-EDA.html#plot"><i class="fa fa-check"></i><b>4.2</b> <code>plot</code><span></span></a></li>
+<li class="chapter" data-level="4.3" data-path="ch-EDA.html"><a href="ch-EDA.html#rug"><i class="fa fa-check"></i><b>4.3</b> <code>rug</code><span></span></a></li>
+<li class="chapter" data-level="4.4" data-path="ch-EDA.html"><a href="ch-EDA.html#boxplot"><i class="fa fa-check"></i><b>4.4</b> <code>boxplot</code><span></span></a></li>
+<li class="chapter" data-level="4.5" data-path="ch-EDA.html"><a href="ch-EDA.html#qqnorm"><i class="fa fa-check"></i><b>4.5</b> <code>qqnorm</code><span></span></a></li>
+<li class="chapter" data-level="4.6" data-path="ch-EDA.html"><a href="ch-EDA.html#summary-1"><i class="fa fa-check"></i><b>4.6</b> <code>summary</code><span></span></a></li>
+<li class="chapter" data-level="4.7" data-path="ch-EDA.html"><a href="ch-EDA.html#var"><i class="fa fa-check"></i><b>4.7</b> <code>var</code><span></span></a></li>
+<li class="chapter" data-level="4.8" data-path="ch-EDA.html"><a href="ch-EDA.html#length"><i class="fa fa-check"></i><b>4.8</b> <code>length</code><span></span></a></li>
+<li class="chapter" data-level="4.9" data-path="ch-EDA.html"><a href="ch-EDA.html#unique"><i class="fa fa-check"></i><b>4.9</b> <code>unique</code><span></span></a></li>
+<li class="chapter" data-level="4.10" data-path="ch-EDA.html"><a href="ch-EDA.html#table"><i class="fa fa-check"></i><b>4.10</b> <code>table</code><span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html"><i class="fa fa-check"></i><b>5</b> Testing hypotheses</a><ul>
-<li class="chapter" data-level="5.1" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#formula"><i class="fa fa-check"></i><b>5.1</b> formula</a></li>
-<li class="chapter" data-level="5.2" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#t-test"><i class="fa fa-check"></i><b>5.2</b> <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="5.3" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#chisq.test"><i class="fa fa-check"></i><b>5.3</b> <code>chisq.test</code></a></li>
-<li class="chapter" data-level="5.4" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#aov"><i class="fa fa-check"></i><b>5.4</b> <code>aov</code></a></li>
+<li class="chapter" data-level="5" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html"><i class="fa fa-check"></i><b>5</b> Testing hypotheses<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#formula"><i class="fa fa-check"></i><b>5.1</b> formula<span></span></a></li>
+<li class="chapter" data-level="5.2" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#t-test"><i class="fa fa-check"></i><b>5.2</b> <span class="math inline">\(t\)</span> test<span></span></a></li>
+<li class="chapter" data-level="5.3" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#chisq.test"><i class="fa fa-check"></i><b>5.3</b> <code>chisq.test</code><span></span></a></li>
+<li class="chapter" data-level="5.4" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#aov"><i class="fa fa-check"></i><b>5.4</b> <code>aov</code><span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="ch-regression.html"><a href="ch-regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a><ul>
-<li class="chapter" data-level="6.1" data-path="ch-regression.html"><a href="ch-regression.html#lm"><i class="fa fa-check"></i><b>6.1</b> <code>lm</code></a></li>
-<li class="chapter" data-level="6.2" data-path="ch-regression.html"><a href="ch-regression.html#glm"><i class="fa fa-check"></i><b>6.2</b> <code>glm</code></a></li>
+<li class="chapter" data-level="6" data-path="ch-regression.html"><a href="ch-regression.html"><i class="fa fa-check"></i><b>6</b> Regression<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="ch-regression.html"><a href="ch-regression.html#lm"><i class="fa fa-check"></i><b>6.1</b> <code>lm</code><span></span></a></li>
+<li class="chapter" data-level="6.2" data-path="ch-regression.html"><a href="ch-regression.html#glm"><i class="fa fa-check"></i><b>6.2</b> <code>glm</code><span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="ch-mixedeffects.html"><a href="ch-mixedeffects.html"><i class="fa fa-check"></i><b>7</b> Mixed-effects modeling</a></li>
-<li class="chapter" data-level="8" data-path="ch-packages.html"><a href="ch-packages.html"><i class="fa fa-check"></i><b>8</b> Packages</a></li>
-<li class="chapter" data-level="9" data-path="sec-furtherreading.html"><a href="sec-furtherreading.html"><i class="fa fa-check"></i><b>9</b> Further reading and learning</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="7" data-path="ch-mixedeffects.html"><a href="ch-mixedeffects.html"><i class="fa fa-check"></i><b>7</b> Mixed-effects modeling<span></span></a></li>
+<li class="chapter" data-level="8" data-path="ch-packages.html"><a href="ch-packages.html"><i class="fa fa-check"></i><b>8</b> Packages<span></span></a></li>
+<li class="chapter" data-level="9" data-path="sec-furtherreading.html"><a href="sec-furtherreading.html"><i class="fa fa-check"></i><b>9</b> Further reading and learning<span></span></a></li>
+<li><a href="references.html#references">References<span></span></a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -209,8 +249,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="ch:packages" class="section level1">
-<h1><span class="header-section-number">Chapter 8</span> Packages</h1>
+<div id="ch-packages" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Packages<a href="ch-packages.html#ch-packages" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Packages are user-provided extensions to the basic R
 system (comparable to an “add-on” or “extension” for some web browsers).
 Packages
@@ -218,7 +258,7 @@ may contain custom datasets, additional functions, re-formulations of
 existing functions, and more. There are by now thousands of useful
 packages extending R.</p>
 <p>A package named <code>ABC</code> can be installed by
-entering <code>install.packages(&quot;ABC&quot;)</code> (with double quotes) and then <code>require(ABC)</code> (without double quotes).
+entering <code>install.packages("ABC")</code> (with double quotes) and then <code>require(ABC)</code> (without double quotes).
 If a package in turn requires other packages, these are also installed
 and loaded.</p>
 <p>Some useful packages are the following:</p>
@@ -229,14 +269,14 @@ package is now integrated within R (see Help on <code>datasets</code>).</p></li>
 <li><p><code>foreign</code>: Functions for reading and writing data stored by statistical
 packages such as Minitab, S, SAS, SPSS, Stata, Systat, and for
 reading CSV files (comma separated values) created by Microsoft
-Excel, and for reading and writing dBase files <span class="citation">(R Core Team <a href="#ref-R-foreign">2020</a>)</span>.</p></li>
+Excel, and for reading and writing dBase files <span class="citation">(<a href="#ref-R-foreign" role="doc-biblioref">R Core Team 2022</a>)</span>.</p></li>
 <li><p><code>lattice</code>: Trellis graphics for R. The functions provide a
 powerful, elegant and flexible high-level data visualization system,
-using Trellis graphics, with an emphasis on multivariate data <span class="citation">(Sarkar <a href="#ref-R-lattice">2018</a>)</span>.</p></li>
-<li><p><code>MASS</code>: Datasets and functions accompanying <span class="citation">(Venables and Ripley <a href="#ref-VR02">2002</a>; Ripley <a href="#ref-R-MASS">2019</a>)</span></p></li>
-<li><p><code>languageR</code>: Datasets and functions accompanying <span class="citation">(Baayen <a href="#ref-baay08">2008</a>; Baayen and Shafaei-Bajestan <a href="#ref-R-languageR">2019</a>)</span>.</p></li>
-<li><p><code>hqmisc</code>: Some convenience functions and an example dataset, by the present author <span class="citation">(Quené <a href="#ref-R-hqmisc">2014</a>)</span>, and used in this booklet.</p></li>
-<li><p><code>tidyverse</code>: A meta-package consisting of many other packages supporting your data science, such as <code>dplyr</code> for data transformation, <code>ggplot2</code> for data visualization, and <code>rmarkdown</code> for reporting (also used for this booklet) <span class="citation">(Wickham et al. <a href="#ref-tidy19">2019</a>)</span>; all component packages can also be used separately.</p></li>
+using Trellis graphics, with an emphasis on multivariate data <span class="citation">(<a href="#ref-R-lattice" role="doc-biblioref">Sarkar 2021</a>)</span>.</p></li>
+<li><p><code>MASS</code>: Datasets and functions accompanying <span class="citation">(<a href="#ref-VR02" role="doc-biblioref">Venables and Ripley 2002</a>; <a href="#ref-R-MASS" role="doc-biblioref">Ripley 2022</a>)</span></p></li>
+<li><p><code>languageR</code>: Datasets and functions accompanying <span class="citation">(<a href="#ref-baay08" role="doc-biblioref">Baayen 2008</a>; <a href="#ref-R-languageR" role="doc-biblioref">Baayen and Shafaei-Bajestan 2019</a>)</span>.</p></li>
+<li><p><code>hqmisc</code>: Some convenience functions and an example dataset, by the present author <span class="citation">(<a href="#ref-R-hqmisc" role="doc-biblioref">Quené 2014</a>)</span>, and used in this booklet.</p></li>
+<li><p><code>tidyverse</code>: A meta-package consisting of many other packages supporting your data science, such as <code>dplyr</code> for data transformation, <code>ggplot2</code> for data visualization, and <code>rmarkdown</code> for reporting (also used for this booklet) <span class="citation">(<a href="#ref-tidy19" role="doc-biblioref">Wickham et al. 2019</a>)</span>; all component packages can also be used separately.</p></li>
 </ul>
 <p>Packages are stored on a so-called <em>repository</em>; the CRAN repository is
 the most important one (<a href="https://cran.r-project.org/" class="uri">https://cran.r-project.org/</a>).
@@ -246,31 +286,31 @@ Rstudio and R remember your chosen mirror site over multiple sessions.</p>
 <p>Finally, to inspect the status of your current session in R, use the command <code>sessionInfo()</code>. This will return a listing of technical information, locale settings, all attached packages, and all loaded packages, with version info for each.</p>
 
 </div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-baay08">
-<p>Baayen, R. H. 2008. <em>Analyzing Linguistic Data: A Practical Introduction to Statistics Using R</em>. Cambridge University Press.</p>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-baay08" class="csl-entry">
+Baayen, R. H. 2008. <em>Analyzing Linguistic Data: A Practical Introduction to Statistics Using <span>R</span></em>. Cambridge University Press.
 </div>
-<div id="ref-R-languageR">
-<p>Baayen, R. H., and Elnaz Shafaei-Bajestan. 2019. <em>LanguageR: Analyzing Linguistic Data: A Practical Introduction to Statistics</em>. <a href="https://CRAN.R-project.org/package=languageR">https://CRAN.R-project.org/package=languageR</a>.</p>
+<div id="ref-R-languageR" class="csl-entry">
+Baayen, R. H., and Elnaz Shafaei-Bajestan. 2019. <em>languageR: Analyzing Linguistic Data: A Practical Introduction to Statistics</em>. <a href="https://CRAN.R-project.org/package=languageR">https://CRAN.R-project.org/package=languageR</a>.
 </div>
-<div id="ref-R-hqmisc">
-<p>Quené, Hugo. 2014. <em>Hqmisc: Miscellaneous Convenience Functions and Dataset</em>. <a href="https://CRAN.R-project.org/package=hqmisc">https://CRAN.R-project.org/package=hqmisc</a>.</p>
+<div id="ref-R-hqmisc" class="csl-entry">
+———. 2014. <em>Hqmisc: Miscellaneous Convenience Functions and Dataset</em>. <a href="https://CRAN.R-project.org/package=hqmisc">https://CRAN.R-project.org/package=hqmisc</a>.
 </div>
-<div id="ref-R-foreign">
-<p>R Core Team. 2020. <em>Foreign: Read Data Stored by ’Minitab’, ’S’, ’Sas’, ’Spss’, ’Stata’, ’Systat’, ’Weka’, ’dBase’, ...</em> <a href="https://CRAN.R-project.org/package=foreign">https://CRAN.R-project.org/package=foreign</a>.</p>
+<div id="ref-R-foreign" class="csl-entry">
+R Core Team. 2022. <em>Foreign: Read Data Stored by Minitab, s, SAS, SPSS, Stata, Systat, Weka, dBase, ...</em> <a href="https://svn.r-project.org/R-packages/trunk/foreign/">https://svn.r-project.org/R-packages/trunk/foreign/</a>.
 </div>
-<div id="ref-R-MASS">
-<p>Ripley, Brian. 2019. <em>MASS: Support Functions and Datasets for Venables and Ripley’s Mass</em>. <a href="https://CRAN.R-project.org/package=MASS">https://CRAN.R-project.org/package=MASS</a>.</p>
+<div id="ref-R-MASS" class="csl-entry">
+Ripley, Brian. 2022. <em>MASS: Support Functions and Datasets for Venables and Ripley’s MASS</em>. <a href="http://www.stats.ox.ac.uk/pub/MASS4/">http://www.stats.ox.ac.uk/pub/MASS4/</a>.
 </div>
-<div id="ref-R-lattice">
-<p>Sarkar, Deepayan. 2018. <em>Lattice: Trellis Graphics for R</em>. <a href="https://CRAN.R-project.org/package=lattice">https://CRAN.R-project.org/package=lattice</a>.</p>
+<div id="ref-R-lattice" class="csl-entry">
+Sarkar, Deepayan. 2021. <em>Lattice: Trellis Graphics for r</em>. <a href="http://lattice.r-forge.r-project.org/">http://lattice.r-forge.r-project.org/</a>.
 </div>
-<div id="ref-VR02">
-<p>Venables, W.N., and B.D. Ripley. 2002. <em>Modern Applied Statistics with S</em>. 4th ed. Springer.</p>
+<div id="ref-VR02" class="csl-entry">
+Venables, W. N., and B. D. Ripley. 2002. <em>Modern Applied Statistics with s</em>. 4th ed. Springer.
 </div>
-<div id="ref-tidy19">
-<p>Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. “Welcome to the tidyverse.” <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.</p>
+<div id="ref-tidy19" class="csl-entry">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy D’Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span class="nocase">tidyverse</span>.”</span> <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
 </div>
 </div>
             </section>
@@ -283,7 +323,6 @@ Rstudio and R remember your chosen mirror site over multiple sessions.</p>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -302,6 +341,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -322,6 +362,10 @@ gitbook.start({
 "text": null
 },
 "download": ["bookdown-emlar2020.pdf", "bookdown-emlar2020.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }

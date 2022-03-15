@@ -27,12 +27,24 @@ Hugo Quené, Utrecht institute of Linguistics OTS, Utrecht University
 
 <https://www.hugoquene.nl>
 
-
 ```{r include=FALSE}
 # automatically create a bib database for R packages
 require(lattice)
 require(nnet)
+# the following statements were added to ensure that packages 
+# are loaded and will be included in refs
+require(knitr) 
+require(MASS) 
+require(lme4)
+require(languageR)
+require(hqmisc)
+require(foreign)
 knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
 ```
+
+## Versions {-}
+
+2022.03.15: minor security issues fixed (packages updated, crossref chapter labels fixed, then recompiled entire book)
+

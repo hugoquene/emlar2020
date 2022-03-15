@@ -1,4 +1,4 @@
-# Testing hypotheses {#ch:testinghypotheses}
+# Testing hypotheses {#ch-testinghypotheses}
 
 ## formula
 
@@ -29,7 +29,7 @@ x1<-mvdata[,1]; x2<-mvdata[,2]; y<-mvdata[,3]
 rm(mvdata)
 ```
 
-```{text}
+```{}
 y ~ x1 + x2 # only main effects 
 y ~ x1 * x2 # shorthand for x1 + x2 + (x1:x2) 
 ```
@@ -97,7 +97,7 @@ The data in the table show that, as hypothesized, the odds of older talkers prod
 
 This function performs a between-subjects analysis of variance, with
     only fixed factors [@john08] (For more complex
-    analyses of variance having repeated measures, see Johnson 2008; for mixed effects models, see Chapter \@ref(ch:mixedeffects) and references cited there.)
+    analyses of variance having repeated measures, see Johnson 2008; for mixed effects models, see Chapter \@ref(ch-mixedeffects) and references cited there.)
     In the example below we create a
     response variable `aa` which is not normally distributed 
     (check

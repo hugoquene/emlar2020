@@ -1,4 +1,4 @@
-# Introduction {#ch:introduction}
+# Introduction {#ch-introduction}
 
 This tutorial offers a first introduction into R. 
 R is available as freeware from
@@ -74,7 +74,7 @@ object-oriented approach places primary focus on these six objects. If
 the relations between these are properly specified, then a good pancake
 will result. Provided that the necessary objects (ingredients) are
 available, the quasi-R syntax could be as follows:
-```{text 1.2.1}
+```{}
 batter <- mixed( flour,  milk/2 ) # mix flour and half of milk
 batter <- mixed( batter, egg*2 ) # add 2 eggs
 batter <- mixed( batter, milk/2, use=whisk) # add other half of milk
@@ -102,7 +102,7 @@ object must have some attribute
 For contrast, we might imagine how the pancake recipe would be
 formulated in a more traditional, procedure-oriented approach.
 Ingredients and a spoon are again assumed to be provided.
-```{text 1.2.2}
+```
 MIX batter = flour + milk/2 . # what utensil? 
 MIX batter = batter + eggs . 
 MIX batter = batter + milk/2 .
@@ -120,7 +120,7 @@ was semantic rather than pragmatic. To demonstrate the greater
 flexibility of an object-oriented approach, let us consider the
 following variant of the recipe, again in quasi-R syntax:
 
-```{text 1.2.3}
+```
 # batter is done
 while (number(pancakes)<2) # first bake 2 pancakes
     pancake <- baked(batter,in=oil,with=pan,temp=max(fire))

@@ -1,4 +1,4 @@
-# Further reading and learning {#sec:furtherreading}
+# Further reading and learning {#sec-furtherreading}
 
 More help can be called from within **R** by giving the command
 `help(ABC)` or `?ABC` with a

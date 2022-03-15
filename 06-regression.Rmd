@@ -1,4 +1,4 @@
-# Regression {#ch:regression}
+# Regression {#ch-regression}
 
 ## `lm`
 This function is used for regression according to a linear model,

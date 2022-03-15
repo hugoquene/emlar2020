@@ -1,4 +1,4 @@
-# Packages {#ch:packages}
+# Packages {#ch-packages}
 
 Packages are user-provided extensions to the basic R 
 system (comparable to an "add-on" or "extension" for some web browsers). 

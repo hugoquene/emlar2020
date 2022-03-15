@@ -1,4 +1,4 @@
-# Objects {#ch:objects}
+# Objects {#ch-objects}
 
 ## Vectors {#sec:vectors}
 
@@ -78,7 +78,7 @@ local file, or a `url` to a web-based file, or a
 call of function `file.choose()` to select a file
 interactively. Argument `na.strings` specifies
 the character string(s) that indicate missing values in the input file.
-```{text}
+```{}
 # in Windows system
 myexp <- read.table(
   file="f:\\temp\\mydata.txt", header=T, sep="," )
@@ -90,7 +90,7 @@ nlspkr <- read.table(
   header=TRUE, na.strings=c("NA","MISSING") )
 ```
 
-It is also possible to read so-called CSV files (comma-separated values) saved from Excel or SPSS (`read.csv`), and it is also possible to read Excel or SPSS data files directly using extension packages (`readxl::readxl`, `foreign::read.spss`, see Chapter \@ref(ch:packages)).
+It is also possible to read so-called CSV files (comma-separated values) saved from Excel or SPSS (`read.csv`), and it is also possible to read Excel or SPSS data files directly using extension packages (`readxl::readxl`, `foreign::read.spss`, see Chapter \@ref(ch-packages)).
 
 The basic R  and extension packages already have many
 datasets pre-defined, for immediate use. 

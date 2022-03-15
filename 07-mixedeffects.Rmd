@@ -1,4 +1,4 @@
-# Mixed-effects modeling {#ch:mixedeffects}
+# Mixed-effects modeling {#ch-mixedeffects}
 
 Many language (acquisition) studies are based on samples of two random
 factors: a sample of participants (subjects) and a sample of language
@@ -22,7 +22,7 @@ modeling is quickly gaining in popularity
 
 For mixed-effects modeling, you need to install two add-on packages to
 R , named `lme4` and `languageR` [@BDB08]. For more
-information on packages, see Chapter \@ref(ch:packages) below. 
+information on packages, see Chapter \@ref(ch-packages) below. 
 After activation of these packages, we
 can simply perform a mixed-effects analysis. First, we read in an
 example dataset [@QB08] in long data layout:

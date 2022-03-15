@@ -1,4 +1,4 @@
-# Exploratory data analyses {#ch:EDA}
+# Exploratory data analyses {#ch-EDA}
 
 R  is more graphically oriented than most other
 statistical packages; it relies more on plots and figures for initial
@@ -120,7 +120,7 @@ x[ sample(1:3*7, size=2) ] <- NA # replace 2 out of 21 obs by NA
 table( table(x) ) # not ok: not all three cells have 7 observations, N<21
 ```
 
-The `lattice` package (see Chapter \@ref(ch:packages)) contains additional functions for higher-order data visualization: 
+The `lattice` package (see Chapter \@ref(ch-packages)) contains additional functions for higher-order data visualization: 
 `xyplot`,
 `histogram`,
 `densityplot`, 

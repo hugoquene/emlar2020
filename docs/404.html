@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 6 Regression | Statistics with R</title>
+  <title>Page not found | Statistics with R</title>
   <meta name="description" content="This is a handout of the online tutorial on Statistics with R, held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook." />
   <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 6 Regression | Statistics with R" />
+  <meta property="og:title" content="Page not found | Statistics with R" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="rstudio/bookdown-emlar2020" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 6 Regression | Statistics with R" />
+  <meta name="twitter:title" content="Page not found | Statistics with R" />
   
   <meta name="twitter:description" content="This is a handout of the online tutorial on Statistics with R, held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="ch-testinghypotheses.html"/>
-<link rel="next" href="ch-mixedeffects.html"/>
+
+
 <script src="libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -249,142 +249,19 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="ch-regression" class="section level1 hasAnchor" number="6">
-<h1><span class="header-section-number">Chapter 6</span> Regression<a href="ch-regression.html#ch-regression" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="lm" class="section level2 hasAnchor" number="6.1">
-<h2><span class="header-section-number">6.1</span> <code>lm</code><a href="ch-regression.html#lm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>This function is used for regression according to a linear model,
-i.e. linear regression. It returns a model-class object. There are
-specialized functions for such models, e.g. 
-to extract residuals (<code>resid</code>),
-to extract regression coefficients (<code>coef</code>),
-to modify (<code>update</code>) the model, etc.</p>
-<p>In the following example, we construct two regression models.
-The first step in your regression analysis should always be a thorough visual and numerical inspection, including histograms and scatterplots of the variables under
-study.</p>
-<p>The first model is</p>
-<p><span class="math inline">\(\texttt{nsyl} = b_0\)</span></p>
-<p>having only a
-constant intercept. The second model includes the speakers’ age as a
-predictor, i.e. </p>
-<p><span class="math inline">\(\texttt{nsyl} = b_0 + b_1 \texttt{age}\)</span></p>
-<p>(The intercept is included in this model too, by default, unless
-suppressed explicitly with <code>-1</code> or
-<code>~0</code> in the regression formula). The key
-question here is whether inclusion of a predictor yields a better
-model, with significantly smaller residuals and significantly higher
-<span class="math inline">\(R^2\)</span>. The intercept-only model and the linear-regression model are
-compared with the <code>anova</code> function.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="ch-regression.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(hqmisc)</span>
-<span id="cb74-2"><a href="ch-regression.html#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(talkers)</span>
-<span id="cb74-3"><a href="ch-regression.html#cb74-3" aria-hidden="true" tabindex="-1"></a>model1.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>( nsyl<span class="sc">~</span><span class="dv">1</span>, <span class="at">data=</span>talkers ) <span class="co"># only intercept</span></span>
-<span id="cb74-4"><a href="ch-regression.html#cb74-4" aria-hidden="true" tabindex="-1"></a>model2.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>( nsyl<span class="sc">~</span>age, <span class="at">data=</span>talkers ) <span class="co"># with intercept</span></span>
-<span id="cb74-5"><a href="ch-regression.html#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>( model1.lm, model2.lm ) <span class="co"># compare two models</span></span></code></pre></div>
-<pre><code>## Analysis of Variance Table
-## 
-## Model 1: nsyl ~ 1
-## Model 2: nsyl ~ age
-##   Res.Df    RSS Df Sum of Sq      F Pr(&gt;F)
-## 1     79 381.85                           
-## 2     78 375.06  1    6.7823 1.4105 0.2386</code></pre>
-<p>Including the <code>age</code> predictor does improve the model a little bit,
-as indicated by the somewhat smaller residual sums-of-squares
-(<code>RSS</code>). The improvement, however, is too small to be of
-significance. The linear effect of a speaker’s age on his or her
-average phrase length (in syllables) is not significant.</p>
-</div>
-<div id="glm" class="section level2 hasAnchor" number="6.2">
-<h2><span class="header-section-number">6.2</span> <code>glm</code><a href="ch-regression.html#glm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>For logistic regression we use function
-<code>glm(family=binomial)</code>, again with a
-regression formula as an obligatory argument. Logistic regression
-can be imagined as computing the logit of the hit-rate for each
-cell, and then regressing these logits on the predictor(s). Here is
-an annotated example <span class="citation">(<a href="#ref-MMC03" role="doc-biblioref">Moore and McCabe 2003</a>)</span> (Exercise 15.25).</p>
-<p>The response variable <code>outcome</code> indicates
-the death (<code>0</code>) or survival
-(<code>1</code>) of 2900 patients in two hospitals.</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="ch-regression.html#cb76-1" aria-hidden="true" tabindex="-1"></a>ips1525 <span class="ot">&lt;-</span> <span class="fu">read.table</span>( </span>
-<span id="cb76-2"><a href="ch-regression.html#cb76-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">file=</span><span class="fu">url</span>(<span class="st">&quot;http://www.hugoquene.nl/emlar/ipsex1525.txt&quot;</span>),</span>
-<span id="cb76-3"><a href="ch-regression.html#cb76-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">header=</span>T, <span class="at">sep=</span><span class="st">&quot;,&quot;</span>) </span>
-<span id="cb76-4"><a href="ch-regression.html#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>( ips1525, <span class="fu">table</span>(outcome) ) </span></code></pre></div>
-<pre><code>## outcome
-##    0    1 
-##   79 2821</code></pre>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="ch-regression.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">2821</span><span class="sc">/</span><span class="dv">79</span>) <span class="co"># log of odds of survival is 3.575</span></span></code></pre></div>
-<pre><code>## [1] 3.575399</code></pre>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="ch-regression.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># intercept-only logistic-regression model</span></span>
-<span id="cb80-2"><a href="ch-regression.html#cb80-2" aria-hidden="true" tabindex="-1"></a>model1.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>( outcome<span class="sc">~</span><span class="dv">1</span>, <span class="at">data=</span>ips1525, <span class="at">family=</span>binomial )</span>
-<span id="cb80-3"><a href="ch-regression.html#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1.glm) </span></code></pre></div>
-<pre><code>## 
-## Call:
-## glm(formula = outcome ~ 1, family = binomial, data = ips1525)
-## 
-## Deviance Residuals: 
-##    Min      1Q  Median      3Q     Max  
-## -2.684   0.235   0.235   0.235   0.235  
-## 
-## Coefficients:
-##             Estimate Std. Error z value Pr(&gt;|z|)    
-## (Intercept)   3.5754     0.1141   31.34   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 725.1  on 2899  degrees of freedom
-## Residual deviance: 725.1  on 2899  degrees of freedom
-## AIC: 727.1
-## 
-## Number of Fisher Scoring iterations: 6</code></pre>
-<p>The intercept coefficient of the intercept-only logistic regression
-model equals the overall log odds of survival; this intercept is
-significantly different from zero <a href="references.html#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a>. Thus the intercept-only
-logistic regression model captures the overall log odds of survival.
-Next, let’s try to improve this model, by including two predictors:
-first, the <code>hospital</code> where the patient was treated, and second, the
-patient’s <code>condition</code> at intake, classified as bad
-(<code>0</code>) or good (<code>1</code>).</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="ch-regression.html#cb82-1" aria-hidden="true" tabindex="-1"></a>model2.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>( outcome<span class="sc">~</span>hospital, <span class="at">data=</span>ips1525, <span class="at">family=</span>binomial ) </span>
-<span id="cb82-2"><a href="ch-regression.html#cb82-2" aria-hidden="true" tabindex="-1"></a>model3.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>( outcome<span class="sc">~</span>hospital<span class="sc">*</span>condition, </span>
-<span id="cb82-3"><a href="ch-regression.html#cb82-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data=</span>ips1525, <span class="at">family=</span>binomial ) </span></code></pre></div>
-<p>The deviance among logistic-regression models follows a <span class="math inline">\(\chi^2\)</span>
-distribution. Hence we can compare models by computing the <span class="math inline">\(\chi^2\)</span>
-probability of their deviances. Both model 2 and model 3
-are compared here against model 1.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="ch-regression.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>( model1.glm, model2.glm, model3.glm, <span class="at">test=</span><span class="st">&quot;Chisq&quot;</span> ) </span></code></pre></div>
-<pre><code>## Analysis of Deviance Table
-## 
-## Model 1: outcome ~ 1
-## Model 2: outcome ~ hospital
-## Model 3: outcome ~ hospital * condition
-##   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
-## 1      2899     725.10                          
-## 2      2898     722.78  1   2.3253    0.1273    
-## 3      2896     703.96  2  18.8222 8.181e-05 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>The results indicate that there is no significant difference among
-hospitals in their survival rates (model 2, <span class="math inline">\(p&gt;.10\)</span>), but there is a
-significant effect of intake condition on the outcome (model 3,
-<span class="math inline">\(p&lt;.001\)</span>). Of course, you should also inspect the models themselves
-before drawing conclusions.</p>
-
-</div>
-</div>
-<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="refs" class="references csl-bib-body hanging-indent">
-<div id="ref-MMC03" class="csl-entry">
-Moore, David S., and George P. McCabe. 2003. <em>Introduction to the Practice of Statistics</em>. 4th ed. Freeman.
-</div>
+<div id="page-not-found" class="section level1">
+<h1>Page not found</h1>
+<p>The page you requested cannot be found (perhaps it was moved or renamed).</p>
+<p>You may want to try searching to find the page's new location, or use
+the table of contents to find the page you are looking for.</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="ch-testinghypotheses.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="ch-mixedeffects.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+
+
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -415,7 +292,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/rstudio/bookdown-demo/edit/master/06-regression.Rmd",
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/%s",
 "text": "Edit"
 },
 "history": {

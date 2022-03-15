@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 3 Basic operations | Statistics with R</title>
   <meta name="description" content="This is a handout of the online tutorial on Statistics with R, held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 3 Basic operations | Statistics with R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Hugo Quené" />
 
 
-<meta name="date" content="2020-04-20" />
+<meta name="date" content="2022-03-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,9 @@
   
 <link rel="prev" href="ch-objects.html"/>
 <link rel="next" href="ch-EDA.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,29 +51,33 @@
 
 
 
-
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +86,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -115,6 +121,29 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
@@ -131,64 +160,75 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Statistics with R</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
-<li class="chapter" data-level="1" data-path="ch-introduction.html"><a href="ch-introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
-<li class="chapter" data-level="1.1" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisR"><i class="fa fa-check"></i><b>1.1</b> What is R ?</a></li>
-<li class="chapter" data-level="1.2" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisrstudio"><i class="fa fa-check"></i><b>1.2</b> What is RStudio?</a></li>
-<li class="chapter" data-level="1.3" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:objectorientedphilosophy"><i class="fa fa-check"></i><b>1.3</b> Object-oriented philosophy</a></li>
+<li><a href="index.html#preface">Preface<span></span></a>
+<ul>
+<li><a href="index.html#versions">Versions<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="ch-objects.html"><a href="ch-objects.html"><i class="fa fa-check"></i><b>2</b> Objects</a><ul>
-<li class="chapter" data-level="2.1" data-path="ch-objects.html"><a href="ch-objects.html#sec:vectors"><i class="fa fa-check"></i><b>2.1</b> Vectors</a></li>
-<li class="chapter" data-level="2.2" data-path="ch-objects.html"><a href="ch-objects.html#sec:factors"><i class="fa fa-check"></i><b>2.2</b> Factors</a></li>
-<li class="chapter" data-level="2.3" data-path="ch-objects.html"><a href="ch-objects.html#sec:complex.objects"><i class="fa fa-check"></i><b>2.3</b> Complex objects</a></li>
+<li class="chapter" data-level="1" data-path="ch-introduction.html"><a href="ch-introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisR"><i class="fa fa-check"></i><b>1.1</b> What is R ?<span></span></a></li>
+<li class="chapter" data-level="1.2" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisrstudio"><i class="fa fa-check"></i><b>1.2</b> What is RStudio?<span></span></a></li>
+<li class="chapter" data-level="1.3" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:objectorientedphilosophy"><i class="fa fa-check"></i><b>1.3</b> Object-oriented philosophy<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html"><i class="fa fa-check"></i><b>3</b> Basic operations</a><ul>
-<li class="chapter" data-level="3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sub:basics"><i class="fa fa-check"></i><b>3.1</b> Basics</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section"><i class="fa fa-check"></i><b>3.1.1</b> <code>&lt;-</code></a></li>
-<li class="chapter" data-level="3.1.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section-1"><i class="fa fa-check"></i><b>3.1.2</b> <code>#</code></a></li>
-<li class="chapter" data-level="3.1.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#scan"><i class="fa fa-check"></i><b>3.1.3</b> <code>scan</code></a></li>
-<li class="chapter" data-level="3.1.4" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#objects"><i class="fa fa-check"></i><b>3.1.4</b> <code>objects</code></a></li>
-<li class="chapter" data-level="3.1.5" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#rm"><i class="fa fa-check"></i><b>3.1.5</b> <code>rm</code></a></li>
-<li class="chapter" data-level="3.1.6" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#print"><i class="fa fa-check"></i><b>3.1.6</b> <code>print</code></a></li>
-<li class="chapter" data-level="3.1.7" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#summary"><i class="fa fa-check"></i><b>3.1.7</b> <code>summary</code></a></li>
-<li class="chapter" data-level="3.1.8" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#workspace"><i class="fa fa-check"></i><b>3.1.8</b> Workspace:</a></li>
-<li class="chapter" data-level="3.1.9" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#save"><i class="fa fa-check"></i><b>3.1.9</b> <code>save</code></a></li>
-<li class="chapter" data-level="3.1.10" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#read"><i class="fa fa-check"></i><b>3.1.10</b> <code>read</code></a></li>
-<li class="chapter" data-level="3.1.11" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#no-undo"><i class="fa fa-check"></i><b>3.1.11</b> No <code>undo</code></a></li>
+<li class="chapter" data-level="2" data-path="ch-objects.html"><a href="ch-objects.html"><i class="fa fa-check"></i><b>2</b> Objects<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="ch-objects.html"><a href="ch-objects.html#sec:vectors"><i class="fa fa-check"></i><b>2.1</b> Vectors<span></span></a></li>
+<li class="chapter" data-level="2.2" data-path="ch-objects.html"><a href="ch-objects.html#sec:factors"><i class="fa fa-check"></i><b>2.2</b> Factors<span></span></a></li>
+<li class="chapter" data-level="2.3" data-path="ch-objects.html"><a href="ch-objects.html#sec:complex.objects"><i class="fa fa-check"></i><b>2.3</b> Complex objects<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:subselection"><i class="fa fa-check"></i><b>3.2</b> Subselection</a></li>
-<li class="chapter" data-level="3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:split.merge.reshape"><i class="fa fa-check"></i><b>3.3</b> Split, merge, reshape</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#split"><i class="fa fa-check"></i><b>3.3.1</b> <code>split</code></a></li>
-<li class="chapter" data-level="3.3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#merge"><i class="fa fa-check"></i><b>3.3.2</b> <code>merge</code></a></li>
-<li class="chapter" data-level="3.3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#reshape"><i class="fa fa-check"></i><b>3.3.3</b> <code>reshape</code></a></li>
+<li class="chapter" data-level="3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html"><i class="fa fa-check"></i><b>3</b> Basic operations<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sub:basics"><i class="fa fa-check"></i><b>3.1</b> Basics<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section"><i class="fa fa-check"></i><b>3.1.1</b> <code>&lt;-</code><span></span></a></li>
+<li class="chapter" data-level="3.1.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section-1"><i class="fa fa-check"></i><b>3.1.2</b> <code>#</code><span></span></a></li>
+<li class="chapter" data-level="3.1.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#scan"><i class="fa fa-check"></i><b>3.1.3</b> <code>scan</code><span></span></a></li>
+<li class="chapter" data-level="3.1.4" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#objects"><i class="fa fa-check"></i><b>3.1.4</b> <code>objects</code><span></span></a></li>
+<li class="chapter" data-level="3.1.5" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#rm"><i class="fa fa-check"></i><b>3.1.5</b> <code>rm</code><span></span></a></li>
+<li class="chapter" data-level="3.1.6" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#print"><i class="fa fa-check"></i><b>3.1.6</b> <code>print</code><span></span></a></li>
+<li class="chapter" data-level="3.1.7" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#summary"><i class="fa fa-check"></i><b>3.1.7</b> <code>summary</code><span></span></a></li>
+<li class="chapter" data-level="3.1.8" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#workspace"><i class="fa fa-check"></i><b>3.1.8</b> Workspace:<span></span></a></li>
+<li class="chapter" data-level="3.1.9" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#save"><i class="fa fa-check"></i><b>3.1.9</b> <code>save</code><span></span></a></li>
+<li class="chapter" data-level="3.1.10" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#read"><i class="fa fa-check"></i><b>3.1.10</b> <code>read</code><span></span></a></li>
+<li class="chapter" data-level="3.1.11" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#no-undo"><i class="fa fa-check"></i><b>3.1.11</b> No <code>undo</code><span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:subselection"><i class="fa fa-check"></i><b>3.2</b> Subselection<span></span></a></li>
+<li class="chapter" data-level="3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:split.merge.reshape"><i class="fa fa-check"></i><b>3.3</b> Split, merge, reshape<span></span></a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#split"><i class="fa fa-check"></i><b>3.3.1</b> <code>split</code><span></span></a></li>
+<li class="chapter" data-level="3.3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#merge"><i class="fa fa-check"></i><b>3.3.2</b> <code>merge</code><span></span></a></li>
+<li class="chapter" data-level="3.3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#reshape"><i class="fa fa-check"></i><b>3.3.3</b> <code>reshape</code><span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="ch-EDA.html"><a href="ch-EDA.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analyses</a><ul>
-<li class="chapter" data-level="4.1" data-path="ch-EDA.html"><a href="ch-EDA.html#hist"><i class="fa fa-check"></i><b>4.1</b> <code>hist</code></a></li>
-<li class="chapter" data-level="4.2" data-path="ch-EDA.html"><a href="ch-EDA.html#plot"><i class="fa fa-check"></i><b>4.2</b> <code>plot</code></a></li>
-<li class="chapter" data-level="4.3" data-path="ch-EDA.html"><a href="ch-EDA.html#rug"><i class="fa fa-check"></i><b>4.3</b> <code>rug</code></a></li>
-<li class="chapter" data-level="4.4" data-path="ch-EDA.html"><a href="ch-EDA.html#boxplot"><i class="fa fa-check"></i><b>4.4</b> <code>boxplot</code></a></li>
-<li class="chapter" data-level="4.5" data-path="ch-EDA.html"><a href="ch-EDA.html#qqnorm"><i class="fa fa-check"></i><b>4.5</b> <code>qqnorm</code></a></li>
-<li class="chapter" data-level="4.6" data-path="ch-EDA.html"><a href="ch-EDA.html#summary-1"><i class="fa fa-check"></i><b>4.6</b> <code>summary</code></a></li>
-<li class="chapter" data-level="4.7" data-path="ch-EDA.html"><a href="ch-EDA.html#var"><i class="fa fa-check"></i><b>4.7</b> <code>var</code></a></li>
-<li class="chapter" data-level="4.8" data-path="ch-EDA.html"><a href="ch-EDA.html#length"><i class="fa fa-check"></i><b>4.8</b> <code>length</code></a></li>
-<li class="chapter" data-level="4.9" data-path="ch-EDA.html"><a href="ch-EDA.html#unique"><i class="fa fa-check"></i><b>4.9</b> <code>unique</code></a></li>
-<li class="chapter" data-level="4.10" data-path="ch-EDA.html"><a href="ch-EDA.html#table"><i class="fa fa-check"></i><b>4.10</b> <code>table</code></a></li>
+<li class="chapter" data-level="4" data-path="ch-EDA.html"><a href="ch-EDA.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analyses<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ch-EDA.html"><a href="ch-EDA.html#hist"><i class="fa fa-check"></i><b>4.1</b> <code>hist</code><span></span></a></li>
+<li class="chapter" data-level="4.2" data-path="ch-EDA.html"><a href="ch-EDA.html#plot"><i class="fa fa-check"></i><b>4.2</b> <code>plot</code><span></span></a></li>
+<li class="chapter" data-level="4.3" data-path="ch-EDA.html"><a href="ch-EDA.html#rug"><i class="fa fa-check"></i><b>4.3</b> <code>rug</code><span></span></a></li>
+<li class="chapter" data-level="4.4" data-path="ch-EDA.html"><a href="ch-EDA.html#boxplot"><i class="fa fa-check"></i><b>4.4</b> <code>boxplot</code><span></span></a></li>
+<li class="chapter" data-level="4.5" data-path="ch-EDA.html"><a href="ch-EDA.html#qqnorm"><i class="fa fa-check"></i><b>4.5</b> <code>qqnorm</code><span></span></a></li>
+<li class="chapter" data-level="4.6" data-path="ch-EDA.html"><a href="ch-EDA.html#summary-1"><i class="fa fa-check"></i><b>4.6</b> <code>summary</code><span></span></a></li>
+<li class="chapter" data-level="4.7" data-path="ch-EDA.html"><a href="ch-EDA.html#var"><i class="fa fa-check"></i><b>4.7</b> <code>var</code><span></span></a></li>
+<li class="chapter" data-level="4.8" data-path="ch-EDA.html"><a href="ch-EDA.html#length"><i class="fa fa-check"></i><b>4.8</b> <code>length</code><span></span></a></li>
+<li class="chapter" data-level="4.9" data-path="ch-EDA.html"><a href="ch-EDA.html#unique"><i class="fa fa-check"></i><b>4.9</b> <code>unique</code><span></span></a></li>
+<li class="chapter" data-level="4.10" data-path="ch-EDA.html"><a href="ch-EDA.html#table"><i class="fa fa-check"></i><b>4.10</b> <code>table</code><span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html"><i class="fa fa-check"></i><b>5</b> Testing hypotheses</a><ul>
-<li class="chapter" data-level="5.1" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#formula"><i class="fa fa-check"></i><b>5.1</b> formula</a></li>
-<li class="chapter" data-level="5.2" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#t-test"><i class="fa fa-check"></i><b>5.2</b> <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="5.3" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#chisq.test"><i class="fa fa-check"></i><b>5.3</b> <code>chisq.test</code></a></li>
-<li class="chapter" data-level="5.4" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#aov"><i class="fa fa-check"></i><b>5.4</b> <code>aov</code></a></li>
+<li class="chapter" data-level="5" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html"><i class="fa fa-check"></i><b>5</b> Testing hypotheses<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#formula"><i class="fa fa-check"></i><b>5.1</b> formula<span></span></a></li>
+<li class="chapter" data-level="5.2" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#t-test"><i class="fa fa-check"></i><b>5.2</b> <span class="math inline">\(t\)</span> test<span></span></a></li>
+<li class="chapter" data-level="5.3" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#chisq.test"><i class="fa fa-check"></i><b>5.3</b> <code>chisq.test</code><span></span></a></li>
+<li class="chapter" data-level="5.4" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#aov"><i class="fa fa-check"></i><b>5.4</b> <code>aov</code><span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="ch-regression.html"><a href="ch-regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a><ul>
-<li class="chapter" data-level="6.1" data-path="ch-regression.html"><a href="ch-regression.html#lm"><i class="fa fa-check"></i><b>6.1</b> <code>lm</code></a></li>
-<li class="chapter" data-level="6.2" data-path="ch-regression.html"><a href="ch-regression.html#glm"><i class="fa fa-check"></i><b>6.2</b> <code>glm</code></a></li>
+<li class="chapter" data-level="6" data-path="ch-regression.html"><a href="ch-regression.html"><i class="fa fa-check"></i><b>6</b> Regression<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="ch-regression.html"><a href="ch-regression.html#lm"><i class="fa fa-check"></i><b>6.1</b> <code>lm</code><span></span></a></li>
+<li class="chapter" data-level="6.2" data-path="ch-regression.html"><a href="ch-regression.html#glm"><i class="fa fa-check"></i><b>6.2</b> <code>glm</code><span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="ch-mixedeffects.html"><a href="ch-mixedeffects.html"><i class="fa fa-check"></i><b>7</b> Mixed-effects modeling</a></li>
-<li class="chapter" data-level="8" data-path="ch-packages.html"><a href="ch-packages.html"><i class="fa fa-check"></i><b>8</b> Packages</a></li>
-<li class="chapter" data-level="9" data-path="sec-furtherreading.html"><a href="sec-furtherreading.html"><i class="fa fa-check"></i><b>9</b> Further reading and learning</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="7" data-path="ch-mixedeffects.html"><a href="ch-mixedeffects.html"><i class="fa fa-check"></i><b>7</b> Mixed-effects modeling<span></span></a></li>
+<li class="chapter" data-level="8" data-path="ch-packages.html"><a href="ch-packages.html"><i class="fa fa-check"></i><b>8</b> Packages<span></span></a></li>
+<li class="chapter" data-level="9" data-path="sec-furtherreading.html"><a href="sec-furtherreading.html"><i class="fa fa-check"></i><b>9</b> Further reading and learning<span></span></a></li>
+<li><a href="references.html#references">References<span></span></a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -209,12 +249,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="ch:basicoperations" class="section level1">
-<h1><span class="header-section-number">Chapter 3</span> Basic operations</h1>
-<div id="sub:basics" class="section level2">
-<h2><span class="header-section-number">3.1</span> Basics</h2>
-<div id="section" class="section level3">
-<h3><span class="header-section-number">3.1.1</span> <code>&lt;-</code></h3>
+<div id="ch-basicoperations" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Basic operations<a href="ch-basicoperations.html#ch-basicoperations" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="sub:basics" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Basics<a href="ch-basicoperations.html#sub:basics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="section" class="section level3 hasAnchor" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> <code>&lt;-</code><a href="ch-basicoperations.html#section" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This is the assignment operator: the expression to its right is
 evaluated (if applicable) and then assigned to the object on the
 left of the operator. Hence the expression
@@ -222,70 +262,71 @@ left of the operator. Hence the expression
 number, “gets” the value of 10, i.e. the value of 10 is assigned to <code>a</code>.
 The symbol resembles
 an arrow in the direction of assignment. The assignment may also be
-in the other direction, with symbol <code>-&gt;</code> (and see note<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>).
+in the other direction, with symbol <code>-&gt;</code> (and see note
+<a href="references.html#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>).
 There should be no space between the two characters making up the arrow.
 Use spaces or brackets to avoid ambiguities and errors:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="dv">10</span> <span class="co"># assignment of atomic value 10 to object x</span></a>
-<a class="sourceLine" id="cb26-2" data-line-number="2">x <span class="op">&lt;</span><span class="st"> </span><span class="op">-</span><span class="st"> </span><span class="dv">10</span> <span class="co"># is value of x less than -10 ?</span></a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="ch-basicoperations.html#cb26-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="co"># assignment of atomic value 10 to object x</span></span>
+<span id="cb26-2"><a href="ch-basicoperations.html#cb26-2" aria-hidden="true" tabindex="-1"></a>x <span class="sc">&lt;</span> <span class="sc">-</span> <span class="dv">10</span> <span class="co"># is value of x less than -10 ?</span></span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 </div>
-<div id="section-1" class="section level3">
-<h3><span class="header-section-number">3.1.2</span> <code>#</code></h3>
+<div id="section-1" class="section level3 hasAnchor" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> <code>#</code><a href="ch-basicoperations.html#section-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>indicates a comment: everything following this symbol, on the same
 line of input, is ignored.</p>
 </div>
-<div id="scan" class="section level3">
-<h3><span class="header-section-number">3.1.3</span> <code>scan</code></h3>
+<div id="scan" class="section level3 hasAnchor" number="3.1.3">
+<h3><span class="header-section-number">3.1.3</span> <code>scan</code><a href="ch-basicoperations.html#scan" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This command reads a simple vector from the keyboard. Make sure to
 assign the result to a new object! Read in the numbers 1 to 10, and
 assign them to a new object.</p>
 </div>
-<div id="objects" class="section level3">
-<h3><span class="header-section-number">3.1.4</span> <code>objects</code></h3>
+<div id="objects" class="section level3 hasAnchor" number="3.1.4">
+<h3><span class="header-section-number">3.1.4</span> <code>objects</code><a href="ch-basicoperations.html#objects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This command shows a list of all objects in memory (similar to the
-contents of the <code>Praat</code> Objects window). With <code>objects(pattern=&quot;abc&quot;)</code> the list is filtered so that only the objects matching the pattern string <code>&quot;abc&quot;</code> are shown.</p>
+contents of the <code>Praat</code> Objects window). With <code>objects(pattern="abc")</code> the list is filtered so that only the objects matching the pattern string <code>"abc"</code> are shown.</p>
 </div>
-<div id="rm" class="section level3">
-<h3><span class="header-section-number">3.1.5</span> <code>rm</code></h3>
+<div id="rm" class="section level3 hasAnchor" number="3.1.5">
+<h3><span class="header-section-number">3.1.5</span> <code>rm</code><a href="ch-basicoperations.html#rm" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Objects are removed <em>forever</em> with this command.</p>
 </div>
-<div id="print" class="section level3">
-<h3><span class="header-section-number">3.1.6</span> <code>print</code></h3>
+<div id="print" class="section level3 hasAnchor" number="3.1.6">
+<h3><span class="header-section-number">3.1.6</span> <code>print</code><a href="ch-basicoperations.html#print" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Contents of an object can be inspected with this command, or by just
 entering the name of the object, as in some examples above.</p>
 </div>
-<div id="summary" class="section level3">
-<h3><span class="header-section-number">3.1.7</span> <code>summary</code></h3>
+<div id="summary" class="section level3 hasAnchor" number="3.1.7">
+<h3><span class="header-section-number">3.1.7</span> <code>summary</code><a href="ch-basicoperations.html#summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This command offers a summary of an object. The result depends on
 the data class of the object, as illustrated in section REF
 above.</p>
 </div>
-<div id="workspace" class="section level3">
-<h3><span class="header-section-number">3.1.8</span> Workspace:</h3>
+<div id="workspace" class="section level3 hasAnchor" number="3.1.8">
+<h3><span class="header-section-number">3.1.8</span> Workspace:<a href="ch-basicoperations.html#workspace" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>R holds its objects in memory. The whole workspace,
 containing all data objects, can be stored from the
 Rstudio window (<code>Session &gt; Save Workspace As...</code>).
 This allows you to save a
 session, and continue your work later (<code>Session &gt; Load Workspace...</code>).</p>
 </div>
-<div id="save" class="section level3">
-<h3><span class="header-section-number">3.1.9</span> <code>save</code></h3>
+<div id="save" class="section level3 hasAnchor" number="3.1.9">
+<h3><span class="header-section-number">3.1.9</span> <code>save</code><a href="ch-basicoperations.html#save" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>(to write) and</p>
 </div>
-<div id="read" class="section level3">
-<h3><span class="header-section-number">3.1.10</span> <code>read</code></h3>
+<div id="read" class="section level3 hasAnchor" number="3.1.10">
+<h3><span class="header-section-number">3.1.10</span> <code>read</code><a href="ch-basicoperations.html#read" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>(to read) an object from/to memory to hard disk. By default,
 R data objects have the extension <code>.Rda</code>.</p>
 </div>
-<div id="no-undo" class="section level3">
-<h3><span class="header-section-number">3.1.11</span> No <code>undo</code></h3>
+<div id="no-undo" class="section level3 hasAnchor" number="3.1.11">
+<h3><span class="header-section-number">3.1.11</span> No <code>undo</code><a href="ch-basicoperations.html#no-undo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Remember that there is <em>no</em> <code>undo</code> command, nor such a menu
 option. Save your work regularly. If in doubt, work with scratch
 copies of your data sets.</p>
 </div>
 </div>
-<div id="sec:subselection" class="section level2">
-<h2><span class="header-section-number">3.2</span> Subselection</h2>
+<div id="sec:subselection" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Subselection<a href="ch-basicoperations.html#sec:subselection" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Subselection within an object is a very powerful tool in
 R. The subselection operator <code>x[…]</code> selects only those data from object <code>x</code>
 that match the expression within square brackets. This expression can be a
@@ -295,25 +336,25 @@ expression, as illustrated in the following example.</p>
 30 numbers, but 3 of these are <code>NA</code>. Notice that
 the output of <code>is.na</code> is the input of
 <code>table</code>.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="co"># is.na() returns TRUE/FALSE for each element of ’x’. </span></a>
-<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="co"># table() summarizes categorical data </span></a>
-<a class="sourceLine" id="cb28-3" data-line-number="3"><span class="kw">table</span>( <span class="kw">is.na</span>(x) ) </a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="ch-basicoperations.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># is.na() returns TRUE/FALSE for each element of ’x’. </span></span>
+<span id="cb28-2"><a href="ch-basicoperations.html#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># table() summarizes categorical data </span></span>
+<span id="cb28-3"><a href="ch-basicoperations.html#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>( <span class="fu">is.na</span>(x) ) </span></code></pre></div>
 <pre><code>## 
 ## FALSE  TRUE 
 ##    27     3</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">ok &lt;-<span class="st"> </span><span class="op">!</span><span class="kw">is.na</span>( x ) <span class="co"># exclamation mark means NOT </span></a>
-<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">which</span>( <span class="op">!</span>ok ) <span class="co"># which index numbers are NOT ok? inspect! </span></a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="ch-basicoperations.html#cb30-1" aria-hidden="true" tabindex="-1"></a>ok <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">is.na</span>( x ) <span class="co"># exclamation mark means NOT </span></span>
+<span id="cb30-2"><a href="ch-basicoperations.html#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>( <span class="sc">!</span>ok ) <span class="co"># which index numbers are NOT ok? inspect! </span></span></code></pre></div>
 <pre><code>## [1] 11 13 19</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">mean</span>( x[ok] ) <span class="co"># select ok values, compute mean, display </span></a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="ch-basicoperations.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>( x[ok] ) <span class="co"># select ok values, compute mean, display </span></span></code></pre></div>
 <pre><code>## [1] 1.015252</code></pre>
 <p>Subselection can also be achieved by using the function
 <code>subset(data, subset, select)</code>. The first
 argument is the input data (set), the second argument is the selector
 condition, and the optional third argument indicates which columns of a
 data frame should be kept in the output.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">require</span>(hqmisc)</a>
-<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="kw">data</span>(talkers)</a>
-<a class="sourceLine" id="cb34-3" data-line-number="3"><span class="kw">subset</span>( talkers, <span class="dt">subset=</span>( age<span class="op">&lt;</span><span class="dv">45</span> <span class="op">&amp;</span><span class="st"> </span>region<span class="op">==</span><span class="st">&quot;W&quot;</span> ) )</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="ch-basicoperations.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(hqmisc)</span>
+<span id="cb34-2"><a href="ch-basicoperations.html#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(talkers)</span>
+<span id="cb34-3"><a href="ch-basicoperations.html#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>( talkers, <span class="at">subset=</span>( age<span class="sc">&lt;</span><span class="dv">45</span> <span class="sc">&amp;</span> region<span class="sc">==</span><span class="st">&quot;W&quot;</span> ) )</span></code></pre></div>
 <pre><code>##     id sex age region syldur  nsyl
 ## 1   60   1  38      W 0.1940 13.56
 ## 3   62   1  36      W 0.2331 11.73
@@ -326,34 +367,34 @@ data frame should be kept in the output.</p>
 ## 55 163   0  33      W 0.2287  7.60
 ## 80 391   1  34      W 0.2225  8.89</code></pre>
 <p>This command selects rows from data frame <code>talkers</code> from the package <code>hqmisc</code><br />
-(see <a href="ch-packages.html#ch:packages">8</a>) corresponding to speakers who are under 45 years of age, and who are from the West region.</p>
+(see <a href="ch-packages.html#ch-packages">8</a>) corresponding to speakers who are under 45 years of age, and who are from the West region.</p>
 </div>
-<div id="sec:split.merge.reshape" class="section level2">
-<h2><span class="header-section-number">3.3</span> Split, merge, reshape</h2>
+<div id="sec:split.merge.reshape" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Split, merge, reshape<a href="ch-basicoperations.html#sec:split.merge.reshape" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>There are useful functions available to split and merge data frames.
 First we create two example data frames. The first data frame has a list
-of English vowels, with a phonological feature for each vowel, and with the average frequency of the second formant<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> of each vowel <span class="citation">(Peterson and Barney <a href="#ref-pete52">1952</a>)</span> spoken by male speakers. The second data frame has a partially overlapping list of vowels, with key words by John Wells.<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a></p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">vowelsymb &lt;-<span class="st"> </span><span class="kw">c</span>( <span class="st">&quot;i&quot;</span>,<span class="st">&quot;I&quot;</span>,<span class="st">&quot;e&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;ae&quot;</span>, <span class="st">&quot;A&quot;</span>,<span class="st">&quot;V&quot;</span>,<span class="st">&quot;o&quot;</span>,<span class="st">&quot;U&quot;</span>,<span class="st">&quot;u&quot;</span>, <span class="st">&quot;@&quot;</span> )</a>
-<a class="sourceLine" id="cb36-2" data-line-number="2">v1df &lt;-<span class="st"> </span><span class="kw">data.frame</span>( <span class="dt">vowel=</span>vowelsymb,</a>
-<a class="sourceLine" id="cb36-3" data-line-number="3">                    <span class="dt">feat=</span><span class="kw">factor</span>( <span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;front&quot;</span>,<span class="dv">5</span>),</a>
-<a class="sourceLine" id="cb36-4" data-line-number="4">                                   <span class="kw">rep</span>(<span class="st">&quot;back&quot;</span>,<span class="dv">5</span>),</a>
-<a class="sourceLine" id="cb36-5" data-line-number="5">                                   <span class="st">&quot;central&quot;</span> ) ),</a>
-<a class="sourceLine" id="cb36-6" data-line-number="6">                    <span class="dt">F2=</span><span class="kw">c</span>( <span class="dv">2290</span>,<span class="dv">1990</span>,<span class="ot">NA</span>,<span class="dv">1840</span>,<span class="dv">1720</span>, </a>
-<a class="sourceLine" id="cb36-7" data-line-number="7">                          <span class="dv">1090</span>,<span class="dv">1190</span>,<span class="ot">NA</span>,<span class="dv">1020</span>,<span class="dv">870</span>,</a>
-<a class="sourceLine" id="cb36-8" data-line-number="8">                          <span class="ot">NA</span> ) )</a>
-<a class="sourceLine" id="cb36-9" data-line-number="9">v2df &lt;-<span class="st"> </span><span class="kw">data.frame</span>( <span class="dt">vowel=</span>vowelsymb[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>], </a>
-<a class="sourceLine" id="cb36-10" data-line-number="10">                    <span class="dt">word=</span><span class="kw">c</span>(<span class="st">&quot;fleece&quot;</span>,<span class="st">&quot;kit&quot;</span>,<span class="st">&quot;face&quot;</span>,<span class="st">&quot;dress&quot;</span>,<span class="st">&quot;trap&quot;</span>, </a>
-<a class="sourceLine" id="cb36-11" data-line-number="11">                           <span class="st">&quot;lot&quot;</span>,<span class="st">&quot;strut&quot;</span>,<span class="st">&quot;goat&quot;</span>,<span class="st">&quot;foot&quot;</span>,<span class="st">&quot;goose&quot;</span>) )</a></code></pre></div>
-<div id="split" class="section level3">
-<h3><span class="header-section-number">3.3.1</span> <code>split</code></h3>
+of English vowels, with a phonological feature for each vowel, and with the average frequency of the second formant<a href="references.html#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a> of each vowel <span class="citation">(<a href="#ref-pete52" role="doc-biblioref">Peterson and Barney 1952</a>)</span> spoken by male speakers. The second data frame has a partially overlapping list of vowels, with key words by John Wells <a href="references.html#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="ch-basicoperations.html#cb36-1" aria-hidden="true" tabindex="-1"></a>vowelsymb <span class="ot">&lt;-</span> <span class="fu">c</span>( <span class="st">&quot;i&quot;</span>,<span class="st">&quot;I&quot;</span>,<span class="st">&quot;e&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;ae&quot;</span>, <span class="st">&quot;A&quot;</span>,<span class="st">&quot;V&quot;</span>,<span class="st">&quot;o&quot;</span>,<span class="st">&quot;U&quot;</span>,<span class="st">&quot;u&quot;</span>, <span class="st">&quot;@&quot;</span> )</span>
+<span id="cb36-2"><a href="ch-basicoperations.html#cb36-2" aria-hidden="true" tabindex="-1"></a>v1df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">vowel=</span>vowelsymb,</span>
+<span id="cb36-3"><a href="ch-basicoperations.html#cb36-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">feat=</span><span class="fu">factor</span>( <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;front&quot;</span>,<span class="dv">5</span>),</span>
+<span id="cb36-4"><a href="ch-basicoperations.html#cb36-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="fu">rep</span>(<span class="st">&quot;back&quot;</span>,<span class="dv">5</span>),</span>
+<span id="cb36-5"><a href="ch-basicoperations.html#cb36-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;central&quot;</span> ) ),</span>
+<span id="cb36-6"><a href="ch-basicoperations.html#cb36-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">F2=</span><span class="fu">c</span>( <span class="dv">2290</span>,<span class="dv">1990</span>,<span class="cn">NA</span>,<span class="dv">1840</span>,<span class="dv">1720</span>, </span>
+<span id="cb36-7"><a href="ch-basicoperations.html#cb36-7" aria-hidden="true" tabindex="-1"></a>                          <span class="dv">1090</span>,<span class="dv">1190</span>,<span class="cn">NA</span>,<span class="dv">1020</span>,<span class="dv">870</span>,</span>
+<span id="cb36-8"><a href="ch-basicoperations.html#cb36-8" aria-hidden="true" tabindex="-1"></a>                          <span class="cn">NA</span> ) )</span>
+<span id="cb36-9"><a href="ch-basicoperations.html#cb36-9" aria-hidden="true" tabindex="-1"></a>v2df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( <span class="at">vowel=</span>vowelsymb[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], </span>
+<span id="cb36-10"><a href="ch-basicoperations.html#cb36-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">word=</span><span class="fu">c</span>(<span class="st">&quot;fleece&quot;</span>,<span class="st">&quot;kit&quot;</span>,<span class="st">&quot;face&quot;</span>,<span class="st">&quot;dress&quot;</span>,<span class="st">&quot;trap&quot;</span>, </span>
+<span id="cb36-11"><a href="ch-basicoperations.html#cb36-11" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;lot&quot;</span>,<span class="st">&quot;strut&quot;</span>,<span class="st">&quot;goat&quot;</span>,<span class="st">&quot;foot&quot;</span>,<span class="st">&quot;goose&quot;</span>) )</span></code></pre></div>
+<div id="split" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> <code>split</code><a href="ch-basicoperations.html#split" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This command divides the data in the first argument (column <code>F2</code> in
 data frame <code>v1df</code>) into the groups defined by the second argument.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">with</span>( v1df, <span class="kw">split</span>(F2,feat) ) -&gt;<span class="st"> </span>v1list </a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="ch-basicoperations.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>( v1df, <span class="fu">split</span>(F2,feat) ) <span class="ot">-&gt;</span> v1list </span></code></pre></div>
 <p>This is particularly helpful in combination with
 <code>lapply</code> to apply a function to these grouped
 data, e.g. to compute the mean of F2 for each vowel category
 separately:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">with</span>(v1df, <span class="kw">lapply</span>( <span class="kw">split</span>(F2,feat), mean, <span class="dt">na.rm=</span>T ) ) </a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="ch-basicoperations.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(v1df, <span class="fu">lapply</span>( <span class="fu">split</span>(F2,feat), mean, <span class="at">na.rm=</span>T ) ) </span></code></pre></div>
 <pre><code>## $back
 ## [1] 1042.5
 ## 
@@ -364,17 +405,17 @@ separately:</p>
 ## [1] 1960</code></pre>
 <p>Also see <code>unsplit</code>.</p>
 </div>
-<div id="merge" class="section level3">
-<h3><span class="header-section-number">3.3.2</span> <code>merge</code></h3>
+<div id="merge" class="section level3 hasAnchor" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> <code>merge</code><a href="ch-basicoperations.html#merge" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This command merges two data frames, by common columns. Specify
 argument <code>all=TRUE</code> if you want to include non-matching rows in the
 output, with NA’s in the appropriate columns.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">m1 &lt;-<span class="st"> </span><span class="kw">merge</span>(v1df, v2df)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="ch-basicoperations.html#cb40-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">merge</span>(v1df, v2df)</span></code></pre></div>
 <p>The resulting merged data frame is also sorted on the common
 columns, unless argument <code>sort=FALSE</code>.</p>
 </div>
-<div id="reshape" class="section level3">
-<h3><span class="header-section-number">3.3.3</span> <code>reshape</code></h3>
+<div id="reshape" class="section level3 hasAnchor" number="3.3.3">
+<h3><span class="header-section-number">3.3.3</span> <code>reshape</code><a href="ch-basicoperations.html#reshape" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>If you need to perform a
 Repeated Measures (within-subjects) analysis of variance (RM-ANOVA)
 in SPSS, your data have to be in “wide” data layout, with all
@@ -385,13 +426,13 @@ observation repeated for each line. There is a convenient command
 <code>reshape</code> to convert data between the wide
 layout (of SPSS RM-ANOVA) and the long layout (of R ).
 To illustrate, first we read a wide data set:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">widedata &lt;-<span class="st"> </span><span class="kw">read.table</span>( </a>
-<a class="sourceLine" id="cb41-2" data-line-number="2">  <span class="dt">file=</span><span class="kw">url</span>(<span class="st">&quot;http://www.hugoquene.nl/emlar/widedata.txt&quot;</span>),</a>
-<a class="sourceLine" id="cb41-3" data-line-number="3">  <span class="dt">header=</span>T)</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="ch-basicoperations.html#cb41-1" aria-hidden="true" tabindex="-1"></a>widedata <span class="ot">&lt;-</span> <span class="fu">read.table</span>( </span>
+<span id="cb41-2"><a href="ch-basicoperations.html#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">file=</span><span class="fu">url</span>(<span class="st">&quot;http://www.hugoquene.nl/emlar/widedata.txt&quot;</span>),</span>
+<span id="cb41-3"><a href="ch-basicoperations.html#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">header=</span>T)</span></code></pre></div>
 <p>The wide data show the subject id, between-subject group, and three
 within-subject observations, for 6 subjects (with leading row
 numbers):</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw">head</span>(widedata)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="ch-basicoperations.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(widedata)</span></code></pre></div>
 <pre><code>##   subject group item1 item2 item3
 ## 1       1     1     2     3     4
 ## 2       2     1     3     4     6
@@ -401,10 +442,10 @@ numbers):</p>
 ## 6       6     2     2     5     7</code></pre>
 <p>These data are then reshaped to long layout with the following
 command:</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">longdata &lt;-<span class="st"> </span><span class="kw">reshape</span>( widedata, <span class="dt">direction=</span><span class="st">&quot;long&quot;</span>,</a>
-<a class="sourceLine" id="cb44-2" data-line-number="2">                     <span class="dt">varying=</span><span class="kw">c</span>(<span class="st">&quot;item1&quot;</span>,<span class="st">&quot;item2&quot;</span>,<span class="st">&quot;item3&quot;</span>),</a>
-<a class="sourceLine" id="cb44-3" data-line-number="3">                     <span class="dt">timevar=</span><span class="st">&quot;item&quot;</span>, <span class="dt">times=</span><span class="kw">c</span>(<span class="st">&quot;1&quot;</span>,<span class="st">&quot;2&quot;</span>,<span class="st">&quot;3&quot;</span>),</a>
-<a class="sourceLine" id="cb44-4" data-line-number="4">                     <span class="dt">v.names=</span><span class="st">&quot;resp&quot;</span>, <span class="dt">idvar=</span><span class="st">&quot;subject&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="ch-basicoperations.html#cb44-1" aria-hidden="true" tabindex="-1"></a>longdata <span class="ot">&lt;-</span> <span class="fu">reshape</span>( widedata, <span class="at">direction=</span><span class="st">&quot;long&quot;</span>,</span>
+<span id="cb44-2"><a href="ch-basicoperations.html#cb44-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">varying=</span><span class="fu">c</span>(<span class="st">&quot;item1&quot;</span>,<span class="st">&quot;item2&quot;</span>,<span class="st">&quot;item3&quot;</span>),</span>
+<span id="cb44-3"><a href="ch-basicoperations.html#cb44-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">timevar=</span><span class="st">&quot;item&quot;</span>, <span class="at">times=</span><span class="fu">c</span>(<span class="st">&quot;1&quot;</span>,<span class="st">&quot;2&quot;</span>,<span class="st">&quot;3&quot;</span>),</span>
+<span id="cb44-4"><a href="ch-basicoperations.html#cb44-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">v.names=</span><span class="st">&quot;resp&quot;</span>, <span class="at">idvar=</span><span class="st">&quot;subject&quot;</span>)</span></code></pre></div>
 <p>The observations from multiple columns <code>varying</code> are
 collected into a new single column <code>v.names</code>, using
 identifiers in column <code>idvar</code>. The
@@ -416,18 +457,11 @@ Inspect the two data frames to verify this.</p>
 </div>
 </div>
 </div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-pete52">
-<p>Peterson, G.E., and H.L. Barney. 1952. “Control Methods in a Study of the Vowels.” <em>Journal of the Acoustical Society of America</em> 24 (2): 175–84.</p>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-pete52" class="csl-entry">
+Peterson, G. E., and H. L. Barney. 1952. <span>“Control Methods in a Study of the Vowels.”</span> <em>Journal of the Acoustical Society of America</em> 24 (2): 175–84.
 </div>
-</div>
-<div class="footnotes">
-<hr />
-<ol start="5">
-<li id="fn5"><p>A formant is a resonant frequency of the vocal tract, counted from low to high. The second formant or F2 is related to the front–back articulatory dimension.<a href="ch-basicoperations.html#fnref5" class="footnote-back">↩</a></p></li>
-<li id="fn6"><p>See <a href="http://en.wikipedia.org/wiki/Lexical_set" class="uri">http://en.wikipedia.org/wiki/Lexical_set</a><a href="ch-basicoperations.html#fnref6" class="footnote-back">↩</a></p></li>
-</ol>
 </div>
             </section>
 
@@ -439,7 +473,6 @@ Inspect the two data frames to verify this.</p>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -458,6 +491,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -478,6 +512,10 @@ gitbook.start({
 "text": null
 },
 "download": ["bookdown-emlar2020.pdf", "bookdown-emlar2020.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }

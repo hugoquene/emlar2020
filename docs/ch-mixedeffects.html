@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Mixed-effects modeling | Statistics with R</title>
   <meta name="description" content="This is a handout of the online tutorial on Statistics with R, held at EMLAR 2020, Utrecht, 17 April 2020. The output format for this tutorial is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Mixed-effects modeling | Statistics with R" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Hugo Quené" />
 
 
-<meta name="date" content="2020-04-20" />
+<meta name="date" content="2022-03-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,7 +33,9 @@
   
 <link rel="prev" href="ch-regression.html"/>
 <link rel="next" href="ch-packages.html"/>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -49,29 +51,33 @@
 
 
 
-
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +86,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -115,6 +121,29 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 
@@ -131,64 +160,75 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">Statistics with R</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
-<li class="chapter" data-level="1" data-path="ch-introduction.html"><a href="ch-introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
-<li class="chapter" data-level="1.1" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisR"><i class="fa fa-check"></i><b>1.1</b> What is R ?</a></li>
-<li class="chapter" data-level="1.2" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisrstudio"><i class="fa fa-check"></i><b>1.2</b> What is RStudio?</a></li>
-<li class="chapter" data-level="1.3" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:objectorientedphilosophy"><i class="fa fa-check"></i><b>1.3</b> Object-oriented philosophy</a></li>
+<li><a href="index.html#preface">Preface<span></span></a>
+<ul>
+<li><a href="index.html#versions">Versions<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="ch-objects.html"><a href="ch-objects.html"><i class="fa fa-check"></i><b>2</b> Objects</a><ul>
-<li class="chapter" data-level="2.1" data-path="ch-objects.html"><a href="ch-objects.html#sec:vectors"><i class="fa fa-check"></i><b>2.1</b> Vectors</a></li>
-<li class="chapter" data-level="2.2" data-path="ch-objects.html"><a href="ch-objects.html#sec:factors"><i class="fa fa-check"></i><b>2.2</b> Factors</a></li>
-<li class="chapter" data-level="2.3" data-path="ch-objects.html"><a href="ch-objects.html#sec:complex.objects"><i class="fa fa-check"></i><b>2.3</b> Complex objects</a></li>
+<li class="chapter" data-level="1" data-path="ch-introduction.html"><a href="ch-introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisR"><i class="fa fa-check"></i><b>1.1</b> What is R ?<span></span></a></li>
+<li class="chapter" data-level="1.2" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:whatisrstudio"><i class="fa fa-check"></i><b>1.2</b> What is RStudio?<span></span></a></li>
+<li class="chapter" data-level="1.3" data-path="ch-introduction.html"><a href="ch-introduction.html#sec:objectorientedphilosophy"><i class="fa fa-check"></i><b>1.3</b> Object-oriented philosophy<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html"><i class="fa fa-check"></i><b>3</b> Basic operations</a><ul>
-<li class="chapter" data-level="3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sub:basics"><i class="fa fa-check"></i><b>3.1</b> Basics</a><ul>
-<li class="chapter" data-level="3.1.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section"><i class="fa fa-check"></i><b>3.1.1</b> <code>&lt;-</code></a></li>
-<li class="chapter" data-level="3.1.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section-1"><i class="fa fa-check"></i><b>3.1.2</b> <code>#</code></a></li>
-<li class="chapter" data-level="3.1.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#scan"><i class="fa fa-check"></i><b>3.1.3</b> <code>scan</code></a></li>
-<li class="chapter" data-level="3.1.4" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#objects"><i class="fa fa-check"></i><b>3.1.4</b> <code>objects</code></a></li>
-<li class="chapter" data-level="3.1.5" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#rm"><i class="fa fa-check"></i><b>3.1.5</b> <code>rm</code></a></li>
-<li class="chapter" data-level="3.1.6" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#print"><i class="fa fa-check"></i><b>3.1.6</b> <code>print</code></a></li>
-<li class="chapter" data-level="3.1.7" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#summary"><i class="fa fa-check"></i><b>3.1.7</b> <code>summary</code></a></li>
-<li class="chapter" data-level="3.1.8" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#workspace"><i class="fa fa-check"></i><b>3.1.8</b> Workspace:</a></li>
-<li class="chapter" data-level="3.1.9" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#save"><i class="fa fa-check"></i><b>3.1.9</b> <code>save</code></a></li>
-<li class="chapter" data-level="3.1.10" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#read"><i class="fa fa-check"></i><b>3.1.10</b> <code>read</code></a></li>
-<li class="chapter" data-level="3.1.11" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#no-undo"><i class="fa fa-check"></i><b>3.1.11</b> No <code>undo</code></a></li>
+<li class="chapter" data-level="2" data-path="ch-objects.html"><a href="ch-objects.html"><i class="fa fa-check"></i><b>2</b> Objects<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="ch-objects.html"><a href="ch-objects.html#sec:vectors"><i class="fa fa-check"></i><b>2.1</b> Vectors<span></span></a></li>
+<li class="chapter" data-level="2.2" data-path="ch-objects.html"><a href="ch-objects.html#sec:factors"><i class="fa fa-check"></i><b>2.2</b> Factors<span></span></a></li>
+<li class="chapter" data-level="2.3" data-path="ch-objects.html"><a href="ch-objects.html#sec:complex.objects"><i class="fa fa-check"></i><b>2.3</b> Complex objects<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:subselection"><i class="fa fa-check"></i><b>3.2</b> Subselection</a></li>
-<li class="chapter" data-level="3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:split.merge.reshape"><i class="fa fa-check"></i><b>3.3</b> Split, merge, reshape</a><ul>
-<li class="chapter" data-level="3.3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#split"><i class="fa fa-check"></i><b>3.3.1</b> <code>split</code></a></li>
-<li class="chapter" data-level="3.3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#merge"><i class="fa fa-check"></i><b>3.3.2</b> <code>merge</code></a></li>
-<li class="chapter" data-level="3.3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#reshape"><i class="fa fa-check"></i><b>3.3.3</b> <code>reshape</code></a></li>
+<li class="chapter" data-level="3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html"><i class="fa fa-check"></i><b>3</b> Basic operations<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sub:basics"><i class="fa fa-check"></i><b>3.1</b> Basics<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section"><i class="fa fa-check"></i><b>3.1.1</b> <code>&lt;-</code><span></span></a></li>
+<li class="chapter" data-level="3.1.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#section-1"><i class="fa fa-check"></i><b>3.1.2</b> <code>#</code><span></span></a></li>
+<li class="chapter" data-level="3.1.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#scan"><i class="fa fa-check"></i><b>3.1.3</b> <code>scan</code><span></span></a></li>
+<li class="chapter" data-level="3.1.4" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#objects"><i class="fa fa-check"></i><b>3.1.4</b> <code>objects</code><span></span></a></li>
+<li class="chapter" data-level="3.1.5" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#rm"><i class="fa fa-check"></i><b>3.1.5</b> <code>rm</code><span></span></a></li>
+<li class="chapter" data-level="3.1.6" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#print"><i class="fa fa-check"></i><b>3.1.6</b> <code>print</code><span></span></a></li>
+<li class="chapter" data-level="3.1.7" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#summary"><i class="fa fa-check"></i><b>3.1.7</b> <code>summary</code><span></span></a></li>
+<li class="chapter" data-level="3.1.8" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#workspace"><i class="fa fa-check"></i><b>3.1.8</b> Workspace:<span></span></a></li>
+<li class="chapter" data-level="3.1.9" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#save"><i class="fa fa-check"></i><b>3.1.9</b> <code>save</code><span></span></a></li>
+<li class="chapter" data-level="3.1.10" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#read"><i class="fa fa-check"></i><b>3.1.10</b> <code>read</code><span></span></a></li>
+<li class="chapter" data-level="3.1.11" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#no-undo"><i class="fa fa-check"></i><b>3.1.11</b> No <code>undo</code><span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:subselection"><i class="fa fa-check"></i><b>3.2</b> Subselection<span></span></a></li>
+<li class="chapter" data-level="3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#sec:split.merge.reshape"><i class="fa fa-check"></i><b>3.3</b> Split, merge, reshape<span></span></a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#split"><i class="fa fa-check"></i><b>3.3.1</b> <code>split</code><span></span></a></li>
+<li class="chapter" data-level="3.3.2" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#merge"><i class="fa fa-check"></i><b>3.3.2</b> <code>merge</code><span></span></a></li>
+<li class="chapter" data-level="3.3.3" data-path="ch-basicoperations.html"><a href="ch-basicoperations.html#reshape"><i class="fa fa-check"></i><b>3.3.3</b> <code>reshape</code><span></span></a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="ch-EDA.html"><a href="ch-EDA.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analyses</a><ul>
-<li class="chapter" data-level="4.1" data-path="ch-EDA.html"><a href="ch-EDA.html#hist"><i class="fa fa-check"></i><b>4.1</b> <code>hist</code></a></li>
-<li class="chapter" data-level="4.2" data-path="ch-EDA.html"><a href="ch-EDA.html#plot"><i class="fa fa-check"></i><b>4.2</b> <code>plot</code></a></li>
-<li class="chapter" data-level="4.3" data-path="ch-EDA.html"><a href="ch-EDA.html#rug"><i class="fa fa-check"></i><b>4.3</b> <code>rug</code></a></li>
-<li class="chapter" data-level="4.4" data-path="ch-EDA.html"><a href="ch-EDA.html#boxplot"><i class="fa fa-check"></i><b>4.4</b> <code>boxplot</code></a></li>
-<li class="chapter" data-level="4.5" data-path="ch-EDA.html"><a href="ch-EDA.html#qqnorm"><i class="fa fa-check"></i><b>4.5</b> <code>qqnorm</code></a></li>
-<li class="chapter" data-level="4.6" data-path="ch-EDA.html"><a href="ch-EDA.html#summary-1"><i class="fa fa-check"></i><b>4.6</b> <code>summary</code></a></li>
-<li class="chapter" data-level="4.7" data-path="ch-EDA.html"><a href="ch-EDA.html#var"><i class="fa fa-check"></i><b>4.7</b> <code>var</code></a></li>
-<li class="chapter" data-level="4.8" data-path="ch-EDA.html"><a href="ch-EDA.html#length"><i class="fa fa-check"></i><b>4.8</b> <code>length</code></a></li>
-<li class="chapter" data-level="4.9" data-path="ch-EDA.html"><a href="ch-EDA.html#unique"><i class="fa fa-check"></i><b>4.9</b> <code>unique</code></a></li>
-<li class="chapter" data-level="4.10" data-path="ch-EDA.html"><a href="ch-EDA.html#table"><i class="fa fa-check"></i><b>4.10</b> <code>table</code></a></li>
+<li class="chapter" data-level="4" data-path="ch-EDA.html"><a href="ch-EDA.html"><i class="fa fa-check"></i><b>4</b> Exploratory data analyses<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="ch-EDA.html"><a href="ch-EDA.html#hist"><i class="fa fa-check"></i><b>4.1</b> <code>hist</code><span></span></a></li>
+<li class="chapter" data-level="4.2" data-path="ch-EDA.html"><a href="ch-EDA.html#plot"><i class="fa fa-check"></i><b>4.2</b> <code>plot</code><span></span></a></li>
+<li class="chapter" data-level="4.3" data-path="ch-EDA.html"><a href="ch-EDA.html#rug"><i class="fa fa-check"></i><b>4.3</b> <code>rug</code><span></span></a></li>
+<li class="chapter" data-level="4.4" data-path="ch-EDA.html"><a href="ch-EDA.html#boxplot"><i class="fa fa-check"></i><b>4.4</b> <code>boxplot</code><span></span></a></li>
+<li class="chapter" data-level="4.5" data-path="ch-EDA.html"><a href="ch-EDA.html#qqnorm"><i class="fa fa-check"></i><b>4.5</b> <code>qqnorm</code><span></span></a></li>
+<li class="chapter" data-level="4.6" data-path="ch-EDA.html"><a href="ch-EDA.html#summary-1"><i class="fa fa-check"></i><b>4.6</b> <code>summary</code><span></span></a></li>
+<li class="chapter" data-level="4.7" data-path="ch-EDA.html"><a href="ch-EDA.html#var"><i class="fa fa-check"></i><b>4.7</b> <code>var</code><span></span></a></li>
+<li class="chapter" data-level="4.8" data-path="ch-EDA.html"><a href="ch-EDA.html#length"><i class="fa fa-check"></i><b>4.8</b> <code>length</code><span></span></a></li>
+<li class="chapter" data-level="4.9" data-path="ch-EDA.html"><a href="ch-EDA.html#unique"><i class="fa fa-check"></i><b>4.9</b> <code>unique</code><span></span></a></li>
+<li class="chapter" data-level="4.10" data-path="ch-EDA.html"><a href="ch-EDA.html#table"><i class="fa fa-check"></i><b>4.10</b> <code>table</code><span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html"><i class="fa fa-check"></i><b>5</b> Testing hypotheses</a><ul>
-<li class="chapter" data-level="5.1" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#formula"><i class="fa fa-check"></i><b>5.1</b> formula</a></li>
-<li class="chapter" data-level="5.2" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#t-test"><i class="fa fa-check"></i><b>5.2</b> <span class="math inline">\(t\)</span> test</a></li>
-<li class="chapter" data-level="5.3" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#chisq.test"><i class="fa fa-check"></i><b>5.3</b> <code>chisq.test</code></a></li>
-<li class="chapter" data-level="5.4" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#aov"><i class="fa fa-check"></i><b>5.4</b> <code>aov</code></a></li>
+<li class="chapter" data-level="5" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html"><i class="fa fa-check"></i><b>5</b> Testing hypotheses<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#formula"><i class="fa fa-check"></i><b>5.1</b> formula<span></span></a></li>
+<li class="chapter" data-level="5.2" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#t-test"><i class="fa fa-check"></i><b>5.2</b> <span class="math inline">\(t\)</span> test<span></span></a></li>
+<li class="chapter" data-level="5.3" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#chisq.test"><i class="fa fa-check"></i><b>5.3</b> <code>chisq.test</code><span></span></a></li>
+<li class="chapter" data-level="5.4" data-path="ch-testinghypotheses.html"><a href="ch-testinghypotheses.html#aov"><i class="fa fa-check"></i><b>5.4</b> <code>aov</code><span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="ch-regression.html"><a href="ch-regression.html"><i class="fa fa-check"></i><b>6</b> Regression</a><ul>
-<li class="chapter" data-level="6.1" data-path="ch-regression.html"><a href="ch-regression.html#lm"><i class="fa fa-check"></i><b>6.1</b> <code>lm</code></a></li>
-<li class="chapter" data-level="6.2" data-path="ch-regression.html"><a href="ch-regression.html#glm"><i class="fa fa-check"></i><b>6.2</b> <code>glm</code></a></li>
+<li class="chapter" data-level="6" data-path="ch-regression.html"><a href="ch-regression.html"><i class="fa fa-check"></i><b>6</b> Regression<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="ch-regression.html"><a href="ch-regression.html#lm"><i class="fa fa-check"></i><b>6.1</b> <code>lm</code><span></span></a></li>
+<li class="chapter" data-level="6.2" data-path="ch-regression.html"><a href="ch-regression.html#glm"><i class="fa fa-check"></i><b>6.2</b> <code>glm</code><span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="ch-mixedeffects.html"><a href="ch-mixedeffects.html"><i class="fa fa-check"></i><b>7</b> Mixed-effects modeling</a></li>
-<li class="chapter" data-level="8" data-path="ch-packages.html"><a href="ch-packages.html"><i class="fa fa-check"></i><b>8</b> Packages</a></li>
-<li class="chapter" data-level="9" data-path="sec-furtherreading.html"><a href="sec-furtherreading.html"><i class="fa fa-check"></i><b>9</b> Further reading and learning</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="7" data-path="ch-mixedeffects.html"><a href="ch-mixedeffects.html"><i class="fa fa-check"></i><b>7</b> Mixed-effects modeling<span></span></a></li>
+<li class="chapter" data-level="8" data-path="ch-packages.html"><a href="ch-packages.html"><i class="fa fa-check"></i><b>8</b> Packages<span></span></a></li>
+<li class="chapter" data-level="9" data-path="sec-furtherreading.html"><a href="sec-furtherreading.html"><i class="fa fa-check"></i><b>9</b> Further reading and learning<span></span></a></li>
+<li><a href="references.html#references">References<span></span></a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -209,8 +249,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="ch:mixedeffects" class="section level1">
-<h1><span class="header-section-number">Chapter 7</span> Mixed-effects modeling</h1>
+<div id="ch-mixedeffects" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Mixed-effects modeling<a href="ch-mixedeffects.html#ch-mixedeffects" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>Many language (acquisition) studies are based on samples of two random
 factors: a sample of participants (subjects) and a sample of language
 items (words, sentences, texts). The two random factors are <em>crossed</em>,
@@ -228,18 +268,18 @@ advantages of this method are (a) it allows multiple random
 factors, crossed and/or nested, (b) it does not require homogeneity of
 variance, (c) it is robust against missing data. Hence mixed-effects
 modeling is quickly gaining in popularity
-<span class="citation">(Quené and Van den Bergh <a href="#ref-QB04">2004</a>, <a href="#ref-QB08">2008</a>; Baayen <a href="#ref-baay08">2008</a>; Hox, Moerbeek, and Van de Schoot <a href="#ref-HMS18">2018</a>)</span>.</p>
+<span class="citation">(<a href="#ref-QB04" role="doc-biblioref">Quené and Van den Bergh 2004</a>, <a href="#ref-QB08" role="doc-biblioref">2008</a>; <a href="#ref-baay08" role="doc-biblioref">Baayen 2008</a>; <a href="#ref-HMS18" role="doc-biblioref">Hox, Moerbeek, and Van de Schoot 2018</a>)</span>.</p>
 <p>For mixed-effects modeling, you need to install two add-on packages to
-R , named <code>lme4</code> and <code>languageR</code> <span class="citation">(Baayen, Davidson, and Bates <a href="#ref-BDB08">2008</a>)</span>. For more
-information on packages, see Chapter <a href="ch-packages.html#ch:packages">8</a> below.
+R , named <code>lme4</code> and <code>languageR</code> <span class="citation">(<a href="#ref-BDB08" role="doc-biblioref">Baayen, Davidson, and Bates 2008</a>)</span>. For more
+information on packages, see Chapter <a href="ch-packages.html#ch-packages">8</a> below.
 After activation of these packages, we
 can simply perform a mixed-effects analysis. First, we read in an
-example dataset <span class="citation">(Quené and Van den Bergh <a href="#ref-QB08">2008</a>)</span> in long data layout:</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1">x24 &lt;-<span class="st"> </span><span class="kw">read.table</span>( <span class="dt">file=</span><span class="kw">url</span>(<span class="st">&quot;http://www.hugoquene.nl/emlar/x24r2.txt&quot;</span>), <span class="dt">header=</span>T )</a></code></pre></div>
+example dataset <span class="citation">(<a href="#ref-QB08" role="doc-biblioref">Quené and Van den Bergh 2008</a>)</span> in long data layout:</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="ch-mixedeffects.html#cb85-1" aria-hidden="true" tabindex="-1"></a>x24 <span class="ot">&lt;-</span> <span class="fu">read.table</span>( <span class="at">file=</span><span class="fu">url</span>(<span class="st">&quot;http://www.hugoquene.nl/emlar/x24r2.txt&quot;</span>), <span class="at">header=</span>T )</span></code></pre></div>
 <p>These fictitious responses were provided by 24 subjects, for 36 items,
 in 3 conditions, with rotation of items over conditions. This rotation
 may be inspected for a small subset of the data frame:</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="kw">with</span>( <span class="kw">subset</span>(x24, subj<span class="op">&lt;=</span><span class="dv">3</span><span class="op">&amp;</span>item<span class="op">&lt;=</span><span class="dv">6</span>), <span class="kw">table</span>(subj,item,cond) ) </a></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="ch-mixedeffects.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>( <span class="fu">subset</span>(x24, subj<span class="sc">&lt;=</span><span class="dv">3</span><span class="sc">&amp;</span>item<span class="sc">&lt;=</span><span class="dv">6</span>), <span class="fu">table</span>(subj,item,cond) ) </span></code></pre></div>
 <pre><code>## , , cond = 1
 ## 
 ##     item
@@ -267,13 +307,13 @@ may be inspected for a small subset of the data frame:</p>
 categorical factor, and not a continuous predictor. In addition, we
 specify the levels of the factor, we specify its contrasts, and indicate
 that the second level is the baseline or reference level.</p>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1">x24<span class="op">$</span>cond &lt;-<span class="st"> </span><span class="kw">as.factor</span>(x24<span class="op">$</span>cond)</a>
-<a class="sourceLine" id="cb88-2" data-line-number="2"><span class="kw">contrasts</span>(x24<span class="op">$</span>cond) &lt;-<span class="st"> </span><span class="kw">contr.treatment</span>( <span class="kw">c</span>(<span class="st">&quot;.A&quot;</span>,<span class="st">&quot;.B&quot;</span>,<span class="st">&quot;.C&quot;</span>), <span class="dt">base=</span><span class="dv">2</span> )</a></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="ch-mixedeffects.html#cb88-1" aria-hidden="true" tabindex="-1"></a>x24<span class="sc">$</span>cond <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(x24<span class="sc">$</span>cond)</span>
+<span id="cb88-2"><a href="ch-mixedeffects.html#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="fu">contrasts</span>(x24<span class="sc">$</span>cond) <span class="ot">&lt;-</span> <span class="fu">contr.treatment</span>( <span class="fu">c</span>(<span class="st">&quot;.A&quot;</span>,<span class="st">&quot;.B&quot;</span>,<span class="st">&quot;.C&quot;</span>), <span class="at">base=</span><span class="dv">2</span> )</span></code></pre></div>
 <p>After these preliminary steps we can estimate an appropriate mixed-effects
 model in a single command. The estimated model is also stored as an
 object, and a summary is displayed.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw">summary</span>( x24.m1 &lt;-<span class="st"> </span><span class="kw">lmer</span>(resp <span class="op">~</span><span class="st"> </span><span class="dv">1</span><span class="op">+</span>cond<span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>subj)<span class="op">+</span>(<span class="dv">1</span><span class="op">|</span>item),</a>
-<a class="sourceLine" id="cb89-2" data-line-number="2">                        <span class="dt">data=</span>x24, <span class="dt">REML=</span><span class="ot">FALSE</span>) )</a></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="ch-mixedeffects.html#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>( x24.m1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(resp <span class="sc">~</span> <span class="dv">1</span><span class="sc">+</span>cond<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>subj)<span class="sc">+</span>(<span class="dv">1</span><span class="sc">|</span>item),</span>
+<span id="cb89-2"><a href="ch-mixedeffects.html#cb89-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data=</span>x24, <span class="at">REML=</span><span class="cn">FALSE</span>) )</span></code></pre></div>
 <pre><code>## Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
 ## Formula: resp ~ 1 + cond + (1 | subj) + (1 | item)
 ##    Data: x24
@@ -283,7 +323,7 @@ object, and a summary is displayed.</p>
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.1641 -0.6394 -0.0077  0.6416  2.7157 
+## -3.1641 -0.6394 -0.0078  0.6416  2.7157 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
@@ -308,13 +348,13 @@ unique combination of the intercept (mean of baseline condition B), item
 effect, subject effect, condition effect, and residual. The average
 response in the baseline condition B is <span class="math inline">\(0.046\)</span> units. Responses in
 condition A are 0.170 units higher than baseline, and in condition C
-they are <span class="math inline">\(-0.237\)</span> units higher than baseline, i.e. <span class="math inline">\(0.237\)</span> units lower.</p>
-<p>For reasons not discussed here,<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a> the significance levels of the
+they are <span class="math inline">\(-0.237\)</span> units higher than baseline, i.e. <span class="math inline">\(0.237\)</span> units lower.</p>
+<p>For reasons not discussed here <a href="references.html#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>, the significance levels of the
 fixed effects are not reported in the output of
 <code>lmer</code>. There are several solutions to obtain
 these significance levels.</p>
 <ul>
-<li>The most conservative option <span class="citation">(Hox, Moerbeek, and Van de Schoot <a href="#ref-HMS18">2018</a>)</span> is to use the critical <span class="math inline">\(t\)</span> value
+<li>The most conservative option <span class="citation">(<a href="#ref-HMS18" role="doc-biblioref">Hox, Moerbeek, and Van de Schoot 2018</a>)</span> is to use the critical <span class="math inline">\(t\)</span> value
 associated with the random effect that has the fewest levels (here
 <code>subj</code>), corrected for the number of fixed
 coefficients including the intercept (here <span class="math inline">\(3\)</span>).
@@ -322,7 +362,7 @@ If a fixed effect is significant by this very
 conservative criterion, then it will also be significant by any other
 criterion that is less conservative and more liberal.</li>
 </ul>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw">qt</span>( <span class="dt">p=</span><span class="dv">1</span><span class="fl">-.05</span><span class="op">/</span><span class="dv">2</span>, <span class="dt">df=</span><span class="dv">24-3</span> ) <span class="co"># critical value t*, alpha=.05, two-sided</span></a></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="ch-mixedeffects.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qt</span>( <span class="at">p=</span><span class="dv">1</span><span class="fl">-.05</span><span class="sc">/</span><span class="dv">2</span>, <span class="at">df=</span><span class="dv">24-3</span> ) <span class="co"># critical value t*, alpha=.05, two-sided</span></span></code></pre></div>
 <pre><code>## [1] 2.079614</code></pre>
 <p>Comparison of the fixed effects with this critical <span class="math inline">\(t^*\)</span> = 2.08 shows that
 both conditions A and C differ significantly from the baseline condition
@@ -333,40 +373,38 @@ coefficients in the resulting mixed-effects model. This can be
 time-consuming, as the mixed-effects model will be re-fit many times on
 slightly varying datasets.</li>
 </ul>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1"><span class="co"># warnings may occur</span></a>
-<a class="sourceLine" id="cb93-2" data-line-number="2"><span class="kw">print</span>( x24.m1.ci &lt;-<span class="st"> </span><span class="kw">confint</span>( x24.m1, <span class="dt">method=</span><span class="st">&quot;boot&quot;</span>, <span class="dt">nsim=</span><span class="dv">250</span> ))</a></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="ch-mixedeffects.html#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="co"># warnings may occur</span></span>
+<span id="cb93-2"><a href="ch-mixedeffects.html#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>( x24.m1.ci <span class="ot">&lt;-</span> <span class="fu">confint</span>( x24.m1, <span class="at">method=</span><span class="st">&quot;boot&quot;</span>, <span class="at">nsim=</span><span class="dv">250</span> ))</span></code></pre></div>
 <pre><code>## Computing bootstrap confidence intervals ...</code></pre>
-<pre><code>## 
-## 6 warning(s): Model failed to converge with max|grad| = 0.00267345 (tol = 0.002, component 1) (and others)</code></pre>
 <pre><code>##                   2.5 %     97.5 %
-## .sig01       0.35950709  0.6747204
-## .sig02       0.36333157  0.6844652
-## .sigma       0.68054619  0.7474401
-## (Intercept) -0.23533348  0.3634542
-## cond.A       0.05695928  0.3035280
-## cond.C      -0.36262503 -0.1261797</code></pre>
+## .sig01       0.35950579  0.6747133
+## .sig02       0.36332772  0.6844726
+## .sigma       0.68054611  0.7474402
+## (Intercept) -0.23533276  0.3634542
+## cond.A       0.05695926  0.3035281
+## cond.C      -0.36262505 -0.1261796</code></pre>
 <p>As the interval for <code>cond.A</code> is entirely
 positive, we may conclude with 95% confidence that condition A yields
 higher scores than the baseline condition B, and mutatis mutandis that
 condition C yields lower scores than condition B.</p>
 
 </div>
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-baay08">
-<p>Baayen, R. H. 2008. <em>Analyzing Linguistic Data: A Practical Introduction to Statistics Using R</em>. Cambridge University Press.</p>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-baay08" class="csl-entry">
+Baayen, R. H. 2008. <em>Analyzing Linguistic Data: A Practical Introduction to Statistics Using <span>R</span></em>. Cambridge University Press.
 </div>
-<div id="ref-BDB08">
-<p>Baayen, R. H., D. J. Davidson, and Douglas M. Bates. 2008. “Mixed-Effects Modeling with Crossed Random Effects for Subjects and Items.” <em>Journal of Memory and Language</em> 59 (4): 390–412.</p>
+<div id="ref-BDB08" class="csl-entry">
+Baayen, R. H., D. J. Davidson, and Douglas M. Bates. 2008. <span>“Mixed-Effects Modeling with Crossed Random Effects for Subjects and Items.”</span> <em>Journal of Memory and Language</em> 59 (4): 390--412.
 </div>
-<div id="ref-HMS18">
-<p>Hox, Joop J., Mirjam Moerbeek, and Rens Van de Schoot. 2018. <em>Multilevel Analysis: Techniques and Applications</em>. 3rd ed. Routledge.</p>
+<div id="ref-HMS18" class="csl-entry">
+Hox, Joop J., Mirjam Moerbeek, and Rens Van de Schoot. 2018. <em>Multilevel Analysis: Techniques and Applications</em>. 3rd ed. Routledge.
 </div>
-<div id="ref-QB04">
-<p>Quené, Hugo, and Huub Van den Bergh. 2004. “On Multi-Level Modeling of Data from Repeated Measures Designs: A Tutorial.” <em>Speech Communication</em> 43 (1–2): 103–21.</p>
+<div id="ref-QB04" class="csl-entry">
+Quené, Hugo, and Huub Van den Bergh. 2004. <span>“On Multi-Level Modeling of Data from Repeated Measures Designs: A Tutorial.”</span> <em>Speech Communication</em> 43 (1–2): 103–21.
 </div>
-<div id="ref-QB08">
-<p>Quené, Hugo, and Huub Van den Bergh. 2008. “Examples of Mixed-Effects Modeling with Crossed Random Effects and with Binomial Data.” <em>Journal of Memory and Language</em> 59 (4): 413–25.</p>
+<div id="ref-QB08" class="csl-entry">
+———. 2008. <span>“Examples of Mixed-Effects Modeling with Crossed Random Effects and with Binomial Data.”</span> <em>Journal of Memory and Language</em> 59 (4): 413–25.
 </div>
 </div>
             </section>
@@ -379,7 +417,6 @@ condition C yields lower scores than condition B.</p>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -398,6 +435,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -418,6 +456,10 @@ gitbook.start({
 "text": null
 },
 "download": ["bookdown-emlar2020.pdf", "bookdown-emlar2020.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }

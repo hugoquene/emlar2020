@@ -1,4 +1,4 @@
-# Basic operations {#ch:basicoperations}
+# Basic operations {#ch-basicoperations}
 
 ## Basics {#sub:basics}
 
@@ -112,7 +112,7 @@ subset( talkers, subset=( age<45 & region=="W" ) )
 ```
 
 This command selects rows from data frame `talkers` from the package `hqmisc`  
-(see \@ref(ch:packages)) corresponding to speakers who are under 45 years of age, and who are from the West region.
+(see \@ref(ch-packages)) corresponding to speakers who are under 45 years of age, and who are from the West region.
 
 ## Split, merge, reshape {#sec:split.merge.reshape}
 
